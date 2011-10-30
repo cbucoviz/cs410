@@ -69,11 +69,13 @@ public class DatabaseManager
 						"E.duration, E.rating, C.generalDesc, C.venueDesc, C.priceDesc, " +
 						"C.transportDesc, C.videos, C.links, U.name, U.userID, L.city,L.country, " +
 						"T.eventType " +
-				 "FROM events AS E, eventcontent AS C, users AS U, locations AS L, eventtypes AS T "+
+				 "FROM events AS E, eventcontent AS C, users AS U, locations AS L, eventtypes AS T, eventsandtypes AS ET "+
 	             "WHERE E.eventID = " + eventID + "" +
 	             	  " AND E.creatorID = U.userID " +
 	             	  " AND E.locationID = L.locationID " +
-	             	  " AND E.eventID = T.typeID");
+	             	  " AND C.eventID = E.eventID " +
+	             	  " AND ET.eventID = E.eventID " +
+	             	  " AND T.typeID = ET.eventTypeID");
 		ResultSet result = statement.executeQuery();
 		return result;
 	}
