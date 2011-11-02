@@ -17,7 +17,7 @@ public class Main {
 		} catch (SQLException e1) {
 			System.out.println("Connection failed! Check login and password");
 			e1.printStackTrace();
-		}
+		}	
 		
 		try {				
 		   manager.testQuery();
