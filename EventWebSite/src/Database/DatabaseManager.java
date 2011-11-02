@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.sql.Connection;
+import java.util.Date;
 
 
 public class DatabaseManager 
@@ -428,8 +429,86 @@ public class DatabaseManager
 		return result;
 	}
 
-	
-	
+	/**
+	 * An advanced version of find events functions. It takes a location, a range of dates,
+	 * a keyword (a word that should appear in a title of any matching event) and a list of types
+	 * (each matching event should at least have one listed type to belong to), and then finds
+	 * all the events that match those requirements.  	 	 
+	 * @param locationID -  an id of a location
+	 * @param from - any matching events must be on that date or later
+	 * @param to - any matching events must be on that date or earlier
+	 * @param keyword - a keyword that should be part of a title of matching events
+	 * @param types - a list of types of events (festival, concert, etc.).
+	 * @return - result set to be passed to the Controller.
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public ResultSet filterEvents (int locationID, Date from, Date to, String keyword, String[] types) throws SQLException
+	{
+		java.sql.Date sqlFrom = new java.sql.Date(from.getTime());
+		java.sql.Date sqlTo = new java.sql.Date(to.getTime());
+		 
+		String typesSQL;
+	    
+		if(types.length == 0)
+	          typesSQL = "";
+	    else
+	    {
+	         typesSQL = " (";
+		     for (int i = 0; i < types.length; i++)
+		     {
+		        if (i!=0)
+		           typesSQL = typesSQL + " OR T.eventTypeID = " + types[i];
+		        else
+		           typesSQL = typesSQL + "T.eventTypeID = " + types[i];	
+		     }
+		     typesSQL = typesSQL + ")";
+	    }
+		
+		PreparedStatement statement = connection.prepareStatement
+			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.duration, U.name " +
+		    "FROM events AS E, users AS U, locations AS L, eventsandtypes AS EaT, eventtypes as T " +
+		    "WHERE L.locationID = locationID " +
+		    	  "AND E.locationID = L.locationID " +
+		    	  "AND U.userID = E.creatorID " +
+		    	  "AND E.eventID = EaT.eventID " +
+		    	  "AND EaT.eventTypeID = T.typeID " +
+		    	  "AND "+typesSQL+" " +
+		    	  "AND E.eventDate BETWEEN "+sqlFrom+" AND "+sqlTo+" " +
+		    	  "AND E.title LIKE '%"+keyword+"%'");
+		ResultSet result = statement.executeQuery();
+		
+		return result;
+	}
+
+	/**
+	 * Finds all the events a given user is subscribed to and sorts them by starting date
+	 * (so the events that will happen in the future go on top). It also shows for each event
+	 * whether this event was edited while the user was away.
+	 * @param myUserID - an id of a user
+	 * @return - result set to be passed to the Controller.
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public ResultSet findMySubscribedEvents(int myUserID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+			("SELECT " +
+				  "CASE WHEN E.lastMod > Me.lastVisited THEN 'isEdited' END AS 'Updates', " +
+				         "E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.duration, " +
+				         "U.userID, U.name AS creator, L.locationID, L.city, L.country " +
+		   "FROM events AS E, eventSubscribers AS S, users AS U, users AS Me,locations AS L " +
+		   "WHERE E.eventID = S.eventID " +
+		         "AND S.subscriberID = "+myUserID+" " +
+		         "AND Me.userID = S.subscriberID " +
+		         "AND U.userID = E.creatorID " +
+		         "AND L.locationID = E.locationID " +
+		   "ORDER BY E.eventDate DESC");
+		ResultSet result = statement.executeQuery();
+		    		
+		return result;
+	}
+
 	public void testQuery() throws SQLException
 	{
 			PreparedStatement statement = connection.prepareStatement("SELECT E.title, E.venue " +
