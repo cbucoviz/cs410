@@ -7,10 +7,10 @@ import java.sql.SQLException;
 public class DatabaseLogin 
 {
 
-	private static String password;
-	private static String port;
-	private static String databaseName;
-	private static String loginName;
+	private static final String PASSWORD = "";
+	private static final String PORT = "";
+	private static final String DATABASE_NAME = "";
+	private static final String LOGIN_NAME = "";
 	
 	
 	
@@ -24,13 +24,8 @@ public class DatabaseLogin
 		   Third is a password;
 		 */
 		
-		password = "";
-		port = "";
-		databaseName = "";
-		loginName = "";
-		
-		return DriverManager.getConnection("jdbc:mysql://localhost:" + port + "/" + databaseName,
-				password, loginName);
+		return DriverManager.getConnection("jdbc:mysql://localhost:" + PORT + "/" + DATABASE_NAME,
+				LOGIN_NAME, PASSWORD);
 	}
 	
 }
