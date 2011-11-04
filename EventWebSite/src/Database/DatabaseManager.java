@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -345,9 +347,10 @@ public class DatabaseManager
 			("SELECT L.locationID, L.city, L.country, COUNT(E.eventID) AS 'Number of Events' " +
 			"FROM locations AS L, events AS E " +
 			"WHERE E.locationID = L.locationID " +
-				  "AND E.title LIKE '%"+ keyword + "%' " +
+				  "AND E.title LIKE ? " +
 				  "AND E.eventDate >= CURDATE() " +
 			"GROUP BY L.city");
+		statement.setString(1, "%"+keyword+"%");
         ResultSet result = statement.executeQuery();
 		
 		return result;
@@ -372,10 +375,11 @@ public class DatabaseManager
 			"FROM locations AS L, eventsandtypes AS EaT, eventTypes AS T, events AS E " +
 			"WHERE E.locationID = L.locationID " +
 			      "AND EaT.eventTypeID = T.typeID " +
-			      "AND T.eventType = "+ type +" " +
+			      "AND T.eventType = ? " +
 			      "AND E.eventID = EaT.eventID " +
 			      "AND E.eventDate >= CURDATE() " +			      
 			"GROUP BY L.city");
+		statement.setString(1, type);
 		ResultSet result = statement.executeQuery();
 		
 		return result;
@@ -400,8 +404,9 @@ public class DatabaseManager
 	      "WHERE L.locationID = "+locationID+" " +
 	      		"AND E.locationID = L.locationID " +
 	      		"AND U.userID = E.creatorID " +
-	      		"AND E.title LIKE '%"+keyword+"%' " +
+	      		"AND E.title LIKE ? " +
 	      		"AND E.eventDate >= CURDATE()");
+		statement.setString(1, "%"+keyword+"%");
 	    ResultSet result = statement.executeQuery();
 		
 		return result;
@@ -478,9 +483,11 @@ public class DatabaseManager
 		    	  "AND U.userID = E.creatorID " +
 		    	  "AND E.eventID = EaT.eventID " +
 		    	  "AND EaT.eventTypeID = T.typeID " +
-		    	  "AND "+typesSQL+" " +
+		    	  "AND ? " +
 		    	  "AND E.eventDate BETWEEN "+sqlFrom+" AND "+sqlTo+" " +
-		    	  "AND E.title LIKE '%"+keyword+"%'");
+		    	  "AND E.title LIKE ?");
+		statement.setString(1, typesSQL);
+		statement.setString(2, "%"+keyword+"%");
 		ResultSet result = statement.executeQuery();
 		
 		return result;
@@ -773,16 +780,13 @@ public class DatabaseManager
 	{
 		PreparedStatement statement = connection.prepareStatement
 				("INSERT INTO users (name,password,type,locationID,email,age, lastVisited) " +
-						"VALUES ('" +name+"', " +
-								" '"+password+"', " +
-								" "+type+", " +
-								" "+locationID+", " +
-								" '"+email+"', " +
-								" "+age+", " +
-								" NOW())");
+						"VALUES (?, ?, "+type+", "+locationID+", ?, "+age+", NOW())");
+		statement.setString(1, name);
+		statement.setString(2, password);
+		statement.setString(3, email);
 		
 		statement.executeUpdate();
-	}
+	}	
 	
 	/**
 	 * A user is activated and, therefore, becomes a fully registered user.
@@ -813,12 +817,95 @@ public class DatabaseManager
 		statement.executeUpdate();
 	}
 	
+	
+	/**
+	 * New event is inserted into the database. The first query inserts a row into the main 
+	 * 'events' table, the second one finds this new event's id and passes it to the third query, which
+	 * which inserts (correctly connected to this new event) a row into 'eventcontent' table.
+	 * @param title - title of the event
+	 * @param creatorID - an id of a creator. 
+	 * @param locationID - an id of a location this event will be held in
+	 * @param address - address of the event. Part of the unique key
+	 * @param venue - name of a venue for this event
+	 * @param startDateTime - date and starting time of this event
+	 * @param duration - duration of the event as a float number
+	 * @param content - an array of strings, where each string representings one topic of 
+	 * the event (General Description, Venue Description, etc.)
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public void newEvent(String title, int creatorID, int locationID, 
+			 String address, String venue, Date startDateTime, float duration, String[] content) throws SQLException
+	{
+		java.sql.Date sqlDate = new java.sql.Date(startDateTime.getTime());
+		
+		SimpleDateFormat dateFormatGmt = new SimpleDateFormat("HH:mm:ss");
+        String startTime =  dateFormatGmt.format(startDateTime);
+		
+		PreparedStatement statement = connection.prepareStatement
+			("INSERT INTO events (title,creatorID,locationID,address,venue,eventDate," +
+								"startTime, duration, lastMod, creationDate) " +
+					
+						"VALUES (?, "+creatorID+", "+locationID+", ?, ?, '"+sqlDate+"', " +
+							
+							     "'"+startTime+"', "+duration+", NOW(), NOW())");	
+		
+		statement.setString(1, title);
+		statement.setString(2, address);
+		statement.setString(3, venue);	
+		statement.executeUpdate();
+		
+		statement = connection.prepareStatement
+				("SELECT E.eventID " +
+				"FROM events AS E " +
+				"WHERE E.address = ? " +
+					  "AND E.eventDate = '"+sqlDate+"' " +
+					  "AND E.startTime = '"+startTime+"' ");
+		
+		statement.setString(1, address);
+		
+		ResultSet result = statement.executeQuery();
+		result.next();
+		int eventID = Integer.parseInt(result.getString(1));
+		
+		statement = connection.prepareStatement
+				("INSERT INTO eventcontent (generalDesc,venueDesc,priceDesc,transportDesc," +
+						"                   videos, links, otherInfo, eventID) " +
+						
+							"VALUES (?, ?, ?, ?, ?, ?, ?,  "+eventID+")");	
+			
+		statement.setString(1, content[0]);
+		statement.setString(2, content[1]);
+		statement.setString(3, content[2]);	
+		statement.setString(4, content[3]);
+		statement.setString(5, content[4]);
+		statement.setString(6, content[5]);
+		statement.setString(7, content[6]);		
+		statement.executeUpdate();
+		
+	}
+	
+	/**
+	 * A given event is deleted from the database. 
+	 * @param eventID - an id of an event
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public void deleteEvent(int eventID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("DELETE FROM events " +
+				"WHERE eventID = "+eventID+" ");
+		statement.executeUpdate();
+	}	
+	
+	
 	public void testQuery() throws SQLException
 	{
 			PreparedStatement statement = connection.prepareStatement("SELECT E.title, E.venue " +
 					                                                  "FROM events AS E");	
-			ResultSet result = statement.executeQuery();
-		
+			ResultSet result = statement.executeQuery();		 
+		    
 			while(result.next())
 			{
 				System.out.println(result.getString(1) + " " + result.getString(2));
