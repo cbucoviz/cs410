@@ -1,0 +1,28 @@
+@CHARSET "ISO-8859-1";
+
+body
+{
+	background-color: #000000;
+	color: #ffffff;
+}
+
+a
+{
+	color: #ffffff;
+}
+
+.mainFrame 
+{
+	width: 600px;
+	height: 400px;
+	overflow: auto;
+	color: #555555;
+}
+
+div.ticker
+{
+	border-top: 1px solid #888888;
+	border-bottom: 1px solid #888888;
+    padding: 10px;
+    margin-bottom: 10px;
+}
