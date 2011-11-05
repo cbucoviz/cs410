@@ -11,26 +11,37 @@
 <script src="plugins/jquery.js" type="text/javascript"></script>
 <script src="plugins/marquee.js" type="text/javascript"></script>
 <script src="config/ticker_config.js" type="text/javascript"></script>
+<script src="scripts/forwarder.js" type="text/javascript"></script>
 <!-- END OF INCLUDES -->
+
+<script type="text/javascript">
+
+function update()
+{
+	setTimeout("update()",1000);
+}
+
+
+</script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%= WEBSITE_TITLE %></title>
 
 </head>
-<body>
+<body onload="update()">
 
 <table border="0" cellpadding="0" cellspacing="5">
 <tr>
 	<td valign="top" width="300px">
 	<!-- Ka Ho's side bar should replace this stuff -->
-	Home<br/>
-	Register<br/>
+	<a href="home.jsp">Home</a><br/>
+	<a href="register.jsp">Register</a><br/>
 	About<br/>
 	</td>
 	
 	<td align="center">
-	<div class="mainFrame">
-	<img src="resources/google_earth_placeholder.png"/>
+	<div id="mainContent" class="scrollFrame">
+		<%@ include file="home.jsp" %>
 	</div>
 	</td>
 </tr>

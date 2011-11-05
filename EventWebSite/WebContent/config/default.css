@@ -11,12 +11,12 @@ a
 	color: #ffffff;
 }
 
-.mainFrame 
+.scrollFrame 
 {
-	width: 600px;
+	width: 700px;
 	height: 400px;
 	overflow: auto;
-	color: #555555;
+	color: #ffffff;
 }
 
 div.ticker
