@@ -4,16 +4,9 @@
 
 <html>
 <head>
-
-<!-- BEGINNING OF INCLUDES  -->
-<%@ include file="config/constants.jsp" %>
-<link href="config/default.css" rel="stylesheet" type="text/css" />
-<script src="plugins/jquery.js" type="text/javascript"></script>
 <script src="scripts/forwarder.js" type="text/javascript"></script>
-<!-- END OF INCLUDES -->
-
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title><%= WEBSITE_TITLE %></title>
+<title></title>
 </head>
 <body>
 
