@@ -22,10 +22,14 @@
 <% } %>
 
 <form action="Register" method="POST">
-	<h1>Register Now!</h1>
-	<br>
-	<br>
-	<table>
+	<div id="signup_page_div">
+	
+	<table id="signup_form_table">
+	<tr>
+	<td colspan="2" align="center">
+		<h1>Join Now!</h1>
+	</td>
+	</tr>
 		<tr>
 			<td align="right">Name: </td>
 			<td><input 	type="text" 
@@ -75,12 +79,15 @@
 			<td colspan="2" align="center"><input type="submit" value="Register"/></td>
 		</tr>
 	</table>
+	
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<a href="home.jsp" style="color:yellow"><i><-- Return to main page</i></a>
+</div>
 </form>
-<br>
-<br>
-<br>
-<br>
-<br>
-<a href="home.jsp" style="color:#6957EE"><i><-- Return to main page</i></a>
 </body>
 </html>
