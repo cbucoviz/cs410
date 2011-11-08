@@ -30,26 +30,34 @@ function update()
 </head>
 <body onload="update()">
 
-<table border="0" cellpadding="0" cellspacing="5">
+
+
+<table style="width:100%" border="0" cellpadding="0" cellspacing="5">
 <tr>
-	<td valign="top" width="300px">
+	<!--  <td valign="top" width="300px">
 	<!-- Ka Ho's side bar should replace this stuff -->
+	<!-- 
 	<a href="home.jsp">Home</a><br/>
 	<a href="register.jsp">Register</a><br/>
 	About<br/>
+	</td> 
+	//-->
+	
+	<td style="width:20px">
+	<%@ include file="dashboard.jsp" %>
 	</td>
 	
-	<td align="center">
+	<td>
 	<div id="mainContent" class="scrollFrame">
 		<%@ include file="home.jsp" %>
+		
 	</div>
 	</td>
 </tr>
 <tr>
-	<td></td>
-	<td align="center">
+	<td colspan="2">
 	<div class="ticker">
-		<marquee behavior="scroll" direction="left" scrollamount="1" width="500">This might be what the ticker looks like; hover over me to stop!</marquee>
+		<marquee behavior="scroll" direction="left" scrollamount="1" style="width:100%" >This might be what the ticker looks like; hover over me to stop!</marquee>
 	</div>
 	</td>
 </tr>

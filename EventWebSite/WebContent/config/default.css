@@ -11,10 +11,16 @@ a
 	color: #ffffff;
 }
 
+.indent 
+{ 
+	margin-left: 20px;
+	margin-bottom: -20px;
+}
+
 .scrollFrame 
 {
-	width: 700px;
-	height: 400px;
+	width: 100%;
+	height: 100%;
 	overflow: auto;
 	color: #ffffff;
 }
@@ -25,4 +31,21 @@ div.ticker
 	border-bottom: 1px solid #888888;
     padding: 10px;
     margin-bottom: 10px;
+}
+
+#login_button_indent
+{ 
+	margin-left: 80px;
+	margin-bottom: -20px;
+}
+
+#slidemenubar, #slidemenubar2{
+position:absolute;
+border:1.5px solid black;
+background-color:#6957EE;
+layer-background-color:#F2F2F2;
+font:bold 12px Verdana;
+line-height:20px;
+height:100%;
+filter: alpha (opacity=50);
 }
