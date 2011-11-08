@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 @WebServlet(description = "Registration Servlet", urlPatterns = { "/Register" })
 public class Register extends HttpServlet 
 {
@@ -44,7 +45,8 @@ public class Register extends HttpServlet
 		// insert the user into the database; if fails then user already exists
 		// CALL TO DB GOES HERE
 		String username = request.getParameter("username");
-		
+		//Below: How to call the Registration method, returns boolean for user adding result.
+		//Boolean result = Registration.registerUser(name, password, type, location, email, age);
 		HttpSession session = request.getSession();
 		session.setAttribute("loggedIn", true);
 		session.setAttribute("username", username);
