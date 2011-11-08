@@ -33,9 +33,39 @@ div.ticker
     margin-bottom: 10px;
 }
 
+div.city_page_background
+{
+	background: green;
+	margin: 30px; 
+	margin-left: 50px; 
+	border: 4px outset green;
+}
+
+div.city_map
+{
+	border: 3px groove black;
+	height: 470px;
+	width: 400px;
+	margin: 20px;
+	background: white;
+}
+
+table.city_event_table
+{
+	margin: 20px;
+}
+
+
+#save_login_indent
+{
+	margin-left:90px; 
+	margin-bottom:-40px; 
+	margin-top:-15px;
+}
+
 #login_button_indent
 { 
-	margin-left: 80px;
+	margin-left: 90px;
 	margin-bottom: -20px;
 }
 
@@ -66,4 +96,85 @@ div.ticker
 	margin-bottom: 40px;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+#map3d
+{
+	height: 550px;
+	width: 100%;
+}
+
+#tabmenu 
+{
+	color: #000;
+	border-bottom: 2px solid black;
+	margin: 12px 0px 0px 0px;
+	padding: 0px;
+	z-index: 1;
+	padding-left: 10px; 
+}
+
+#tabmenu li 
+{
+	display: inline;
+	overflow: hidden;
+	list-style-type: none; 
+}
+
+#tabmenu a, a.active 
+{
+	color: #DEDECF;
+	background: #898B5E;
+	font: bold 1em "Trebuchet MS", Arial, sans-serif;
+	border: 2px solid black;
+	padding: 2px 5px 0px 5px;
+	margin: 0;
+	text-decoration: none; 
+}
+
+#tabmenu a.active 
+{
+	background: #ABAD85;
+	border-bottom: 3px solid #ABAD85; 
+}
+
+#tabmenu a:hover 
+{
+	color: #fff;
+	background: #ADC09F; 
+}
+
+#tabmenu a:visited 
+{
+	color: #E8E9BE; 
+}
+
+#tabmenu a.active:hover 
+{
+	background: #ABAD85;
+	color: #DEDECF;
+}
+
+#content 
+{
+	font: 0.9em/1.3em "bitstream vera sans", verdana, sans-serif;
+	text-align: justify;
+	background: #ABAD85;
+	padding: 20px;
+	border: 2px solid black;
+	border-top: none;
+	z-index: 2;
+	width: 400px;
+	height: 400px;
+}
+
+#content a 
+{
+	text-decoration: none;
+	color: #E8E9BE;
+}
+
+#content a:hover 
+{ 
+	background: #898B5E;
 }

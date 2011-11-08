@@ -23,71 +23,75 @@
 
 <form action="Register" method="POST">
 	<div id="signup_page_div">
-	
-	<table id="signup_form_table">
-	<tr>
-	<td colspan="2" align="center">
-		<h1>Join Now!</h1>
-	</td>
-	</tr>
-		<tr>
-			<td align="right">Name: </td>
-			<td><input 	type="text" 
-						name='username' 
-						size="25" 
-						value="<%= request.getParameter("username") == null ? "" : request.getParameter("username")%>"/>
-			</td>
-		</tr>
-		<tr>
-			<td align="right">Email Address: </td>
-			<td><input type="text" name='useremail' size="25"/></td>
-		</tr>
-		<tr>
-			<td align="right">Password: </td>
-			<td><input type="password" name='password1' size="25"/></td>
-		</tr>
-		<tr>
-			<td align="right">Confirm Password: </td>
-			<td><input type="password" name='password2' size="25"/></td>
-		</tr>
-		<tr>
-			<td align="right">Default Country: </td>
-			<td>
-				<select>
-		  			<option value="Canada">Canada</option>
-				  	<option value="Germany">Germany</option>
-				  	<option value="Russia">Russia</option>
-				  	<option value="United States">United States</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td align="right">Default City/Town: </td>
-			<td>
-				<select>
-		  			<option value="Vancouver">Vancouver</option>
-				  	<option value="Berlin">Berlin</option>
-				  	<option value="St.Petersburg">St.Petersburg</option>
-				  	<option value="New York">New York</option>
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td><br></td>
-		</tr>
-		<tr>
-			<td colspan="2" align="center"><input type="submit" value="Register"/></td>
-		</tr>
-	</table>
-	
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<a href="home.jsp" style="color:yellow"><i><-- Return to main page</i></a>
-</div>
+		<table id="signup_form_table">
+			<tr>
+				<td colspan="2" align="center">
+					<h1>Join Now!</h1>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">User Name: </td>
+				<td><input 	type="text" 
+							name='username' 
+							size="25" 
+							value="<%= request.getParameter("username") == null ? "" : request.getParameter("username")%>"/>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">Full Name: </td>
+				<td><input 	type="text" name='fullname' size="25"/>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">Email Address: </td>
+				<td><input type="text" name='useremail' size="25"/></td>
+			</tr>
+			<tr>
+				<td align="right">Password: </td>
+				<td><input type="password" name='password1' size="25"/></td>
+			</tr>
+			<tr>
+				<td align="right">Confirm Password: </td>
+				<td><input type="password" name='password2' size="25"/></td>
+			</tr>
+			<tr>
+				<td align="right">Default Country: </td>
+				<td>
+					<select>
+			  			<option value="Canada">Canada</option>
+					  	<option value="Germany">Germany</option>
+					  	<option value="Russia">Russia</option>
+					  	<option value="United States">United States</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">Default City/Town: </td>
+				<td>
+					<select>
+			  			<option value="Vancouver">Vancouver</option>
+					  	<option value="Berlin">Berlin</option>
+					  	<option value="St.Petersburg">St.Petersburg</option>
+					  	<option value="New York">New York</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td><br></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center"><input type="submit" value="Register"/></td>
+			</tr>
+		</table>
+		
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		
+		<a href="home.jsp" style="color:yellow"><i><-- Return to main page</i></a>
+	</div>
 </form>
 </body>
 </html>
