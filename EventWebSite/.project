@@ -33,4 +33,26 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>WebContent/resources/calendar.jpg</name>
+			<type>1</type>
+			<location>C:/Users/Ka Ho/git/cs410main/EventWebSite/WebContent/resources/calendar.jpg</location>
+		</link>
+		<link>
+			<name>WebContent/resources/tab_image.gif</name>
+			<type>1</type>
+			<location>C:/Users/Ka Ho/git/cs410main/EventWebSite/WebContent/resources/tab_image.gif</location>
+		</link>
+		<link>
+			<name>WebContent/scripts/calendarDateInput.js</name>
+			<type>1</type>
+			<location>C:/Users/Ka Ho/git/cs410main/EventWebSite/WebContent/scripts/calendarDateInput.js</location>
+		</link>
+		<link>
+			<name>WebContent/scripts/ezcalendar_orange.js</name>
+			<type>1</type>
+			<location>C:/Users/Ka Ho/git/cs410main/EventWebSite/WebContent/scripts/ezcalendar_orange.js</location>
+		</link>
+	</linkedResources>
 </projectDescription>

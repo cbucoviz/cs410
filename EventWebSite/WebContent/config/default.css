@@ -11,6 +11,14 @@ a
 	color: #ffffff;
 }
 
+hr
+{
+	width: 75%; 
+	height: 3px;
+	background-color: gray;
+	color: gray; 
+}
+
 .indent 
 { 
 	margin-left: 20px;
@@ -23,6 +31,15 @@ a
 	height: 100%;
 	overflow: auto;
 	color: #ffffff;
+}
+div.tab_page
+{
+	width: 400px;
+	height: 470px;
+	background-color: #CDDADA;
+	border: 3px groove black;
+	color: black;
+	padding-left: 40px;
 }
 
 div.ticker
@@ -39,20 +56,56 @@ div.city_page_background
 	margin: 30px; 
 	margin-left: 50px; 
 	border: 4px outset green;
+	width: 1060px;
+	height: 570px;
+	font-family: verdana;
+}
+
+div.city_map_container
+{
+	height: 470px;
+	width: 520px;
+	margin-top: -130px;
+}
+
+div.city_name_tag
+{
+	width: 470px;
+	height: 40px;
+	margin-left: 25px;
 }
 
 div.city_map
 {
 	border: 3px groove black;
 	height: 470px;
-	width: 400px;
+	width: 470px;
 	margin: 20px;
+	margin-top: 5px;
 	background: white;
+}
+
+div.city_event_categories
+{
+	height: 200px;
+}
+
+div.city_event_header
+{
+	height: 50px;
+	padding-bottom: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 0.1px;
+	margin-left: -10px;
+	margin-top: 20px;
+	width: 320px;
+	color: white;
 }
 
 table.city_event_table
 {
-	margin: 20px;
+	margin: 10px;
 }
 
 
@@ -104,77 +157,219 @@ table.city_event_table
 	width: 100%;
 }
 
-#tabmenu 
+.halfmoon
 {
-	color: #000;
-	border-bottom: 2px solid black;
-	margin: 12px 0px 0px 0px;
-	padding: 0px;
-	z-index: 1;
-	padding-left: 10px; 
+	width: 400px;
 }
 
-#tabmenu li 
+.halfmoon ul
+{
+	padding: 3px 9px 2px 5px;
+	margin-left: 0;
+	margin-top: 1px;
+	margin-bottom: 0;
+	font: bold 14px Verdana;
+	list-style-type: none;
+	text-align: left; /*set to left, center, or right to align the menu as desired*/
+	border-bottom: 1px solid #929492;
+}
+
+.halfmoon li
 {
 	display: inline;
-	overflow: hidden;
-	list-style-type: none; 
-}
-
-#tabmenu a, a.active 
-{
-	color: #DEDECF;
-	background: #898B5E;
-	font: bold 1em "Trebuchet MS", Arial, sans-serif;
-	border: 2px solid black;
-	padding: 2px 5px 0px 5px;
 	margin: 0;
-	text-decoration: none; 
 }
 
-#tabmenu a.active 
-{
-	background: #ABAD85;
-	border-bottom: 3px solid #ABAD85; 
-}
-
-#tabmenu a:hover 
-{
-	color: #fff;
-	background: #ADC09F; 
-}
-
-#tabmenu a:visited 
-{
-	color: #E8E9BE; 
-}
-
-#tabmenu a.active:hover 
-{
-	background: #ABAD85;
-	color: #DEDECF;
-}
-
-#content 
-{
-	font: 0.9em/1.3em "bitstream vera sans", verdana, sans-serif;
-	text-align: justify;
-	background: #ABAD85;
-	padding: 20px;
-	border: 2px solid black;
-	border-top: none;
-	z-index: 2;
-	width: 400px;
-	height: 400px;
-}
-
-#content a 
+.halfmoon li a
 {
 	text-decoration: none;
-	color: #E8E9BE;
+	padding: 3px 9px 2px 5px;
+	margin: 0;
+	margin-right: 0; /*distance between each tab*/
+	border-left: 1px solid #DDD;
+	color: black;
+	font: bold 14px Verdana;
+	background: #ECEEEC url(../resources/tab_image.gif) top right no-repeat;
+	cursor: pointer;
 }
 
-#content a:hover 
-{ 
-	background: #898B5E;
+.halfmoon li a:visited
+{
+	color: black;
+}
+
+.halfmoon li a:hover, .halfmoon li a.current
+{
+	background-color: #CDDADA;
+	color: navy;
+}
+
+#tab_content_container
+{
+	width: 95%; /*width of 2nd level content*/
+	height: 1.5em; /*height of 2nd level content. Set to largest's content height to avoid jittering.*/
+}
+
+#city_event_tab
+{
+	overflow: auto;
+}
+
+#city_filter_tab
+{
+	display: none;
+}
+
+#city_others_tab
+{
+	display: none;
+}
+
+#city_tab_td
+{
+	height: 600px;
+	width: 400px;
+	vertical-align: top;
+	padding: 30px;
+	padding-top: 20px;
+}
+
+#city_map_td
+{
+	margin-top: 20px;
+}
+
+#filter_search_input
+{
+	margin-top: -15px;
+	border: 1px solid black;
+}
+
+#EZcalendar 
+{
+	display: none;
+	position: absolute;
+	margin: 0;
+	z-index: 99;
+	background: #C6470E;
+	color: #fff;
+	/* safer to use fixed font sizes */
+	font: 11px Arial, Helvetica, sans-serif;
+	border: 4px solid #C6470E;
+}
+#EZcalendar form {
+	margin: 0;
+	padding: 0;
+}
+#EZcalendar table 
+{
+	border: 1px solid #eee;
+	border-collapse: collapse;
+	font-size: 100%;
+	margin: 0;
+	padding: 0;
+}
+#EZcalendar table td, #EZcalendar table th 
+{
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	text-align: center;
+}
+
+#EZcalendar table td a.outsideMonth 
+{
+	background: #E86A11;
+	color: #fff;
+}
+
+#EZcalendar table td a.today
+{
+	background: #F9812D;
+	color: #fff;
+}
+#EZcalendar table td a 
+{
+	background: #F29917;
+	color: #333;
+	display: block;
+	color: #333;
+	margin: 0;
+	padding: 0;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	text-decoration: none;
+}
+
+#EZcalendar table td a:hover 
+{
+	color: #333;
+	background: #FFFF99;
+}
+
+#EZcalendar table td#EZcalendar_text 
+{
+	background: #F29917;
+	text-align: center;
+	width: 64px;
+	height: 16px;
+}
+
+#EZcalendar input 
+{
+	border: none;
+	background: #E86A11;
+	color: #fff;
+	cursor: pointer;
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+}
+
+#EZcalendar input.left 
+{
+	float: left;
+}
+
+#EZcalendar input.right 
+{
+	float: right;
+}
+
+#EZcalendar_table 
+{
+	clear: both;
+}
+
+#cul_header_div
+{
+	background-color: yellow;
+	border: 2px outset yellow;
+}
+
+#ed_header_div
+{
+	background-color: orange;
+	border: 2px outset orange;
+}
+
+#music_header_div
+{
+	background-color: purple;
+	border: 2px outset purple;
+}
+
+#sports_header_div
+{	
+	background-color: blue;
+	border: 2px outset blue;
+}
+
+#others_header_div
+{
+	background-color: brown;
+	border: 2px outset brown;
 }

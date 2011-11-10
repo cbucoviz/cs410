@@ -27,6 +27,7 @@
 			<tr>
 				<td colspan="2" align="center">
 					<h1>Join Now!</h1>
+					
 				</td>
 			</tr>
 			<tr>
@@ -39,7 +40,7 @@
 			</tr>
 			<tr>
 				<td align="right">Full Name: </td>
-				<td><input 	type="text" name='fullname' size="25"/>
+				<td><input type="text" name='fullname' size="25"/>
 				</td>
 			</tr>
 			<tr>
