@@ -4,6 +4,9 @@ body
 {
 	background-color: #000000;
 	color: #ffffff;
+	margin: 0px;
+	padding: 0px;
+	overflow:hidden;
 }
 
 a
@@ -40,14 +43,6 @@ div.tab_page
 	border: 3px groove black;
 	color: black;
 	padding-left: 40px;
-}
-
-div.ticker
-{
-	border-top: 1px solid #888888;
-	border-bottom: 1px solid #888888;
-    padding: 10px;
-    margin-bottom: 10px;
 }
 
 div.city_page_background
@@ -153,7 +148,7 @@ table.city_event_table
 
 #map3d
 {
-	height: 550px;
+	height: 100%;
 	width: 100%;
 }
 

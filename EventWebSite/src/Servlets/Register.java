@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Models.Registration;
+
 
 @WebServlet(description = "Registration Servlet", urlPatterns = { "/Register" })
 public class Register extends HttpServlet 
@@ -27,30 +29,85 @@ public class Register extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		// does the password match?
+		String username = request.getParameter("username");
 		String password1 = request.getParameter("password1");
 		String password2 = request.getParameter("password2");
+		String email = request.getParameter("useremail");
+		String ageInput = request.getParameter("age");
+		String city = request.getParameter("city");
+		String state = request.getParameter("state");
+		String country = request.getParameter("country");
 		
 		RequestDispatcher dispatcher = null;
+		
+		boolean registrationError = false;
+		
+		boolean userEmpty = username.isEmpty();
+		boolean password1Empty = password1.isEmpty();
+		boolean password2Empty = password2.isEmpty();
+		boolean emailEmpty = email.isEmpty();
+		boolean ageEmpty = ageInput.isEmpty();
+		boolean cityEmpty = city.isEmpty();
+		boolean stateEmpty = state.isEmpty();
+		boolean countryEmpty = country.isEmpty();
+		
+		request.setAttribute("missingUser", userEmpty);
+		request.setAttribute("missingPassword1", password1Empty);
+		request.setAttribute("missingPassword2", password2Empty);
+		request.setAttribute("missingEmail", emailEmpty);
+		request.setAttribute("missingAge", ageEmpty);
+		request.setAttribute("missingCity", cityEmpty);
+		request.setAttribute("missingState", stateEmpty);
+		request.setAttribute("missingCountry", countryEmpty);
+		
+		boolean missingParam = 	userEmpty ||
+								password1Empty ||
+								password2Empty ||
+								emailEmpty ||
+								ageEmpty ||
+								cityEmpty ||
+								stateEmpty ||
+								countryEmpty;
+		
+		registrationError = missingParam;
 		
 		if(!password1.equals(password2))
 		{
 			// passwords don't match, send them back to the register page
 			request.setAttribute("passwordMatch", false);
+			registrationError = true;
+		}
+		
+		int age = 0;
+		try
+		{
+			age = Integer.parseInt(ageInput);
+		}
+		catch(NumberFormatException e)
+		{
+			request.setAttribute("badAge", true);
+			registrationError = true;
+		}
+		
+		// insert the user into the database; if fails then user already exists
+		//TODO ktam: fix the registration type when back end opens enum
+		if(!registrationError)
+		{
+			registrationError = !Registration.registerUser(username, password1, 2, city, state, country, email, age);
+		}
+		
+		if(registrationError)
+		{
 			dispatcher = request.getRequestDispatcher("register.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
-		
-		
-		// insert the user into the database; if fails then user already exists
-		// CALL TO DB GOES HERE
-		String username = request.getParameter("username");
-		//Below: How to call the Registration method, returns boolean for user adding result.
-		//Boolean result = Registration.registerUser(name, password, type, location, email, age);
-		HttpSession session = request.getSession();
-		session.setAttribute("loggedIn", true);
-		session.setAttribute("username", username);
-		response.sendRedirect("home.jsp");
+		else
+		{
+			HttpSession session = request.getSession();
+			session.setAttribute("loggedIn", true);
+			session.setAttribute("username", username);
+			response.sendRedirect("home.jsp");
+		}
 	}
-
 }

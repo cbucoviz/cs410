@@ -8,19 +8,59 @@
 <!-- BEGINNING OF INCLUDES  -->
 <%@ include file="config/constants.jsp" %>
 <link href="config/default.css" rel="stylesheet" type="text/css" />
+<link href="config/ticker.css" rel="stylesheet" type="text/css" />
 <script src="plugins/jquery.js" type="text/javascript"></script>
 <script src="plugins/marquee.js" type="text/javascript"></script>
-<script src="config/ticker_config.js" type="text/javascript"></script>
 <script src="scripts/forwarder.js" type="text/javascript"></script>
 <!-- END OF INCLUDES -->
 
 <script type="text/javascript">
+$(document).ready(function()
+{
+	$jScroller.add("#scrollerContainer", "#scroller", "left", 1, true);	 
+	$jScroller.start();	
+	calibrateSize();
+	
+
+	$("input[type=text]").focus(function() 
+	{	
+		$(this).select();
+	});
+	
+	$("input[type=password]").focus(function() 
+			{	
+				$(this).select();
+			});
+});
 
 function update()
 {
-	setTimeout("update()",1000);
+	setTimeout("update()", 1000);	
 }
 
+function calibrateSize()
+{
+	var windowWidth = $(window).innerWidth();
+	var windowHeight = $(window).innerHeight() -10;
+	
+	var mainContent = $("#mainContent");
+	mainContent.width(windowWidth * <%= FRAME_WIDTH %>);
+	mainContent.height((windowHeight * <%= FRAME_HEIGHT %>) - <%= TICKER_HEIGHT %> - <%= SEARCH_HEIGHT %>);
+
+	var scroller = $("#scrollerContainer");
+	scroller.width(windowWidth * <%= TICKER_WIDTH %>);	
+	
+	var search = $("#searchBox");
+	search.width(<%= SEARCH_WIDTH %>);
+	search.height(<%= SEARCH_HEIGHT %>);
+	search.offset({ top: 0, left: (windowWidth - search.width())});
+	
+}
+
+$(window).resize(function() 
+{	
+	calibrateSize();
+});
 
 </script>
 
@@ -28,40 +68,27 @@ function update()
 <title><%= WEBSITE_TITLE %></title>
 
 </head>
-<body onload="update()">
+<body>
+
+<%@ include file="dashboard.jsp" %>
+
+<table></table>
+
+<form action="Search" method="POST">
+	<input type="text" id="searchBox" name='search' value='Search'/>
+</form>
 
 
-
-<table style="width:100%" border="0" cellpadding="0" cellspacing="5">
-<tr>
-	<!--  <td valign="top" width="300px">
-	<!-- Ka Ho's side bar should replace this stuff -->
-	<!-- 
-	<a href="home.jsp">Home</a><br/>
-	<a href="register.jsp">Register</a><br/>
-	About<br/>
-	</td> 
-	//-->
-	
-	<td style="width:20px">
-	<%@ include file="dashboard.jsp" %>
-	</td>
-	
-	<td>
-	<div id="mainContent" class="scrollFrame">
+<div id="mainContent" class="scrollFrame">
 		<%@ include file="home.jsp" %>
-		
-	</div>
-	</td>
-</tr>
-<tr>
-	<td colspan="2">
-	<div class="ticker">
-		<marquee behavior="scroll" direction="left" scrollamount="1" style="width:100%" >This might be what the ticker looks like; hover over me to stop!</marquee>
-	</div>
-	</td>
-</tr>
-</table>
+</div>
+
+
+<div id="scrollerContainer">
+		<div id="scroller">This is what the scroller looks like</div>
+</div>
+
+
 
 </body>
 </html>
