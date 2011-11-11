@@ -94,6 +94,10 @@ public class Register extends HttpServlet
 		if(!registrationError)
 		{
 			registrationError = !Registration.registerUser(username, password1, 2, city, state, country, email, age);
+			if(registrationError)
+			{
+				request.setAttribute("emailUsed", true);
+			}
 		}
 		
 		if(registrationError)

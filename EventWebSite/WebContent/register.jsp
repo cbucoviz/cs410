@@ -15,6 +15,12 @@
 </head>
 <body>
 
+<% if(request.getAttribute("emailUsed") == Boolean.TRUE) { %>
+		<b>Your e-mail is used by another user</b><br/>
+<% } %>
+<% if(request.getAttribute("badAge") == Boolean.TRUE) { %>
+		<b>You need to put in a number for your age</b><br/>
+<% } %>
 <% if(request.getAttribute("passwordMatch") == Boolean.FALSE) { %>
 		<b>Your passwords don't match.</b><br/>
 <% } %>
