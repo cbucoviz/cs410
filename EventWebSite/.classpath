@@ -10,5 +10,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="ExternalLibraries/mysql-connector-java-5.1.18-bin.jar"/>
 	<classpathentry kind="lib" path="ExternalLibraries/servlet-api.jar"/>
+	<classpathentry kind="lib" path="ExternalLibraries/gson-1.7.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
