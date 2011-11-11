@@ -118,35 +118,35 @@ else if (document.getElementById)
 				
 				<div id="tab_content_container">
 				
-					<div id="city_event_tab" class="tab_page">
+					<div id="city_event_tab" class="city_tab_page">
 						<div id="cul_event_div" class="city_event_categories">
 							<div id="cul_header_div" class="city_event_header">
-								<h4><u>Cultural		&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp</u></h4>
+								<h4>Cultural</h4>
 							</div>
 						</div>
 						<div id="ed_event_div" class="city_event_categories">
 							<div id="ed_header_div" class="city_event_header">
-								<h4><u>Education	&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp</u></h4>
+								<h4>Education</h4>
 							</div>
 						</div>
 						<div id="music_event_div" class="city_event_categories">
 							<div id="music_header_div" class="city_event_header">
-								<h4><u>Music		&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp</u></h4>
+								<h4>Music</h4>
 							</div>
 						</div>
 						<div id="sports_event_div" class="city_event_categories">
 							<div id="sports_header_div" class="city_event_header">
-								<h4><u>Sports		&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp</u></h4>
+								<h4>Sports</h4>
 							</div>
 						</div>
 						<div id="others_event_div" class="city_event_categories">
 							<div id="others_header_div" class="city_event_header">
-								<h4><u>Others		&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp &nbsp&nbsp&nbsp</u></h4>
+								<h4>Others</h4>
 							</div>
 						</div>
 					</div>
 					
-					<div id="city_filter_tab" class="tab_page">
+					<div id="city_filter_tab" class="city_tab_page">
 						<form action="Search" method="POST">
 							<h3>Search For Events</h3>
 							<h5>Enter Keywords (separate with ,) or Location:</h5>
@@ -196,7 +196,7 @@ else if (document.getElementById)
 						</form>
 					</div>
 					
-					<div id="city_others_tab" class="tab_page">
+					<div id="city_others_tab" class="city_tab_page">
 						Additional content goes here...
 					</div>
 					

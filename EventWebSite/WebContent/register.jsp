@@ -109,13 +109,7 @@
 				<td colspan="2" align="center"><input type="submit" value="Register"/></td>
 			</tr>
 		</table>
-		
 		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		
 		<a href="home.jsp" style="color:yellow"><i><-- Return to main page</i></a>
 	</div>
 </form>

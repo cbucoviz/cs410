@@ -6,7 +6,6 @@ import java.sql.SQLException;
 
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 
@@ -26,6 +25,13 @@ public class DatabaseManager
 	    RECENT_FIRST,
 	    OLDEST_FIRST, 
 	    NUMBER_OF_COMMENTS; 
+	}
+	
+	public enum UserType {
+	    
+		GENERAL, 
+	    MODERATOR,
+	    ADMIN; 
 	}
 	
 	private DatabaseManager() throws ClassNotFoundException, SQLException
@@ -69,8 +75,8 @@ public class DatabaseManager
 	{
 		PreparedStatement statement = connection.prepareStatement
 				("SELECT E.eventID, E.title, E.venue, E.address, E.eventDate, E.startTime, " + 
-						"E.duration, E.rating, C.generalDesc, C.venueDesc, C.priceDesc, " +
-						"C.transportDesc, C.videos, C.links, U.name, U.userID, L.city,L.country, " +
+						"E.endTime, E.rating, C.generalDesc, C.venueDesc, C.priceDesc, " +
+						"C.transportDesc, C.videos, C.links, U.name, U.userID, L.city, L.state, L.country, " +
 						"T.eventType " +
 				 "FROM events AS E, eventcontent AS C, users AS U, locations AS L, eventtypes AS T, eventsandtypes AS ET "+
 	             "WHERE E.eventID = " + eventID + "" +
@@ -319,7 +325,7 @@ public class DatabaseManager
 	public ResultSet showCityStatistics(int eventID) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
-			("SELECT L.city, L.country, COUNT(U.userID) AS 'attendees' " +
+			("SELECT L.city, L.state, L.country, COUNT(U.userID) AS 'attendees' " +
 			"FROM  users AS U, eventattendees AS A, locations AS L " +
 			"WHERE A.eventID = " + eventID + " " +
 				  "AND A.attendeeID = U.userID " +
@@ -344,7 +350,7 @@ public class DatabaseManager
 	public ResultSet findEventsLocations(String keyword) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
-			("SELECT L.locationID, L.city, L.country, COUNT(E.eventID) AS 'Number of Events' " +
+			("SELECT L.locationID, L.city, L.state, L.country, COUNT(E.eventID) AS 'Number of Events' " +
 			"FROM locations AS L, events AS E " +
 			"WHERE E.locationID = L.locationID " +
 				  "AND E.title LIKE ? " +
@@ -370,7 +376,7 @@ public class DatabaseManager
 	public ResultSet findEventsLocationsByType(String type) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
-			("SELECT L.locationID, L.city, L.country, T.typeID, " +
+			("SELECT L.locationID, L.city, L.state, L.country, T.typeID, " +
 					"COUNT(EaT.eventID) AS 'Number of Events' " +
 			"FROM locations AS L, eventsandtypes AS EaT, eventTypes AS T, events AS E " +
 			"WHERE E.locationID = L.locationID " +
@@ -399,7 +405,7 @@ public class DatabaseManager
 	public ResultSet findEvents (int locationID, String keyword) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
-	      ("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.duration, U.name " +
+	      ("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.endTime, U.name " +
 	      "FROM events AS E, users AS U, locations AS L " +
 	      "WHERE L.locationID = "+locationID+" " +
 	      		"AND E.locationID = L.locationID " +
@@ -426,7 +432,7 @@ public class DatabaseManager
 	public ResultSet findEventsByType (int locationID, int typeID) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
-	      ("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.duration, U.name " +
+	      ("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.endTime, U.name " +
 	      "FROM events AS E, users AS U, locations AS L, eventsandtypes AS T " +
 	      "WHERE L.locationID = "+locationID+" " +
 	      		"AND E.locationID = L.locationID " +
@@ -476,7 +482,7 @@ public class DatabaseManager
 	    }
 		
 		PreparedStatement statement = connection.prepareStatement
-			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.duration, U.name " +
+			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.endTime, U.name " +
 		    "FROM events AS E, users AS U, locations AS L, eventsandtypes AS EaT, eventtypes as T " +
 		    "WHERE L.locationID = locationID " +
 		    	  "AND E.locationID = L.locationID " +
@@ -507,8 +513,8 @@ public class DatabaseManager
 		PreparedStatement statement = connection.prepareStatement
 			("SELECT " +
 				  "CASE WHEN E.lastMod > Me.lastVisited THEN 'isEdited' END AS 'Updates', " +
-				         "E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.duration, " +
-				         "U.userID, U.name AS creator, L.locationID, L.city, L.country " +
+				         "E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.endTime, " +
+				         "U.userID, U.name AS creator, L.locationID, L.city, L.state, L.country " +
 		   "FROM events AS E, eventSubscribers AS S, users AS U, users AS Me,locations AS L " +
 		   "WHERE E.eventID = S.eventID " +
 		         "AND S.subscriberID = "+myUserID+" " +
@@ -535,8 +541,8 @@ public class DatabaseManager
 		PreparedStatement statement = connection.prepareStatement
 			("SELECT " +
 				"CASE WHEN E.lastMod > U.lastVisited THEN 'isEdited' END AS 'Updates', " +
-				     "E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.duration, " +
-				     "L.locationID, L.city, L.country " +
+				     "E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.endTime, " +
+				     "L.locationID, L.city, L.state, L.country " +
 		    "FROM events AS E, users AS U, locations AS L " +
 		    "WHERE E.creatorID = "+myUserID+" " +
 		    	  "AND U.userID = E.creatorID " +
@@ -588,7 +594,7 @@ public class DatabaseManager
 		 PreparedStatement statement = connection.prepareStatement
 			 ("SELECT " +
 			       "E.eventID, E.title, E.venue, E.eventDate, " +
-			       "E.startTime, E.duration, L.locationID, L.city, L.country, " +
+			       "E.startTime, E.endTime, L.locationID, L.city, L.state, L.country, " +
 			       "U.userID, U.name " +
 			"FROM events AS E, users AS U, users AS Me, locations AS L " +
 			"WHERE L.locationID = "+locationID+" " +
@@ -656,8 +662,8 @@ public class DatabaseManager
 	public ResultSet findAllNewEvents(int creatorID, int userID) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
-			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.duration, " +
-					"L.locationID, L.city, L.country " +
+			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.endTime, " +
+					"L.locationID, L.city, L.state, L.country " +
 			"FROM events AS E, locations AS L, users AS Me " +
 			"WHERE E.creatorID = "+creatorID+" "+
 			     "AND Me.userID = "+userID+" " +
@@ -682,8 +688,8 @@ public class DatabaseManager
 	public ResultSet findEvents(int userID) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
-			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.duration, " +
-					"L.locationID, L.city, L.country " +
+			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.endTime, " +
+					"L.locationID, L.city, L.state, L.country " +
 		    "FROM events AS E, locations AS L, users AS U " +
 		    "WHERE U.userID = "+userID+" " +
 		         "AND E.creatorID = U.userID " +
@@ -707,7 +713,7 @@ public class DatabaseManager
 	public ResultSet topTenEvents(int locationID) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
-			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.duration, " +
+			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.endTime, " +
 					"U.userID, U.name " +
 			"FROM events AS E, users AS U, locations AS L " +
 			"WHERE L.locationID = "+locationID+" " +
@@ -760,6 +766,29 @@ public class DatabaseManager
 	}
     
 	/**
+	 * Returns a location's ID based on a unique key information (city name,
+	 * state name and a country name). 
+	 * @param city - name of a city
+	 * @param state - name of a state (full name, not an abbreviation)
+	 * @param country - country name
+	 * @return - result set to be passed to the Controller.
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public ResultSet getLocationID(String city, String state, String country) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT L.locationID " +
+				"FROM locations AS L " +
+				"WHERE L.city  = '" + city + "' " +
+					  "AND L.country = '" + country + "' " +
+					  "AND L.state = '" + state + "' ");
+			ResultSet result = statement.executeQuery();
+			
+			return result;
+	}
+	
+	/**
 	 * New user is inserted into the database. Initially, activation status is 0,
 	 * and lastVisited field is set to the current server time. However, since the user has
 	 * to activate his/her account to be able to use privileges of a registered user,
@@ -767,7 +796,7 @@ public class DatabaseManager
 	 * the account, lastVisited field is updated.
 	 * @param name - name of a user.Must be unique
 	 * @param password - password -> must have a certain length
-	 * @param type - 2 -> general user; 1 -> moderator; 0 -> administrator
+	 * @param type - GENERAL -> general user; MODERATOR -> moderator; ADMIN -> administrator
 	 * @param locationID -> a location of this user's residence (or whatever location
 	 * this user has decided to set as his/her "home" location)
 	 * @param email - email of this user. Must be unique and actually exist
@@ -775,12 +804,28 @@ public class DatabaseManager
 	 * @throws SQLException - most likely various problems with syntax and/or some problems
 	 *                        with the database (tables changed, etc.)
 	 */
-	public void newUser(String name, String password, int type, 
+	public void newUser(String name, String password, UserType type, 
 							 int locationID, String email, int age) throws SQLException
 	{
+		int sqlUserType = 0;
+		switch (type)
+		{
+			case GENERAL:
+			{sqlUserType = 2;}
+			break;
+			
+			case MODERATOR:
+			{sqlUserType = 1;}
+			break;
+			
+			case ADMIN:
+			{sqlUserType = 0;}
+			break;			
+		}
+			
 		PreparedStatement statement = connection.prepareStatement
 				("INSERT INTO users (name,password,type,locationID,email,age, lastVisited) " +
-						"VALUES (?, ?, "+type+", "+locationID+", ?, "+age+", NOW())");
+						"VALUES (?, ?, "+sqlUserType+", "+locationID+", ?, "+age+", NOW())");
 		statement.setString(1, name);
 		statement.setString(2, password);
 		statement.setString(3, email);
@@ -828,27 +873,28 @@ public class DatabaseManager
 	 * @param address - address of the event. Part of the unique key
 	 * @param venue - name of a venue for this event
 	 * @param startDateTime - date and starting time of this event
-	 * @param duration - duration of the event as a float number
+	 * @param endTime - time when the event ends
 	 * @param content - an array of strings, where each string representings one topic of 
 	 * the event (General Description, Venue Description, etc.)
 	 * @throws SQLException - most likely various problems with syntax and/or some problems
 	 *                        with the database (tables changed, etc.)
 	 */
 	public void newEvent(String title, int creatorID, int locationID, 
-			 String address, String venue, Date startDateTime, float duration, String[] content) throws SQLException
+			 String address, String venue, Date startDateTime, Date endTime, String[] content) throws SQLException
 	{
 		java.sql.Date sqlDate = new java.sql.Date(startDateTime.getTime());
 		
 		SimpleDateFormat dateFormatGmt = new SimpleDateFormat("HH:mm:ss");
         String startTime =  dateFormatGmt.format(startDateTime);
+        String endTimeForSQL =  dateFormatGmt.format(endTime);
 		
-		PreparedStatement statement = connection.prepareStatement
+        PreparedStatement statement = connection.prepareStatement
 			("INSERT INTO events (title,creatorID,locationID,address,venue,eventDate," +
-								"startTime, duration, lastMod, creationDate) " +
+								"startTime, endTime, lastMod, creationDate) " +
 					
 						"VALUES (?, "+creatorID+", "+locationID+", ?, ?, '"+sqlDate+"', " +
 							
-							     "'"+startTime+"', "+duration+", NOW(), NOW())");	
+							     "'"+startTime+"', "+endTimeForSQL+", NOW(), NOW())");	
 		
 		statement.setString(1, title);
 		statement.setString(2, address);

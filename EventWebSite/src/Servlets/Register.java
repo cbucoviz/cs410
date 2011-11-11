@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Database.DatabaseManager.UserType;
 import Models.Registration;
 
 
@@ -93,7 +94,8 @@ public class Register extends HttpServlet
 		//TODO ktam: fix the registration type when back end opens enum
 		if(!registrationError)
 		{
-			registrationError = !Registration.registerUser(username, password1, 2, city, state, country, email, age);
+			UserType type = UserType.GENERAL;
+			registrationError = !Registration.registerUser(username, password1, type, city, state, country, email, age);
 			if(registrationError)
 			{
 				request.setAttribute("emailUsed", true);
