@@ -49,7 +49,7 @@ div.city_page_background
 {
 	background: green;
 	margin: 30px; 
-	margin-left: 50px; 
+	margin-left: 100px; 
 	border: 4px outset green;
 	width: 1060px;
 	height: 570px;
@@ -134,8 +134,10 @@ table.city_event_table
 {
 	background: green;
 	margin: 30px; 
-	margin-left: 50px; 
+	margin-left: 100px; 
 	border: 4px outset green;
+	height: 500px;
+	width: 1060px;
 }
 
 #signup_form_table
