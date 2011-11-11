@@ -35,7 +35,7 @@ hr
 	overflow: auto;
 	color: #ffffff;
 }
-div.tab_page
+div.city_tab_page
 {
 	width: 400px;
 	height: 470px;
@@ -45,6 +45,13 @@ div.tab_page
 	padding-left: 40px;
 }
 
+div.event_tab_page
+{
+	width: 740px;
+	height: auto;
+	background-color: #CDDADA;
+}
+
 div.city_page_background
 {
 	background: green;
@@ -52,7 +59,7 @@ div.city_page_background
 	margin-left: 100px; 
 	border: 4px outset green;
 	width: 1060px;
-	height: 570px;
+	height: auto;
 	font-family: verdana;
 }
 
@@ -98,6 +105,43 @@ div.city_event_header
 	color: white;
 }
 
+div.event_container
+{
+	background: green;
+	margin: 30px; 
+	margin-left: 100px; 
+	border: 4px outset green;
+	width: 1060px;
+	height: auto;
+	font-family: verdana;
+}
+
+div.event_name_header
+{
+	width: 100%;
+	height: auto;
+}
+
+div.event_content
+{
+	background: #C6BFFF;
+	height: auto;
+	border: 2px groove blue;
+	color: black;
+}
+
+div.top_event_recommendations
+{
+	height: auto;
+	background: #8E8AB7;
+	border: 3px ridge purple;
+}
+
+table.event_name_header
+{
+	margin-left: 20px;
+}
+
 table.city_event_table
 {
 	margin: 10px;
@@ -136,7 +180,7 @@ table.city_event_table
 	margin: 30px; 
 	margin-left: 100px; 
 	border: 4px outset green;
-	height: 500px;
+	height: auto;
 	width: 1060px;
 }
 
@@ -369,4 +413,25 @@ table.city_event_table
 {
 	background-color: brown;
 	border: 2px outset brown;
+}
+
+#event_tab_container
+{
+	width: 740px; /*width of 2nd level content*/
+	border: 2px groove blue;
+}
+
+#event_reviews_tab
+{
+	display: none;
+}
+
+#event_map_tab
+{
+	display: none;
+}
+
+#event_stat_tab
+{
+	display: none;
 }

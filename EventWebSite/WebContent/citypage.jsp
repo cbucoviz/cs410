@@ -118,7 +118,7 @@ else if (document.getElementById)
 				
 				<div id="tab_content_container">
 				
-					<div id="city_event_tab" class="tab_page">
+					<div id="city_event_tab" class="city_tab_page">
 						<div id="cul_event_div" class="city_event_categories">
 							<div id="cul_header_div" class="city_event_header">
 								<h4>Cultural</h4>
@@ -146,7 +146,7 @@ else if (document.getElementById)
 						</div>
 					</div>
 					
-					<div id="city_filter_tab" class="tab_page">
+					<div id="city_filter_tab" class="city_tab_page">
 						<form action="Search" method="POST">
 							<h3>Search For Events</h3>
 							<h5>Enter Keywords (separate with ,) or Location:</h5>
@@ -196,7 +196,7 @@ else if (document.getElementById)
 						</form>
 					</div>
 					
-					<div id="city_others_tab" class="tab_page">
+					<div id="city_others_tab" class="city_tab_page">
 						Additional content goes here...
 					</div>
 					
