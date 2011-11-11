@@ -81,6 +81,10 @@
 	</script>  
 </head> 
 <body>    
-	<div id="map3d"></div> 
+	<div id="map3d">
+		<script>
+			init()
+		</script>
+	</div> 
 </body> 
 </html>
