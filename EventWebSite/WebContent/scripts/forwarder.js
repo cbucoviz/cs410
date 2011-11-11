@@ -12,12 +12,13 @@ $(document).ready(function()
 			});
 	
 	// handler for submits
-	$(":submit").click(function(event)
+	$("form").submit(function(event)
 	{
 		// get the original target and redirect them via the main content window
 		var mainContent = $("#mainContent");
-		var form = $("form");
-		$.post(form.attr("action"), form.serialize(), function(data){mainContent.html(data)});
+		var form = $(this);
+		console.log(form.attr("action"));
+		$.post(form.attr("action"), form.serialize(), function(data){mainContent.html(data);});
 		event.preventDefault();
 	});				
 });

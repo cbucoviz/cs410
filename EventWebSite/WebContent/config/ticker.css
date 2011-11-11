@@ -1,0 +1,21 @@
+@CHARSET "ISO-8859-1";
+
+#scrollerContainer 
+{
+ 	position: relative;
+ 	width: 1280px;
+ 	height: 20px;
+ 	overflow: hidden;
+}
+
+#scroller 
+{
+	white-space: nowrap;
+	line-height: 20px;
+ 	font-size: 20px;
+ 	width: 1000px;
+}
+
+#scroller p {
+ padding: 0;
+}

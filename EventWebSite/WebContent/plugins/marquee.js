@@ -1,156 +1,151 @@
-/**
-* author Remy Sharp
-* url http://remysharp.com/tag/marquee
-*/
+/*
+ * jScroller 0.4 - Autoscroller PlugIn for jQuery
+ *
+ * Copyright (c) 2007 Markus Bordihn (http://markusbordihn.de)
+ * Dual licensed under the MIT (MIT-LICENSE.txt)
+ * and GPL (GPL-LICENSE.txt) licenses.
+ *
+ * $Date: 2009-06-18 20:00:00 +0100 (Sat, 18 Jul 2009) $
+ * $Rev: 0.4 $
+ */
 
-(function ($) {
-    $.fn.marquee = function (klass) {
-        var newMarquee = [],
-            last = this.length;
+$jScroller = {
 
-        // works out the left or right hand reset position, based on scroll
-        // behavior, current direction and new direction
-        function getReset(newDir, marqueeRedux, marqueeState) {
-            var behavior = marqueeState.behavior, width = marqueeState.width, dir = marqueeState.dir;
-            var r = 0;
-            if (behavior == 'alternate') {
-                r = newDir == 1 ? marqueeRedux[marqueeState.widthAxis] - (width*2) : width;
-            } else if (behavior == 'slide') {
-                if (newDir == -1) {
-                    r = dir == -1 ? marqueeRedux[marqueeState.widthAxis] : width;
-                } else {
-                    r = dir == -1 ? marqueeRedux[marqueeState.widthAxis] - (width*2) : 0;
-                }
-            } else {
-                r = newDir == -1 ? marqueeRedux[marqueeState.widthAxis] : 0;
-            }
-            return r;
-        }
+ info: {
+  Name: "ByRei jScroller Plugin for jQuery",
+  Version: 0.4,
+  Author: "Markus Bordihn (http://markusbordihn.de)",
+  Description: "Next Generation Autoscroller"
+ },
 
-        // single "thread" animation
-        function animateMarquee() {
-            var i = newMarquee.length,
-                marqueeRedux = null,
-                $marqueeRedux = null,
-                marqueeState = {},
-                newMarqueeList = [],
-                hitedge = false;
-                
-            while (i--) {
-                marqueeRedux = newMarquee[i];
-                $marqueeRedux = $(marqueeRedux);
-                marqueeState = $marqueeRedux.data('marqueeState');
-                
-                if ($marqueeRedux.data('paused') !== true) {
-                    // TODO read scrollamount, dir, behavior, loops and last from data
-                    marqueeRedux[marqueeState.axis] += (marqueeState.scrollamount * marqueeState.dir);
+ config: {
+  obj : [],
+  refresh: 25,
+  regExp: {
+   px: /([0-9,.\-]+)px/
+  }
+ },
 
-                    // only true if it's hit the end
-                    hitedge = marqueeState.dir == -1 ? marqueeRedux[marqueeState.axis] <= getReset(marqueeState.dir * -1, marqueeRedux, marqueeState) : marqueeRedux[marqueeState.axis] >= getReset(marqueeState.dir * -1, marqueeRedux, marqueeState);
-                    
-                    if ((marqueeState.behavior == 'scroll' && marqueeState.last == marqueeRedux[marqueeState.axis]) || (marqueeState.behavior == 'alternate' && hitedge && marqueeState.last != -1) || (marqueeState.behavior == 'slide' && hitedge && marqueeState.last != -1)) {                        
-                        if (marqueeState.behavior == 'alternate') {
-                            marqueeState.dir *= -1; // flip
-                        }
-                        marqueeState.last = -1;
+ cache: {
+  timer: 0,
+  init: 0
+ },
 
-                        $marqueeRedux.trigger('stop');
+ add: function(parent,child,direction,speed,mouse) {
+  if ($(parent).length && $(child).length && direction && speed >= 1) {
+      $(parent).css({overflow: 'hidden'});
+     
+      // ktam: modify the child creation to start from the right side instead of the left
+      //$(child).css({position: 'absolute', left: 0, top: 0});
+      $(child).css({position: 'absolute', left: $(parent).width(), top: 0});
+      
+     
+      
+      /* Usability improvement by Nimrod Yonatan Ben-Nes, thanks Nimrod. */
+      if (mouse) {
+          $(child).hover(
+            function(){
+             $jScroller.pause($(child),true);
+            },
+            function(){
+             $jScroller.pause($(child),false);
+          });
+      }
+      $jScroller.config.obj.push({
+                                  parent:    $(parent),
+                                  child:     $(child),
+                                  direction: direction,
+                                  speed:     speed,
+                                  pause:     false
+       });
+  }
+ },
 
-                        marqueeState.loops--;
-                        if (marqueeState.loops === 0) {
-                            if (marqueeState.behavior != 'slide') {
-                                marqueeRedux[marqueeState.axis] = getReset(marqueeState.dir, marqueeRedux, marqueeState);
-                            } else {
-                                // corrects the position
-                                marqueeRedux[marqueeState.axis] = getReset(marqueeState.dir * -1, marqueeRedux, marqueeState);
-                            }
+ pause: function(obj,status) {
+  if (obj && typeof status !== 'undefined') {
+      for (var i in $jScroller.config.obj) {
+           if ($jScroller.config.obj[i].child.attr("id") === obj.attr("id")) {
+               $jScroller.config.obj[i].pause = status;
+           }
+      }
+  }
+ },
 
-                            $marqueeRedux.trigger('end');
-                        } else {
-                            // keep this marquee going
-                            newMarqueeList.push(marqueeRedux);
-                            $marqueeRedux.trigger('start');
-                            marqueeRedux[marqueeState.axis] = getReset(marqueeState.dir, marqueeRedux, marqueeState);
-                        }
-                    } else {
-                        newMarqueeList.push(marqueeRedux);
-                    }
-                    marqueeState.last = marqueeRedux[marqueeState.axis];
+ start: function() {
+  if ($jScroller.cache.timer === 0 && $jScroller.config.refresh > 0) {
+      $jScroller.cache.timer = window.setInterval($jScroller.scroll, $jScroller.config.refresh);
+  }
+  if (!$jScroller.cache.init) {
+      $(window).blur($jScroller.stop);
+      $(window).focus($jScroller.start);
+      $(window).resize($jScroller.start);
+      $(window).scroll($jScroller.start);
+      $(document).mousemove($jScroller.start);
+      if ($.browser.msie) {window.focus();}
+      $jScroller.cache.init = 1;
+  }
+ },
 
-                    // store updated state only if we ran an animation
-                    $marqueeRedux.data('marqueeState', marqueeState);
-                } else {
-                    // even though it's paused, keep it in the list
-                    newMarqueeList.push(marqueeRedux);                    
-                }
-            }
+ stop: function() {
+  if ($jScroller.cache.timer) {
+      window.clearInterval($jScroller.cache.timer);
+      $jScroller.cache.timer = 0;
+  }
+ },
 
-            newMarquee = newMarqueeList;
-            
-            if (newMarquee.length) {
-                setTimeout(animateMarquee, 25);
-            }            
-        }
-        
-        // TODO consider whether using .html() in the wrapping process could lead to loosing predefined events...
-        this.each(function (i) {
-            var $marquee = $(this),
-                width = $marquee.attr('width') || $marquee.width(),
-                height = $marquee.attr('height') || $marquee.height(),
-                $marqueeRedux = $marquee.after('<div ' + (klass ? 'class="' + klass + '" ' : '') + 'style="display: block-inline; width: ' + width + 'px; height: ' + height + 'px; overflow: hidden;"><div style="float: left; white-space: nowrap;">' + $marquee.html() + '</div></div>').next(),
-                marqueeRedux = $marqueeRedux.get(0),
-                hitedge = 0,
-                direction = ($marquee.attr('direction') || 'left').toLowerCase(),
-                marqueeState = {
-                    dir : /down|right/.test(direction) ? -1 : 1,
-                    axis : /left|right/.test(direction) ? 'scrollLeft' : 'scrollTop',
-                    widthAxis : /left|right/.test(direction) ? 'scrollWidth' : 'scrollHeight',
-                    last : -1,
-                    loops : $marquee.attr('loop') || -1,
-                    scrollamount : $marquee.attr('scrollamount') || this.scrollAmount || 2,
-                    behavior : ($marquee.attr('behavior') || 'scroll').toLowerCase(),
-                    width : /left|right/.test(direction) ? width : height
-                };
-            
-            // corrects a bug in Firefox - the default loops for slide is -1
-            if ($marquee.attr('loop') == -1 && marqueeState.behavior == 'slide') {
-                marqueeState.loops = 1;
-            }
+ get: {
+  px: function(value) {
+   var result = '';
+   if (value) {
+       if (value.match($jScroller.config.regExp.px)) {
+           if (typeof value.match($jScroller.config.regExp.px)[1] !== 'undefined') {
+               result = value.match($jScroller.config.regExp.px)[1];
+           }
+       }
+   }
+   return result;
+  }
+ },
 
-            $marquee.remove();
-            
-            // add padding
-            if (/left|right/.test(direction)) {
-                $marqueeRedux.find('> div').css('padding', '0 ' + width + 'px');
-            } else {
-                $marqueeRedux.find('> div').css('padding', height + 'px 0');
-            }
-            
-            // events
-            $marqueeRedux.bind('stop', function () {
-                $marqueeRedux.data('paused', true);
-            }).bind('pause', function () {
-                $marqueeRedux.data('paused', true);
-            }).bind('start', function () {
-                $marqueeRedux.data('paused', false);
-            }).bind('unpause', function () {
-                $marqueeRedux.data('paused', false);
-            }).data('marqueeState', marqueeState); // finally: store the state
-            
-            // todo - rerender event allowing us to do an ajax hit and redraw the marquee
+ scroll: function() {
+  for (var i in $jScroller.config.obj) {
+       if ($jScroller.config.obj.hasOwnProperty(i)) {
+           var
+            obj        = $jScroller.config.obj[i],
+            left       = Number(($jScroller.get.px(obj.child.css('left'))||0)),
+            top        = Number(($jScroller.get.px(obj.child.css('top'))||0)),
+            min_height = obj.parent.height(),
+            min_width  = obj.parent.width(),
+            height     = obj.child.height(),
+            width      = obj.child.width();
 
-            newMarquee.push(marqueeRedux);
-
-            marqueeRedux[marqueeState.axis] = getReset(marqueeState.dir, marqueeRedux, marqueeState);
-            $marqueeRedux.trigger('start');
-            
-            // on the very last marquee, trigger the animation
-            if (i+1 == last) {
-                animateMarquee();
-            }
-        });            
-
-        return $(newMarquee);
-    };
-}(jQuery));
-
+           if (!obj.pause) {
+               switch(obj.direction) {
+                case 'up':
+                 if (top <= -1 * height) {top = min_height;}
+                 obj.child.css('top',top - obj.speed + 'px');
+                break;
+                case 'right':
+                 if (left >= min_width) {left = -1 * width;}
+                 obj.child.css('left',left + obj.speed + 'px');
+                break;
+                case 'left':
+                 if (left <= -1 * width) 
+                 {
+                	 // ktam:  we're going to change the functionality here
+                	 // let's assume no looping
+                	 $jScroller.config.obj.pop();
+                	 break;
+                 }
+                 obj.child.css('left',left - obj.speed + 'px');
+                break;
+                case 'down':
+                 if (top >= min_height) {top = -1 * height;}
+                 obj.child.css('top',top + obj.speed + 'px');
+                break;
+               }
+           }
+       }
+  }
+ }
+};
