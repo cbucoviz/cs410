@@ -6,6 +6,7 @@
 <head>
 
 <!-- BEGINNING OF INCLUDES  -->
+<%@ page import="Servlets.SessionVariables;" %>
 <%@ include file="config/constants.jsp" %>
 <link href="config/default.css" rel="stylesheet" type="text/css" />
 <link href="config/ticker.css" rel="stylesheet" type="text/css" />
@@ -36,10 +37,10 @@ $(document).ready(function()
 
 function update()
 {
-	var requestData = ["loggedIn"];
+	var requestData = ["<%=SessionVariables.LOGGED_IN%>"];
 	var sessionData = getSessionData(requestData);
 
-	if(sessionData["loggedIn"] == true)
+	if(sessionData["<%=SessionVariables.LOGGED_IN%>"] == true)
 	{
 			alert("you logged in!");
 	}
