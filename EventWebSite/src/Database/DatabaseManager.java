@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.sql.Connection;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -75,20 +74,45 @@ public class DatabaseManager
 	{
 		PreparedStatement statement = connection.prepareStatement
 				("SELECT E.eventID, E.title, E.venue, E.address, E.eventDate, E.startTime, " + 
-						"E.endTime, E.rating, C.generalDesc, C.venueDesc, C.priceDesc, " +
-						"C.transportDesc, C.videos, C.links, U.name, U.userID, L.city, L.state, L.country, " +
-						"T.eventType " +
-				 "FROM events AS E, eventcontent AS C, users AS U, locations AS L, eventtypes AS T, eventsandtypes AS ET "+
+						"E.endTime, E.rating, E.numAttendees, E.isLocked, C.generalDesc, C.venueDesc, C.priceDesc, " +
+						"C.transportDesc, C.awareInfo, C.videos, C.links, C.otherInfo, U.name, U.userID, L.locationID, " +
+						"L.city, L.state, L.country " +						
+				 "FROM events AS E, eventcontent AS C, users AS U, locations AS L "+
 	             "WHERE E.eventID = " + eventID + "" +
 	             	  " AND E.creatorID = U.userID " +
 	             	  " AND E.locationID = L.locationID " +
-	             	  " AND C.eventID = E.eventID " +
-	             	  " AND ET.eventID = E.eventID " +
-	             	  " AND T.typeID = ET.eventTypeID");
+	             	  " AND C.eventID = E.eventID");
 		ResultSet result = statement.executeQuery();
 		return result;
 	}
 
+	public boolean eventExists(int eventID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT E.title " +						
+				 "FROM events AS E "+
+	             "WHERE E.eventID = " + eventID +"");
+		ResultSet result = statement.executeQuery();
+		
+		if(!result.next())
+		{
+			return false;
+		}		
+		return true;		
+	}
+	
+	
+	public ResultSet findEventTypes (int eventID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT T.eventType " +						
+				 "FROM eventsandtypes AS ET, eventtypes AS T "+
+	             "WHERE ET.eventID = " + eventID + " " +
+	             	  " AND ET.eventTypeID = T.typeID");
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
 	/**
 	 * This is the function for sorting reviews. There are three ways to do so:<br/>
 	 * 
@@ -903,29 +927,23 @@ public class DatabaseManager
 	 * @param locationID - an id of a location this event will be held in
 	 * @param address - address of the event. Part of the unique key
 	 * @param venue - name of a venue for this event
-	 * @param startDateTime - date and starting time of this event
-	 * @param endTime - time when the event ends
-	 * @param content - an array of strings, where each string representings one topic of 
-	 * the event (General Description, Venue Description, etc.)
+	 * @param startDate - date of this event
+	 * @param startTime - starting time of this event
+	 * @param endTime - time when the event ends 
 	 * @throws SQLException - most likely various problems with syntax and/or some problems
 	 *                        with the database (tables changed, etc.)
 	 */
-	public void newEvent(String title, int creatorID, int locationID, 
-			 String address, String venue, Date startDateTime, Date endTime, String[] content) throws SQLException
-	{
-		java.sql.Date sqlDate = new java.sql.Date(startDateTime.getTime());
-		
-		SimpleDateFormat dateFormatGmt = new SimpleDateFormat("HH:mm:ss");
-        String startTime =  dateFormatGmt.format(startDateTime);
-        String endTimeForSQL =  dateFormatGmt.format(endTime);
-		
+	public int newEvent(String title, int creatorID, int locationID, String address, 
+			 String venue, Date startDate, String startTime, String endTime,
+			 String[] types) throws SQLException
+	{				
         PreparedStatement statement = connection.prepareStatement
 			("INSERT INTO events (title,creatorID,locationID,address,venue,eventDate," +
 								"startTime, endTime, lastMod, creationDate) " +
 					
-						"VALUES (?, "+creatorID+", "+locationID+", ?, ?, '"+sqlDate+"', " +
+						"VALUES (?, "+creatorID+", "+locationID+", ?, ?, '"+startDate+"', " +
 							
-							     "'"+startTime+"', "+endTimeForSQL+", NOW(), NOW())");	
+							     "'"+startTime+"', '"+endTime+"', NOW(), NOW())");	
 		
 		statement.setString(1, title);
 		statement.setString(2, address);
@@ -936,7 +954,7 @@ public class DatabaseManager
 				("SELECT E.eventID " +
 				"FROM events AS E " +
 				"WHERE E.address = ? " +
-					  "AND E.eventDate = '"+sqlDate+"' " +
+					  "AND E.eventDate = '"+startDate+"' " +
 					  "AND E.startTime = '"+startTime+"' ");
 		
 		statement.setString(1, address);
@@ -945,11 +963,42 @@ public class DatabaseManager
 		result.next();
 		int eventID = Integer.parseInt(result.getString(1));
 		
+		int eventTypeID = 0;
+		
+		for(int i=0; i<types.length; i++)
+		{
+			statement = connection.prepareStatement
+					("SELECT ET.typeID " +
+					"FROM eventtypes AS ET " +
+					"WHERE ET.eventType = ? ");
+			statement.setString(1, types[i]);
+			result = statement.executeQuery();
+			result.next();
+			eventTypeID = Integer.parseInt(result.getString(1));
+			
+			statement = connection.prepareStatement
+					("INSERT INTO eventsandtypes (eventTypeID, eventID) " +						
+								"VALUES (" + eventTypeID + "," +eventID+ ")");
+			statement.executeUpdate();
+			
+		}
+		
 		statement = connection.prepareStatement
-				("INSERT INTO eventcontent (generalDesc,venueDesc,priceDesc,transportDesc," +
+				("UPDATE users " +
+				"SET createdEvents = createdEvents+1 "+ 
+				"WHERE userID = "+creatorID + " "); 
+		statement.executeUpdate();
+		
+		return eventID;
+	}
+	
+	public void setEventContent(int eventID, String[] content) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("INSERT INTO eventcontent (generalDesc,venueDesc,priceDesc,transportDesc,awareInfo," +
 						"                   videos, links, otherInfo, eventID) " +
 						
-							"VALUES (?, ?, ?, ?, ?, ?, ?,  "+eventID+")");	
+							"VALUES (?, ?, ?, ?, ?, ?, ?, ?,  "+eventID+")");	
 			
 		statement.setString(1, content[0]);
 		statement.setString(2, content[1]);
@@ -957,9 +1006,9 @@ public class DatabaseManager
 		statement.setString(4, content[3]);
 		statement.setString(5, content[4]);
 		statement.setString(6, content[5]);
-		statement.setString(7, content[6]);		
+		statement.setString(7, content[6]);	
+		statement.setString(8, content[7]);
 		statement.executeUpdate();
-		
 	}
 	
 	/**
@@ -971,14 +1020,54 @@ public class DatabaseManager
 	public void deleteEvent(int eventID) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
+				("SELECT E.creatorID " +
+				"FROM events AS E " +
+				"WHERE E.eventID = "+eventID+" ");		
+		
+		ResultSet result = statement.executeQuery();
+		result.next();		
+		int userID = Integer.parseInt(result.getString(1));
+		
+		statement = connection.prepareStatement
 				("DELETE FROM events " +
 				"WHERE eventID = "+eventID+" ");
 		statement.executeUpdate();
+		
+		statement = connection.prepareStatement
+				("UPDATE users " +
+				"SET createdEvents = createdEvents-1 "+ 
+				"WHERE userID = "+userID + " "); 
+		statement.executeUpdate();
 	}	
 	
+	public void editEventInfo(int eventID, String title, String address, String venue,
+							Date eventDate,  String startTime, String endTime) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("UPDATE events " +
+				"SET title = ?, address = ?, venue = ?, " +
+					"eventDate = '"+eventDate+"', startTime = '"+startTime+"', " +
+					"endTime = '"+endTime+"', lastMod = NOW() " + 
+				"WHERE eventID = "+eventID + " ");
+		statement.setString(1, title);
+		statement.setString(2, address);
+		statement.setString(3, venue);
+		statement.executeUpdate();
+	}
+	
+	public void editEventContent(int eventID, String content, String contentType) throws SQLException
+	{				
+		PreparedStatement statement = connection.prepareStatement
+				("UPDATE eventcontent " +
+				"SET "+contentType+" = ?, lastMod = NOW() "+ 
+				"WHERE eventID = "+eventID + " ");
+		statement.setString(1, content);		
+		statement.executeUpdate();
+	}
 	
 	public void testQuery() throws SQLException
 	{
+		/*
 			PreparedStatement statement = connection.prepareStatement("SELECT E.title, E.venue " +
 					                                                  "FROM events AS E");	
 			ResultSet result = statement.executeQuery();		 
@@ -986,6 +1075,6 @@ public class DatabaseManager
 			while(result.next())
 			{
 				System.out.println(result.getString(1) + " " + result.getString(2));
-			}
+			}*/
 	}
 }

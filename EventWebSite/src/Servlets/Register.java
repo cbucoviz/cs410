@@ -129,8 +129,8 @@ public class Register extends HttpServlet
 		else
 		{
 			HttpSession session = request.getSession();
-			session.setAttribute("loggedIn", true);
-			session.setAttribute("username", username);
+			session.setAttribute(SessionVariables.LOGGED_IN, true);
+			session.setAttribute(SessionVariables.USERNAME, username);
 			response.sendRedirect("home.jsp");
 		}
 	}

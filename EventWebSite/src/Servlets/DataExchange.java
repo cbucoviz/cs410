@@ -37,11 +37,7 @@ public class DataExchange extends HttpServlet {
 		while(requestedData.hasMoreElements())
 		{
 			String currentRequest = requestedData.nextElement();
-			
-			if(currentRequest.equals("loggedIn"))
-			{
-				dataMap.put("loggedIn", session.getAttribute("loggedIn"));
-			}
+			dataMap.put(currentRequest, session.getAttribute(currentRequest));
 		}
 		
 		Gson gson = new GsonBuilder().serializeNulls().create();
