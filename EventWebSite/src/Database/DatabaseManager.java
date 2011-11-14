@@ -335,6 +335,22 @@ public class DatabaseManager
 		
 		return result;
 	}
+	
+	/**
+	 * Lists all the cities where there are events and the information for latitude and longitude.
+	 * 
+	 * @return - result set to be passed to the Controller.
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public ResultSet findGoogleEarthLocations() throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+			("SELECT * FROM locations");
+        ResultSet result = statement.executeQuery();
+		
+		return result;
+	}
     
 	/**
 	 * Lists all the cities where there are events which titles contain a given keyword.
@@ -831,7 +847,22 @@ public class DatabaseManager
 		statement.setString(3, email);
 		
 		statement.executeUpdate();
-	}	
+	}
+	
+	/**
+	 * Gets the user associated with an email address
+	 * @param userID - an id of a user
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public ResultSet getUser(String email) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+			("SELECT * FROM users AS U WHERE U.email = '"+ email +"' "); 
+		ResultSet result = statement.executeQuery();
+		
+		return result;
+	}
 	
 	/**
 	 * A user is activated and, therefore, becomes a fully registered user.
