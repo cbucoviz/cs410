@@ -53,9 +53,10 @@ function calibrateSize()
 	var windowHeight = $(window).innerHeight() -10;
 	
 	var mainContent = $("#mainContent");
-	mainContent.width(windowWidth * <%= FRAME_WIDTH %>);
-	mainContent.height((windowHeight * <%= FRAME_HEIGHT %>) - <%= TICKER_HEIGHT %> - <%= SEARCH_HEIGHT %>);
-
+	 
+	 mainContent.width(windowWidth * <%= FRAME_WIDTH %>);
+	 mainContent.height((windowHeight * <%= FRAME_HEIGHT %>) - <%= TICKER_HEIGHT %> - <%= SEARCH_HEIGHT %>);
+	
 	var scroller = $("#scrollerContainer");
 	scroller.width(windowWidth * <%= TICKER_WIDTH %>);	
 	
