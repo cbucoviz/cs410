@@ -7,15 +7,38 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Database.DatabaseManager;
-import Database.DatabaseManager.SortPosts;
-import Database.DatabaseManager.SortReviews;
+
+import Models.DiscussionPost.PostInfo;
+import Models.DiscussionPost.SortPosts;
+import Models.Review.ReviewInfo;
+import Models.Review.SortReviews;
 
 public class Event 
 {
-	public enum EventContent {
+	public enum EventInfo
+	{
+		EVENT_ID,
+		TITLE,
+		VENUE,
+		ADDRESS,
+		EVENT_DATE,
+		START_TIME,
+		END_TIME,
+		RATING,
+		NUM_ATTENDEES,
+		IS_LOCKED,
+		CREATOR,
+		CREATOR_ID,
+		LOCATION_ID,
+		CITY,
+		STATE,
+		COUNTRY,
+		EVENT_TYPES,
+	
 	    GEN_INFO,
 	    VENUE_INFO,
 	    PRICE_INFO,
@@ -48,11 +71,11 @@ public class Event
 		return false;
 	}
 	
-	public static Map<String, String> getExistingEvent(int evID) 
+	public static Map<EventInfo, String> getExistingEvent(int evID) 
 	{ 
 		if(exists(evID))  
 		{ 	
-			Map<String, String> event;
+			Map<EventInfo, String> event;
 			try {
 				event = getEventMap(evID);
 				return event;
@@ -69,9 +92,9 @@ public class Event
 		}
 	}
 	
-	private static Map<String, String> getEventMap(int evID) throws ClassNotFoundException, SQLException
+	private static Map<EventInfo, String> getEventMap(int evID) throws ClassNotFoundException, SQLException
 	{
-		Map<String, String> event = Collections.synchronizedMap(new HashMap<String,String>());
+		Map<EventInfo, String> event = Collections.synchronizedMap(new HashMap<EventInfo,String>());
 		
 		DatabaseManager dbMan = DatabaseManager.getInstance();
 		
@@ -80,40 +103,40 @@ public class Event
 		
 		while(eventInfo.next())
 		{				
-			event.put("eventID", eventInfo.getString(1));
-			event.put("title", eventInfo.getString(2));
-			event.put("venue", eventInfo.getString(3));
-			event.put("address", eventInfo.getString(4));
-			event.put("eventDate", eventInfo.getString(5));							
-			event.put("startTime", eventInfo.getString(6));			
-			event.put("endTime", eventInfo.getString(7));		
-			event.put("rating", eventInfo.getString(8));		
-			event.put("numAttendees", eventInfo.getString(9));			
-			event.put("isLocked", eventInfo.getString(10));
+			event.put(EventInfo.EVENT_ID, eventInfo.getString("E.eventID"));
+			event.put(EventInfo.TITLE, eventInfo.getString("E.title"));
+			event.put(EventInfo.VENUE, eventInfo.getString("E.venue"));
+			event.put(EventInfo.ADDRESS, eventInfo.getString("E.address"));
+			event.put(EventInfo.EVENT_DATE, eventInfo.getString("E.eventDate"));							
+			event.put(EventInfo.START_TIME, eventInfo.getString("E.startTime"));			
+			event.put(EventInfo.END_TIME, eventInfo.getString("E.endTime"));		
+			event.put(EventInfo.RATING, eventInfo.getString("E.rating"));		
+			event.put(EventInfo.NUM_ATTENDEES, eventInfo.getString("E.numAttendees"));			
+			event.put(EventInfo.IS_LOCKED, eventInfo.getString("E.isLocked"));
 			
-			event.put("genDesc", eventInfo.getString(11));
-			event.put("venueDesc", eventInfo.getString(12));
-			event.put("priceDesc", eventInfo.getString(13));
-			event.put("transportDesc", eventInfo.getString(14));
-			event.put("awareDesc", eventInfo.getString(15));
-			event.put("videos", eventInfo.getString(16));
-			event.put("links", eventInfo.getString(17));
-			event.put("otherInfo", eventInfo.getString(18));
+			event.put(EventInfo.GEN_INFO, eventInfo.getString("C.generalDesc"));
+			event.put(EventInfo.VENUE_INFO, eventInfo.getString("C.venueDesc"));
+			event.put(EventInfo.PRICE_INFO, eventInfo.getString("C.priceDesc"));
+			event.put(EventInfo.TRANSPORT_INFO, eventInfo.getString("C.transportDesc"));
+			event.put(EventInfo.AWARENESS_INFO, eventInfo.getString("C.awareInfo"));
+			event.put(EventInfo.VIDEOS, eventInfo.getString("C.videos"));
+			event.put(EventInfo.LINKS, eventInfo.getString("C.links"));
+			event.put(EventInfo.OTHER_INFO, eventInfo.getString("C.otherInfo"));
 			
-			event.put("creator", eventInfo.getString(19));
-			event.put("creatorID", eventInfo.getString(20));
-			event.put("locationID", eventInfo.getString(21));
-			event.put("city", eventInfo.getString(22));
-			event.put("state", eventInfo.getString(23));
-			event.put("country", eventInfo.getString(24));			
+			event.put(EventInfo.CREATOR, eventInfo.getString("U.name"));
+			event.put(EventInfo.CREATOR_ID, eventInfo.getString("U.userID"));
+			event.put(EventInfo.LOCATION_ID, eventInfo.getString("L.locationID"));
+			event.put(EventInfo.CITY, eventInfo.getString("L.city"));
+			event.put(EventInfo.STATE, eventInfo.getString("L.state"));
+			event.put(EventInfo.COUNTRY, eventInfo.getString("L.country"));			
 		}
 		
 		String types = "";
 		while(eventTypes.next())
 		{			
-			types = types + eventTypes.getString(1) + ",";
+			types = types + eventTypes.getString("T.eventType") + ",";
 		}
-		event.put("eventTypes", types);
+		event.put(EventInfo.EVENT_TYPES, types);
 	    return event;
 	}
 	
@@ -178,7 +201,7 @@ public class Event
 	}
 	
 		
-	public HashMap<String,Integer> showStatistics(int eventID, StatType type)
+	public static HashMap<String,Integer> showStatistics(int eventID, StatType type)
 	{		
 		HashMap<String, Integer> m = (HashMap<String, Integer>) Collections.synchronizedMap(new HashMap<String,Integer>());
 		
@@ -186,7 +209,7 @@ public class Event
 	}
 	
 	
-	public static boolean editEventContent(int eventID, String content, EventContent type)
+	public static boolean editEventContent(int eventID, String content, EventInfo type)
 	{
 		String contentType = "";		
 		switch (type)
@@ -234,7 +257,7 @@ public class Event
 		return false;		
 	}	
 	
-	public boolean editEventInfo(int eventID, String nTitle, String nVenue, Date startDateTime, Date nEndTime, String nAddress)
+	public static boolean editEventInfo(int eventID, String nTitle, String nVenue, Date startDateTime, Date nEndTime, String nAddress)
 	{
 		java.sql.Date startDateForSQL = new java.sql.Date(startDateTime.getTime());
 		
@@ -253,38 +276,57 @@ public class Event
         return false;		
 	}
 	
-	public boolean addReview(int eventID)
+	public static float addReview(int eventID, int userID, String content, int rating)
 	{
-		return false;
-		
+		return Review.createReview(eventID, userID, content, rating);
 	}
 	
-	public boolean addPost(int eventID)
+	public static boolean addPost(int eventID, int userID, String content)
 	{
-		return false;
-		
+		return DiscussionPost.createPost(eventID, userID, content);		
 	}
 	
-	public boolean removeReview(int eventID, int reviewID)
+	public static float removeReview(int reviewID, int eventID)
 	{
-		return false;
-		
+		return Review.delete(reviewID, eventID);		
 	}
 	
-	public boolean removePost(int eventID, int postID)
+	public static boolean removePost(int postID, int eventID)
 	{
-		return false;
-		
+		return DiscussionPost.delete(postID, eventID);		
 	}
 	
-	public ArrayList<HashMap<String,String>> displayReviews(int eventID, SortReviews type)
+	public static List<Map<ReviewInfo,String>> displayReviews(int eventID, SortReviews type)
 	{
+		List<Map<ReviewInfo, String>> reviews;
+		try {
+			reviews = Review.getReviews(eventID, type);
+			return reviews;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 		return null;
 		
+		
 	}
 	
-	public ArrayList<HashMap<String,String>> displayPosts(int eventID, SortPosts type)
+	public static List<Map<PostInfo, String>> displayPosts(int eventID, SortPosts type)
 	{
+		List<Map<PostInfo, String>> posts;
+		try {
+			posts = DiscussionPost.getPosts(eventID, type);
+			return posts;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 		return null;
 		
 	}

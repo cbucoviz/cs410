@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Models.Event;
+import Models.Event.EventInfo;
 
 
 public class EventPage extends HttpServlet
@@ -29,41 +30,41 @@ public class EventPage extends HttpServlet
 			
 			RequestDispatcher dispatcher = null;	
 			
-			Map<String,String> myEvent = Event.getExistingEvent(eventID);			
+			Map<EventInfo,String> myEvent = Event.getExistingEvent(eventID);			
 					
-			String title =  myEvent.get("title");
-			String venue = myEvent.get("venue");
-			String address = myEvent.get("address");
+			String title =  myEvent.get(EventInfo.TITLE);
+			String venue = myEvent.get(EventInfo.VENUE);
+			String address = myEvent.get(EventInfo.ADDRESS);
 			
-				Date eventDate = new SimpleDateFormat("yyyy-mm-dd").parse(myEvent.get("eventDate"));
-				Date startTime = new SimpleDateFormat("HH:mm:ss").parse(myEvent.get("startTime"));
-				Date endTime = new SimpleDateFormat("HH:mm:ss").parse(myEvent.get("endTime"));
+				Date eventDate = new SimpleDateFormat("yyyy-mm-dd").parse(myEvent.get(EventInfo.EVENT_DATE));
+				Date startTime = new SimpleDateFormat("HH:mm:ss").parse(myEvent.get(EventInfo.START_TIME));
+				Date endTime = new SimpleDateFormat("HH:mm:ss").parse(myEvent.get(EventInfo.END_TIME));
 			
 			
-			int rating = Integer.parseInt(myEvent.get("rating"));
-			int numAttendees = Integer.parseInt(myEvent.get("numAttendees"));			
+			float rating = Float.parseFloat(myEvent.get(EventInfo.RATING));
+			int numAttendees = Integer.parseInt(myEvent.get(EventInfo.NUM_ATTENDEES));			
 			
 			boolean isLocked = false;
-			if(Integer.parseInt(myEvent.get("isLocked")) == 1)
+			if(Integer.parseInt(myEvent.get(EventInfo.IS_LOCKED)) == 1)
 			{isLocked = true;}
 			else
 			{isLocked = false;}
 			
-			String genDesc = myEvent.get("genDesc");
-			String venueDesc = myEvent.get("venueDesc");		
-			String priceDesc = myEvent.get("priceDesc");
-			String transportDesc = myEvent.get("transportDesc");		
-			String awareInfo = myEvent.get("awareInfo");
-			String videos = myEvent.get("videos");		
-			String links = myEvent.get("links");
-			String otherInfo = myEvent.get("otherInfo");			
-		    String creator = myEvent.get("creator");
-		    int creatorID = Integer.parseInt(myEvent.get("creatorID"));
-		    int locationID = Integer.parseInt(myEvent.get("locationID"));
-		    String city = myEvent.get("city");		
-			String state = myEvent.get("state");
-			String country = myEvent.get("country");
-			String[] types = myEvent.get("eventTypes").split(",");
+			String genDesc = myEvent.get(EventInfo.GEN_INFO);
+			String venueDesc = myEvent.get(EventInfo.VENUE_INFO);		
+			String priceDesc = myEvent.get(EventInfo.PRICE_INFO);
+			String transportDesc = myEvent.get(EventInfo.TRANSPORT_INFO);		
+			String awareInfo = myEvent.get(EventInfo.AWARENESS_INFO);
+			String videos = myEvent.get(EventInfo.VIDEOS);		
+			String links = myEvent.get(EventInfo.LINKS);
+			String otherInfo = myEvent.get(EventInfo.OTHER_INFO);			
+		    String creator = myEvent.get(EventInfo.CREATOR);
+		    int creatorID = Integer.parseInt(myEvent.get(EventInfo.CREATOR_ID));
+		    int locationID = Integer.parseInt(myEvent.get(EventInfo.LOCATION_ID));
+		    String city = myEvent.get(EventInfo.CITY);		
+			String state = myEvent.get(EventInfo.STATE);
+			String country = myEvent.get(EventInfo.COUNTRY);
+			String[] types = myEvent.get(EventInfo.EVENT_TYPES).split(",");
 		
 			request.setAttribute("title", title);
 			request.setAttribute("venue", venue);

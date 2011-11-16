@@ -7,24 +7,15 @@ import java.sql.SQLException;
 import java.sql.Connection;
 import java.util.Date;
 
+import Models.DiscussionPost.SortPosts;
+import Models.Review.SortReviews;
+
 
 public class DatabaseManager 
 {	
 	private static DatabaseManager instance;
 	private Connection connection;	
 	
-	public enum SortReviews {
-	    EVENT_RATING,
-	    RATING,
-	    UPLOAD_TIME; 
-	}
- 
-	public enum SortPosts {
-	    RATING, 
-	    RECENT_FIRST,
-	    OLDEST_FIRST, 
-	    NUMBER_OF_COMMENTS; 
-	}
 	
 	public enum UserType {
 	    
@@ -147,7 +138,7 @@ public class DatabaseManager
 		    case EVENT_RATING: 		  
 		    {	
 				statement = connection.prepareStatement			
-					("SELECT U.userID, U.name, R.reviewContent, R.goodRating, R.badRating, " +
+					("SELECT R.reviewID, U.userID, U.name, R.reviewContent, R.goodRating, R.badRating, " +
 							"R.dateTime, R.eventRating " +
 					 "FROM users AS U, reviews AS R " +
 					 "WHERE R.eventID = "+eventID +" " +
@@ -161,11 +152,11 @@ public class DatabaseManager
 		    case RATING:
 		    {	
 				statement = connection.prepareStatement
-					("SELECT U.userID, U.name, R.reviewContent, R.goodRating, R.badRating, " +
+					("SELECT R.reviewID, U.userID, U.name, R.reviewContent, R.goodRating, R.badRating, " +
 							"R.dateTime, R.eventRating, R.goodRating - R.badRating AS goodVSbad " +
 					 "FROM users AS U, reviews AS R " +
 					 "WHERE R.eventID = "+eventID+" " +
-					 	   "AND R.userID = U.userID" +
+					 	   "AND R.userID = U.userID " +
 					 "ORDER BY goodVSbad DESC, R.goodRating DESC");
 				result = statement.executeQuery();
 		    }	
@@ -174,7 +165,7 @@ public class DatabaseManager
 		    case UPLOAD_TIME:
 		    {  
 		    	statement = connection.prepareStatement
-					("SELECT U.userID, U.name, R.reviewContent, R.goodRating, R.badRating, " +
+					("SELECT R.reviewID, U.userID, U.name, R.reviewContent, R.goodRating, R.badRating, " +
 							"R.dateTime, R.eventRating " +
 					 "FROM users AS U, reviews AS R " +
 					 "WHERE R.eventID = "+ eventID +" " +
@@ -213,7 +204,7 @@ public class DatabaseManager
 	 *                        with the database (tables changed, etc.)
 	 */
 	
-	public ResultSet sortComments(SortPosts type, int eventID) throws SQLException
+	public ResultSet sortPosts(SortPosts type, int eventID) throws SQLException
 	{
 		ResultSet result = null;
 		PreparedStatement statement = null;
@@ -240,10 +231,10 @@ public class DatabaseManager
 				statement = connection.prepareStatement
 					("SELECT P.postID, P.userID, U.name, P.postContent, P.dateTime, " +
 							"P.goodRating, P.goodRating - P.ratingDifference AS 'badRating'," +
-							"P.numComments" +
+							"P.numComments " +
 					"FROM discussionpost AS P, users AS U " +
 					"WHERE P.eventID = " + eventID + " " +
-						  "AND P.userID = U.userID" +
+						  "AND P.userID = U.userID " +
 					"ORDER BY P.dateTime DESC");
 				result = statement.executeQuery();
 			}	
@@ -359,7 +350,7 @@ public class DatabaseManager
 		
 		return result;
 	}
-	
+    
 	/**
 	 * Lists all the cities where there are events and the information for latitude and longitude.
 	 * 
@@ -375,7 +366,9 @@ public class DatabaseManager
 		
 		return result;
 	}
-    
+
+	
+	
 	/**
 	 * Lists all the cities where there are events which titles contain a given keyword.
 	 * Lists also how many matching events happen in each of the listed cities.<br/>
@@ -871,7 +864,7 @@ public class DatabaseManager
 		statement.setString(3, email);
 		
 		statement.executeUpdate();
-	}
+	}	
 	
 	/**
 	 * Gets the user associated with an email address
@@ -1062,6 +1055,155 @@ public class DatabaseManager
 				"SET "+contentType+" = ?, lastMod = NOW() "+ 
 				"WHERE eventID = "+eventID + " ");
 		statement.setString(1, content);		
+		statement.executeUpdate();
+	}
+	
+	public float newReview(int eventID, int userID, String content, int rating) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("INSERT INTO reviews (eventID,userID,reviewContent,dateTime, eventRating) " +
+						
+							"VALUES ("+eventID+","+userID+", ?, NOW(),"+rating+")");
+		statement.setString(1, content);				
+		statement.executeUpdate();
+		
+		statement = connection.prepareStatement
+				("UPDATE events "+ 
+				"SET rating = (rating * numReviews + "+rating+") / (numReviews+1), numReviews = numReviews + 1 "+
+				"WHERE eventID = "+eventID+" ");				
+		statement.executeUpdate();
+		
+		statement = connection.prepareStatement
+				("SELECT E.rating " +
+				"FROM events AS E " +
+				"WHERE E.eventID = "+eventID+" ");		
+				
+		ResultSet result = statement.executeQuery();
+		result.next();		
+		float e_rating = Float.parseFloat(result.getString(1));
+		
+		statement = connection.prepareStatement
+				("UPDATE events " +
+				"SET lastMod = NOW() "+ 
+				"WHERE eventID = "+eventID + " "); 
+		statement.executeUpdate();
+		
+		return e_rating;
+		
+		
+	}
+	
+	public float deleteReview(int reviewID, int eventID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT R.eventRating " +
+				"FROM reviews AS R " +
+				"WHERE R.reviewID = "+reviewID+" ");		
+				
+		ResultSet result = statement.executeQuery();
+		result.next();		
+		int rating = Integer.parseInt(result.getString(1));
+		
+		statement = connection.prepareStatement
+				("DELETE FROM reviews " +
+				"WHERE reviewID = "+reviewID+" ");
+		statement.executeUpdate();
+		
+		statement = connection.prepareStatement
+				("UPDATE events "+ 
+				"SET rating = (rating * numReviews - "+rating+") / (numReviews-1), numReviews = numReviews - 1 "+
+				"WHERE eventID = "+eventID+" ");				
+		statement.executeUpdate();
+		
+		statement = connection.prepareStatement
+				("SELECT E.rating " +
+				"FROM events AS E " +
+				"WHERE E.eventID = "+eventID+" ");		
+				
+		result = statement.executeQuery();
+		result.next();	
+		float e_rating = 0;
+		if(result.getString(1)!=null)
+		{
+		   e_rating = Float.parseFloat(result.getString(1));
+		}
+		else
+		{
+			statement = connection.prepareStatement
+					("UPDATE events "+ 
+					"SET rating = 0 "+
+					"WHERE eventID = "+eventID+" ");				
+			statement.executeUpdate();
+		}
+		
+		statement = connection.prepareStatement
+				("UPDATE events " +
+				"SET lastMod = NOW() "+ 
+				"WHERE eventID = "+eventID + " "); 
+		statement.executeUpdate();
+		
+		return e_rating;
+	}	
+	
+	
+	
+	public void newPost(int eventID, int userID, String content) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("INSERT INTO discussionpost (eventID,userID,postContent,dateTime) " +
+						
+							"VALUES ("+eventID+","+userID+", ?, NOW())");
+		statement.setString(1, content);				
+		statement.executeUpdate();
+		
+		statement = connection.prepareStatement
+				("UPDATE events " +
+				"SET lastMod = NOW() "+ 
+				"WHERE eventID = "+eventID + " "); 
+		statement.executeUpdate();
+	}
+	
+	public void deletePost(int postID, int eventID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("DELETE FROM discussionpost " +
+				"WHERE postID = "+postID+" ");
+		statement.executeUpdate();
+		
+		statement = connection.prepareStatement
+				("UPDATE events " +
+				"SET lastMod = NOW() "+ 
+				"WHERE eventID = "+eventID + " "); 
+		statement.executeUpdate();
+	}
+	
+	public void createComment(int postID, int userID, String content) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("INSERT INTO comments (postID,userID,commentBody,dateTime) " +
+						
+							"VALUES ("+postID+","+userID+", ?, NOW())");
+		statement.setString(1, content);				
+		statement.executeUpdate();
+		
+		statement = connection.prepareStatement
+				("UPDATE discussionpost " +
+				"SET numComments = numComments+1 "+ 
+				"WHERE postID = "+postID + " ");
+		statement.executeUpdate();
+	}
+	
+	public void deleteComment(int commentID, int postID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("DELETE FROM comments " +
+				"WHERE commentID = "+commentID+" ");
+		statement.executeUpdate();
+		
+		statement = connection.prepareStatement
+				("UPDATE discussionpost " +
+				"SET numComments = numComments-1 "+ 
+				"WHERE postID = "+postID + " "); 
 		statement.executeUpdate();
 	}
 	
