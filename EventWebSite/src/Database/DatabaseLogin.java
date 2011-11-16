@@ -7,10 +7,10 @@ import java.sql.SQLException;
 public class DatabaseLogin 
 {
 
-	private static final String PASSWORD = "Friday13";
-	private static final String PORT = "3306";
-	private static final String DATABASE_NAME = "eventdatabase";
-	private static final String LOGIN_NAME = "root";
+	private static final String PASSWORD = "";
+	private static final String PORT = "";
+	private static final String DATABASE_NAME = "";
+	private static final String LOGIN_NAME = "";
 	
 	
 	
