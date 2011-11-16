@@ -2,13 +2,13 @@ package Models;
 
 import java.sql.ResultSet;
 
+
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.naming.Context;
@@ -21,11 +21,31 @@ import Database.DatabaseManager.UserType;
 
 public class Registration 
 {
-
+	
+	private static final int fail = -1;
+	
+	/**
+	 * Registers the user, calls the databaseManager to place user in DB and instantiates the 
+	 * process of e-mailing the user the activation link.
+	 * 
+	 * @param name - name of the user
+	 * @param password - password to be used for user
+	 * @param type - the type of the user
+	 * @param city - city of users address
+	 * @param state - state or province of users address
+	 * @param country - country of users address
+	 * @param email - email of user
+	 * @param age - age of user
+	 * @return true if registration successful, false otherwise
+	 */
+	@SuppressWarnings("finally")
 	public static Boolean registerUser(String name, String password, UserType type, String city, String state, String country, String email, int age)
 	{
+		Boolean registered = false;
+		DatabaseManager dbMan = null;
+		int userID = fail;
 		try {
-			DatabaseManager dbMan = DatabaseManager.getInstance();
+			dbMan = DatabaseManager.getInstance();
 			ResultSet result = dbMan.getLocationID(city, state, country);
 			int locID = 0;
 			while(result.next())
@@ -34,27 +54,51 @@ public class Registration
 			}			
 			dbMan.newUser(name, password, type, locID, email, age);
 			ResultSet user = dbMan.getUser(email);
-			int userID = -1;
 			if(user.next())
 			{
 				userID = user.getInt("userID");
 			}
+			if(userID != fail)
+			{
+				emailUser(name,password,email,userID);
+			}
+			registered = true;
 			
-			emailUser(name,password,email,userID);
 			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) 
+		{
+			if(dbMan == null)
+			{
+				dbMan = DatabaseManager.getInstance();
+			}
+			if(userID != fail)
+			{
+				dbMan.deleteUser(userID);
+			}
 			e.printStackTrace();
-			return false;
+			registered = false;
 		}
-		return true;
+		finally
+		{
+			return registered;
+		}
+
 		
 	}
 	
-	public static void emailUser(String name, String password, String email, int userID)
+	
+	/**
+	 * E-mails the user the link to follow for activation of their account
+	 * 
+	 * @param name - the users name
+	 * @param password - the users password
+	 * @param email - the email that the activation link will be mailed to.
+	 * @param userID - the new userId of the user
+	 * @throws NamingException 
+	 * @throws MessagingException 
+	 */
+	public static void emailUser(String name, String password, String email, int userID) throws NamingException, MessagingException
 	{
-		try
-		{
 			String link = "http://localhost:8080/EventWebSite/activate?Id="+userID;
 		 	Context initCtx = new InitialContext();
 	        Context envCtx = (Context) initCtx.lookup("java:comp/env");
@@ -67,19 +111,6 @@ public class Registration
 	        message.setText("Welcome to Global Events, \n\n\tTo complete your registration follow this link: "+
 	        				link +" \n\nThank you,\n\nThe Global Events Team");
 	        Transport.send(message);
-	        System.out.println("Done");
-		}
-		catch(AddressException e)
-		{
-			e.printStackTrace();
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 }
 

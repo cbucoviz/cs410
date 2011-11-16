@@ -170,7 +170,7 @@ table.city_event_table
 	font: bold 12px Verdana;
 	line-height: 20px;
 	height: 100%;
-	filter: alpha (opacity=50);
+	
 	z-index: 10;
 }
 

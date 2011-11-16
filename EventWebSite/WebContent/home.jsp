@@ -9,7 +9,7 @@
 	
 	<script type="text/javascript" src="https://www.google.com/jsapi?key=ABQIAAAA15VoHdx-aRwSchSg3DCmmBTOoy231r4QEbSXFm-h85D_yMO-KRSCWK3Vov4vXJK9McDY97wQwWepmg"> </script>  
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-	<script type='text/javascript' src='http://code.jquery.com/jquery-1.6.4.js'></script>
+	
 	<script type="text/javascript">       
 		var ge;
 		google.load("earth", "1");        
@@ -49,8 +49,8 @@
 		//Adds a location to GE and creates the associate balloon and event
 		function addPlace(name,lat,lng)
 		{
-			var placemark = ge.createPlacemark(name); 
-			placemark.setName("Events in " + name);  
+			var placemark = ge.createPlacemark(''); 
+			placemark.setName(name);  
 			// Define a custom icon. 
 			var icon = ge.createIcon(''); 
 			icon.setHref('http://maps.google.com/mapfiles/kml/paddle/red-circle.png'); 
@@ -75,8 +75,11 @@
 				var balloon = ge.createHtmlStringBalloon('');  
 				balloon.setFeature(event.getTarget());  
 				balloon.setMaxWidth(300); 
+				balloon.setBackgroundColor('#696969');
+		        balloon.setForegroundColor('#0000ff'); 
 				var temp = event.getTarget(); 
-				var test = '<a href="http://localhost:8080/EventWebSite/citypage.jsp">'+ temp.getName() + '</a>';
+				var cName = temp.getName();
+				var test = '<font color="#009900"><a href="http://localhost:8080/EventWebSite/citypage?city='+cName+'">Events in '+ cName + '</a></font>';
 				balloon.setContentString(test);
 				ge.setBalloon(balloon);});
 			
@@ -86,6 +89,8 @@
 		}
 		
 		
+
+
 		
 		function failureCB(errorCode) 
 		{       

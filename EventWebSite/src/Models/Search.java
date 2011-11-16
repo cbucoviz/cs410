@@ -13,6 +13,15 @@ import com.google.gson.JsonObject;
 
 public class Search {
 	
+	private static final String LOCATION = "city";
+	private static final String LATITUDE = "Latitude";
+	private static final String LONGITUDE = "Longitude";
+	
+	/**
+	 * Used to get the name, latitude and longitude of an event city to be displayed
+	 * on Google Earth.
+	 * @return returns a Json Array with the Event Location information
+	 */
 	public JsonArray getGoogleEarthLoc()
 	{
 		JsonArray returnValue = new JsonArray();
@@ -22,7 +31,7 @@ public class Search {
 			ResultSet locations = dbMan.findGoogleEarthLocations();
 			while (locations.next()) 
 			{
-		        returnValue.add(createLocJson(locations.getString("city"),locations.getDouble("Latitude"),locations.getDouble("Longitude")));
+		        returnValue.add(createLocJson(locations.getString(LOCATION),locations.getDouble(LATITUDE),locations.getDouble(LONGITUDE)));
 		    }
 		}
 		catch(SQLException sExp)
@@ -31,17 +40,20 @@ public class Search {
 		} 
 		catch (ClassNotFoundException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		//returnValue.add(createLocJson("New York",40.69847032728747,-73.9514422416687));
-		//returnValue.add(createLocJson("Wherever",43.69847032728747,-73.9514422416687));
 		
 		return returnValue;
 	}
 	
+	/**
+	 * creates a JsonObject that has the event city details as properties.
+	 * 
+	 * @param cityName - name of the event city
+	 * @param latitude - latitude of the city
+	 * @param longitude - longitude of the city
+	 * @return JsonObject with the name, latitude and longitude
+	 */
 	private JsonObject createLocJson(String cityName, double latitude, double longitude)
 	{
 		JsonObject json = new JsonObject();
