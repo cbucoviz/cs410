@@ -327,9 +327,9 @@ public class DatabaseManager
 
 	/**
 	 * This function serves as a way to get statistics on city data for a particular event.
-	 * The data forms a table with three columns: the first one contains rows with names 
-	 * of the cities from where attendees of the event came from; the second one
-	 * lists countries where a particular city is located in and the third column lists 
+	 * The data forms a table with four columns: the first one contains rows with names 
+	 * of the cities from where attendees of the event came from; the second and the third ones
+	 * list states and countries (where a particular city is located in) respectively and the fourth column lists 
 	 * how many people from each of these listed cities actually attended the event (or at least 
 	 * indicated they will attend it)
 	 * @param eventID - an id of the event
@@ -1206,6 +1206,105 @@ public class DatabaseManager
 				"WHERE postID = "+postID + " "); 
 		statement.executeUpdate();
 	}
+	
+	public void rateUpReview(int reviewID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("UPDATE reviews " +
+				"SET goodRating = goodRating + 1 "+ 
+				"WHERE reviewID = "+reviewID + " "); 
+		statement.executeUpdate();
+	}
+	
+	public void rateDownReview(int reviewID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("UPDATE reviews " +
+				"SET badRating = badRating + 1 "+ 
+				"WHERE reviewID = "+reviewID + " "); 
+		statement.executeUpdate();
+	}
+	
+	public ResultSet getReviewRating(int reviewID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT R.goodRating, R.badRating " +
+				"FROM reviews AS R " +
+				"WHERE R.reviewID  = " + reviewID + " ");
+		ResultSet result = statement.executeQuery();
+			
+		return result;
+	}
+	
+	
+	public void rateUpPost(int postID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("UPDATE discussionpost " +
+				"SET goodRating = goodRating + 1, ratingDifference = ratingDifference + 1 "+ 
+				"WHERE postID = "+postID + " "); 
+		statement.executeUpdate();
+	}
+	
+	public void rateDownPost(int postID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("UPDATE discussionpost " +
+				"SET ratingDifference = ratingDifference - 1 "+ 
+				"WHERE postID = "+postID + " "); 
+		statement.executeUpdate();
+	}
+	
+	public ResultSet getPostRating(int postID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT P.goodRating, P.goodRating - P.ratingDifference AS 'badRating' " +
+				"FROM discussionpost AS P " +
+				"WHERE P.postID  = " + postID + " ");
+		ResultSet result = statement.executeQuery();
+			
+		return result;
+	}
+	
+	public void lockEvent(int eventID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("UPDATE events " +
+				"SET isLocked = 1 "+ 
+				"WHERE eventID = "+eventID + " "); 
+		statement.executeUpdate();
+	}
+	
+	public void unlockEvent(int eventID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("UPDATE events " +
+				"SET isLocked = 0 "+ 
+				"WHERE eventID = "+eventID + " "); 
+		statement.executeUpdate();
+	}
+	
+	public void editPost(int postID, String content) throws SQLException
+	{				
+		PreparedStatement statement = connection.prepareStatement
+				("UPDATE discussionPost " +
+				"SET postContent = ? "+ 
+				"WHERE postID = "+postID + " ");
+		statement.setString(1, content);		
+		statement.executeUpdate();
+	}
+	
+	public void editReview(int reviewID, String content) throws SQLException
+	{				
+		PreparedStatement statement = connection.prepareStatement
+				("UPDATE reviews " +
+				"SET reviewContent = ? "+ 
+				"WHERE reviewID = "+reviewID + " ");
+		statement.setString(1, content);		
+		statement.executeUpdate();
+	}
+	
+	
 	
 	public void testQuery() throws SQLException
 	{

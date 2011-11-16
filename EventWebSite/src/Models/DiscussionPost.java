@@ -1,5 +1,6 @@
 package Models;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -112,29 +113,59 @@ public class DiscussionPost
 		return Comment.deleteComment(commentID, postID);
 	}
 	
-	public int rateUp(int id) {
-		// TODO Auto-generated method stub
-		return 0;
+	public static Map<PostInfo, Integer> rateUp(int postID) 
+	{
+		try {			
+			DatabaseManager dbMan = DatabaseManager.getInstance();					
+			dbMan.rateUpPost(postID);			
+			return getRating(postID);			
+		} catch (Exception e) {			
+			e.printStackTrace();			
+		}
+		return null;			
 	}
 
-
 	
-	public int rateDown(int id) {
-		// TODO Auto-generated method stub
-		return 0;
+	public static Map<PostInfo, Integer> rateDown(int postID) {
+		try {			
+			DatabaseManager dbMan = DatabaseManager.getInstance();			
+			dbMan.rateDownPost(postID);					
+			return getRating(postID);
+		} catch (Exception e) {			
+			e.printStackTrace();			
+		}
+		return null;		
 	}
 
-
 	
-	public int getRating(int id) {
-		// TODO Auto-generated method stub
-		return 0;
+	public static Map<PostInfo, Integer> getRating(int postID)
+	{
+		try {
+			Map<PostInfo, Integer> rating = Collections.synchronizedMap(new HashMap<PostInfo,Integer>());
+			DatabaseManager dbMan = DatabaseManager.getInstance();		
+			
+			ResultSet ratingInfo = dbMan.getPostRating(postID);
+			
+			while(ratingInfo.next())
+			{				
+				rating.put(PostInfo.GOOD_RATING, Integer.parseInt(ratingInfo.getString("P.goodRating")));
+				rating.put(PostInfo.BAD_RATING, Integer.parseInt(ratingInfo.getString("badRating")));						
+			}			
+			return rating;
+		} catch (Exception e) {			
+			e.printStackTrace();			
+		}
+		return null;		
 	}
 
-
-	
-	public boolean edit(int id, String content) {
-		// TODO Auto-generated method stub
+	public static boolean edit(int postID, String content) {
+		try {			
+			DatabaseManager dbMan = DatabaseManager.getInstance();			
+			dbMan.editPost(postID, content);					
+			return true;
+		} catch (Exception e) {			
+			e.printStackTrace();			
+		}
 		return false;
 	}
 }

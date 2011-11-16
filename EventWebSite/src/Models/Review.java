@@ -20,6 +20,7 @@ public class Review
 	    UPLOAD_TIME; 
 	}
 	
+	
 	public enum ReviewInfo
 	{
 		REVIEW_ID,
@@ -84,26 +85,59 @@ public class Review
 
 
 	
-	public int rateUp(int id) {
-		// TODO Auto-generated method stub
-		return 0;
+	public static Map<ReviewInfo, Integer> rateUp(int reviewID) 
+	{
+		try {			
+			DatabaseManager dbMan = DatabaseManager.getInstance();					
+			dbMan.rateUpReview(reviewID);			
+			return getRating(reviewID);			
+		} catch (Exception e) {			
+			e.printStackTrace();			
+		}
+		return null;			
 	}
 
 	
-	public int rateDown(int id) {
-		// TODO Auto-generated method stub
-		return 0;
+	public static Map<ReviewInfo, Integer> rateDown(int reviewID) {
+		try {			
+			DatabaseManager dbMan = DatabaseManager.getInstance();			
+			dbMan.rateDownReview(reviewID);					
+			return getRating(reviewID);
+		} catch (Exception e) {			
+			e.printStackTrace();			
+		}
+		return null;		
 	}
 
 	
-	public int getRating(int id) {
-		// TODO Auto-generated method stub
-		return 0;
+	public static Map<ReviewInfo, Integer> getRating(int reviewID)
+	{
+		try {
+			Map<ReviewInfo, Integer> rating = Collections.synchronizedMap(new HashMap<ReviewInfo,Integer>());
+			DatabaseManager dbMan = DatabaseManager.getInstance();		
+			
+			ResultSet ratingInfo = dbMan.getReviewRating(reviewID);
+			
+			while(ratingInfo.next())
+			{				
+				rating.put(ReviewInfo.GOOD_RATING, Integer.parseInt(ratingInfo.getString("R.goodRating")));
+				rating.put(ReviewInfo.BAD_RATING, Integer.parseInt(ratingInfo.getString("R.badRating")));						
+			}			
+			return rating;
+		} catch (Exception e) {			
+			e.printStackTrace();			
+		}
+		return null;		
 	}
-
 	
-	public boolean edit(int id, String content) {
-		// TODO Auto-generated method stub
+	public static boolean edit(int reviewID, String content) {
+		try {			
+			DatabaseManager dbMan = DatabaseManager.getInstance();			
+			dbMan.editReview(reviewID, content);					
+			return true;
+		} catch (Exception e) {			
+			e.printStackTrace();			
+		}
 		return false;
 	}
 }

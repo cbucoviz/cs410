@@ -19,6 +19,8 @@ import Models.Review.SortReviews;
 
 public class Event 
 {
+	
+	
 	public enum EventInfo
 	{
 		EVENT_ID,
@@ -53,6 +55,16 @@ public class Event
 	    AGE_STAT,
 	    CITY_STAT; 
 	}
+	
+	public static final String 
+		ONE_TO_NINE = "1 to 9",
+		TEN_TO_NINETEEN = "10 to 19",
+		TWENTY_TO_TWENTYNINE = "20 to 29",
+		THIRTY_TO_THIRTYNINE = "30 to 39",
+		FORTY_TO_FORTYNINE = "40 to 49",
+		FIFTY_TO_FIFTYNINE = "50 to 59",
+		SIXTY_PLUS = "60+";	
+	
 	
 	private static boolean exists(int evID) 
 	{
@@ -201,10 +213,49 @@ public class Event
 	}
 	
 		
-	public static HashMap<String,Integer> showStatistics(int eventID, StatType type)
+	public static List<String[]> showStatistics(int eventID, StatType type)
 	{		
-		HashMap<String, Integer> m = (HashMap<String, Integer>) Collections.synchronizedMap(new HashMap<String,Integer>());
+		List<String[]> statistics = Collections.synchronizedList(new ArrayList<String[]>());
+		DatabaseManager dbMan;
+		try {
+			dbMan = DatabaseManager.getInstance();			
 		
+			switch(type)
+			{
+				case AGE_STAT:
+				{
+					ResultSet resultInfo = dbMan.showAgeStatistics(eventID);				
+					while(resultInfo.next())
+					{	
+						String[] stats = new String[2];
+						stats[0] = resultInfo.getString("ages");
+						stats[1] = resultInfo.getString("attendees");
+						statistics.add(stats);
+					}	
+					break;
+				}
+				case CITY_STAT:
+				{
+					ResultSet resultInfo = dbMan.showCityStatistics(eventID);				
+					while(resultInfo.next())
+					{	
+						String[] stats = new String[2];
+						stats[0] = resultInfo.getString("L.city") + "," +
+								   resultInfo.getString("L.state")+ "," + 
+								   resultInfo.getString("L.country");
+						stats[1] = resultInfo.getString("attendees");
+						statistics.add(stats);
+					}				
+					break;
+				}
+			}	
+			
+			return statistics;
+				
+		}catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;		
 	}
 	
@@ -331,16 +382,28 @@ public class Event
 		
 	}
 	
-	public boolean lockEvent(int eventID)
+	public static boolean lockEvent(int eventID)
 	{
-		return false;
-		
+		try {
+			DatabaseManager dbMan = DatabaseManager.getInstance();
+			dbMan.lockEvent(eventID);	
+			return true;
+		} catch (Exception e) {			
+			e.printStackTrace();			
+		}
+		return false;		
 	}
 	
-	public boolean unlockEvent(int eventID)
+	public static boolean unlockEvent(int eventID)
 	{
-		return false;
-		
+		try {
+			DatabaseManager dbMan = DatabaseManager.getInstance();
+			dbMan.unlockEvent(eventID);	
+			return true;
+		} catch (Exception e) {			
+			e.printStackTrace();			
+		}
+		return false;		
 	}
 	
 	
