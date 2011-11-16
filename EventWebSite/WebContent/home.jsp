@@ -77,8 +77,8 @@
 				balloon.setMaxWidth(300); 
 				balloon.setBackgroundColor('#696969');
 		        balloon.setForegroundColor('#0000ff'); 
-				var temp = event.getTarget(); 
-				var cName = temp.getName();
+				var evTarg = event.getTarget(); 
+				var cName = evTarg.getName();
 				var test = '<font color="#009900"><a href="http://localhost:8080/EventWebSite/citypage?city='+cName+'">Events in '+ cName + '</a></font>';
 				balloon.setContentString(test);
 				ge.setBalloon(balloon);});
