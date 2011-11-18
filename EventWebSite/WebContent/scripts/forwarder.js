@@ -17,8 +17,18 @@ $(document).ready(function()
 		// get the original target and redirect them via the main content window
 		var mainContent = $("#mainContent");
 		var form = $(this);
-		console.log(form.attr("action"));
-		$.post(form.attr("action"), form.serialize(), function(data){mainContent.html(data);});
+		
+		if(form.attr("action") == "Login")
+		{
+			// login form is special, we don't want to reload content on login
+			$.post(form.attr("action"), form.serialize());
+		}
+		else
+		{
+			$.post(form.attr("action"), form.serialize(), function(data){mainContent.html(data);});	
+		}
+		
+		
 		event.preventDefault();
 	});				
 });

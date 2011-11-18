@@ -7,6 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 
+<%@ page import="Servlets.SessionVariables" %>
 <link rel="stylesheet" href="config/default.css" type="text/css"></link>
 
 
@@ -52,9 +53,9 @@ sitems[0]=["<h1><b>Welcome</b></h1>", ""]
 sitems[1]=["", ""]
 sitems[2]=["", ""]
 sitems[3]=["<h2><b>Login:</b></h2>", ""]
-sitems[4]=["<form action='Login' method='POST'><p class='indent' style='margin-top:-20px'>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Email: <input type='text' name='login_email' size='20'></p>", ""]
+sitems[4]=["<form action='Login' method='POST'><p class='indent' style='margin-top:-20px'>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Email: <input type='text' name='<%=SessionVariables.EMAIL%>' size='20'></p>", ""]
 sitems[5]=["<h5><p id='save_login_indent'><input type='checkbox' name='save_login_checkbox'>Remember Me?</p></h5>", ""]
-sitems[6]=["<p class='indent'>Password: <input type='password' name='login_password' size='20'></p>", ""]
+sitems[6]=["<p class='indent'>Password: <input type='password' name='<%=SessionVariables.PASSWORD%>' size='20'></p>", ""]
 sitems[7]=["<p id='login_button_indent'><input type='submit' value='Login'/></p></form>", ""]
 sitems[8]=["<p class='indent'><u><i>Not a member yet? Sign up NOW!</i></u></p>", "register.jsp"]
 sitems[9]=["", ""]
