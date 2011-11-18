@@ -10,6 +10,8 @@
 <link href="config/default.css" rel="stylesheet" type="text/css"/>
 <script src="plugins/jquery.js" type="text/javascript"></script>
 <script src="scripts/forwarder.js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"></script>
+<script src="scripts/animatedcollapse.js" type="text/javascript"></script>
 <!-- END OF INCLUDES -->
 
 
@@ -98,6 +100,8 @@ else if (document.getElementById)
 {
 	window.onload=do_onload
 }
+
+
 </script>
 
 </head>
@@ -107,13 +111,10 @@ else if (document.getElementById)
 			<table class="event_name_header">
 				<tr>
 					<td colspan="2">
-						<h2>SPORTS EVENT: Vancouver Canucks vs. Philadelphia Flyers</h2>
+						<h2 class="sports"><font>SPORTS EVENT: Vancouver Canucks vs. Philadelphia Flyers</font></h2>
 					</td>
-					<td style="padding-left:20px" rowspan="2">
-						<button type="button" name="subs_event_button" value="subscribe_event">Subscribe to This Event</button>
-						<br>
-						<br>
-						<button type="button" name="report_event_button" value="report_event">Report This Event</button>
+					<td style="padding-left:20px; text-align: center;" rowspan="2">
+						<button type="button" name="subs_event_button" value="subscribe_event">Subscribe to This Event</button>						
 					</td>
 				</tr>
 				<tr>
@@ -132,15 +133,106 @@ else if (document.getElementById)
 				<tr>
 					<td style="width: 760px">
 						<!-- Rating, Time, Address of Event -->
-						Rating<br>
-						Venue<br>
-						Date & Time<br>
-						Address
+						<button type="button" name="report_event_button" value="report_event" style="float: right">Report This Event</button>
+						
+						<!-- Only display "Attend Button" before event occur -->
+						<b>10,000 people are attending this event!</b>
+						<button type="button" name="attend_button" value="attend_event">Attend This Event</button>
+						<br>
+						
+						<table>
+						
+							<!-- Only display "Rating" if event had occurred -->
+							<tr>
+								<td style="text-align: right">
+									<b>Rating: </b>
+								</td>
+								<td>
+									<!-- ***Insert rating image here!!! --> <i>[4 out of 5 (based on 25 reviews)]</i>
+								</td>
+							</tr>
+							
+							<!-- ***Venue might not be available... -->
+							<tr>
+								<td style="text-align: right">
+									<b>Venue: </b>
+								</td>
+								<td>
+									<i>Rogers Arena</i>
+								</td>
+							</tr>
+							
+							<tr>
+								<td style="text-align: right">
+									<b>Address:</b>
+								</td>
+								<td>
+									<i>800 Griffiths Way</i>
+								</td>
+							</tr>
+							
+							<tr>
+								<td style="text-align: right">
+									<b>Date: </b>
+								</td>
+								<td>
+									<i>November 17, 2011</i>
+								</td>
+							</tr>
+							
+							<tr>
+								<td style="text-align: right">
+									<b>Time: </b>
+								</td>
+								<td>
+									<i>7:00 PM PST</i>
+								</td>
+							</tr>
+						
+						</table>
+						
 					</td>
 					<td rowspan="2" style="width: 300px; vertical-align: top">
 						<!-- Top X Events Recommendation -->
-						<div class="top_event_recommendations">
-							Top 5 Recommendations
+						<div class="top_event_recommendations" >
+							<h4 style="text-align: center">Top 5 Local Suggestions:</h4>
+							
+							<!--  One event_recommendation div per recommendation -->
+							<div class="event_recommendation">
+								<font color="blue"><b>Sport Event</b></font>
+								<br/>
+								
+								<a href="">Canucks vs. Red Wings</a>
+								<br/>
+								
+								<b>Venue: </b>Rogers Arena
+								<br/>
+								
+								<b>Date: </b> November 18, 2011
+								<br/>
+								
+								<a href="" style="float: right">More...</a>
+								<br/>
+							</div>
+							
+							<br/>
+							
+							<div class="event_recommendation">
+								<font color="yellow"><b>Cultural Event</b></font>
+								<br/>
+								
+								<a href="">Renaissance Fair</a>
+								<br/>
+								
+								<b>Venue: </b>Thunderbird Show Park
+								<br/>
+								
+								<b>Date: </b> December 1, 2011
+								<br/>
+								
+								<a href="" style="float: right">More...</a>
+								<br/>
+							</div>
 						</div>
 					</td>
 				</tr>
@@ -233,11 +325,257 @@ else if (document.getElementById)
 							</div>
 							
 							<div id="event_discs_tab" class="event_tab_page">
-								Discussions goes here!!!
+							
+							
+							
+								<!-- "One" event_discs_post div for each discussion post.-->
+								
+								<div class="event_discs_post">
+									<hr style="width: 100%; background-color: purple; size: 10px;"/>
+									<div class="discs_post_header">
+										<table>
+											<tr>
+												<td>
+													Ka Ho Cheng
+												</td>
+												<td>
+													<button type="button" name="subs_user_button" value="subscribe_user">Subscribe</button>
+												</td>
+												<td>
+													November 17th, 2011 at 7:30pm
+												</td>
+												<td>
+													&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp 
+												</td>
+												<td>
+													Like: 20
+												</td>
+												<td>
+													<button type="button" name="like_post_button" value="like_post">Like</button>
+												</td>
+												<td>
+													Dislike: 20
+												</td>
+												<td>
+													<button type="button" name="dislike_post_button" value="dislike_post">Dislike</button>
+												</td>
+												<td>
+													&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp
+												</td>
+												<td>
+													<button type="button" name="report_post_button" value="report_post" >Report</button>
+												</td>
+											</tr>
+										</table>
+										<hr style="width: 100%; background-color: purple; size: 1px;"/>
+										<p class="discs_post">
+											Post some comments or discussion related to the event here. The post will be flagged if its content is considered inappropriate.
+										</p>
+										
+										<button type="button" name="comment_post_button" value="comment_post" style="float: right">Comment Post</button>
+										<br/>
+										
+										<!-- Possible Implementation in future if have time??? Expandable div for comments of a post; Use this only if post have comments -->
+										<p class="post_comment">
+											<b>Ka Ho 2.0:</b> 
+										</p>
+										<p class="comment_content">blah blah blah blah blah....</p>
+										<p class="post_comment">
+											<b>Ka Ho 3.0:</b> 
+										</p>
+										<p class="comment_content">hello world....</p>
+									</div>
+									<br/>
+									<br/>
+								</div>
+							
+							
+								<div class="event_discs_post">
+										<hr style="width: 100%; background-color: purple; size: 10px;"/>
+										<div class="discs_post_header">
+											<table>
+												<tr>
+													<td>
+														Ka Ho Cheng
+													</td>
+													<td>
+														<button type="button" name="subs_user_button" value="subscribe_user">Subscribe</button>
+													</td>
+													<td>
+														November 17th, 2011 at 7:30pm
+													</td>
+													<td>
+														&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp
+													</td>
+													<td>
+														Like: 20
+													</td>
+													<td>
+														<button type="button" name="like_post_button" value="like_post">Like</button>
+													</td>
+													<td>
+														Dislike: 20
+													</td>
+													<td>
+														<button type="button" name="dislike_post_button" value="dislike_post">Dislike</button>
+													</td>
+													<td>
+														&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp
+													</td>
+													<td>
+														<button type="button" name="report_post_button" value="report_post">Report</button>
+													</td>
+												</tr>
+											</table>
+											<hr style="width: 100%; background-color: purple; size: 1px;"/>
+											<p class="discs_post">
+												Post some comments or discussion related to the event here. The post will be flagged if its content is considered inappropriate.
+											</p>
+											
+											<button type="button" name="comment_post_button" value="comment_post" style="float: right">Comment Post</button>
+											<br/>
+											
+											<!-- Possible Implementation in future if have time??? Expandable div for comments of a post; Use this only if post have comments -->
+											<p class="post_comment">
+												<b>Ka Ho 2.0:</b> 
+											</p>
+											<p class="comment_content">blah blah blah blah blah....</p>
+											<p class="post_comment">
+												<b>Ka Ho 3.0:</b> 
+											</p>
+											<p class="comment_content">hello world....</p>
+										</div>
+									</div>
+									<br/>
+									<br/>
+									
+									<hr style="width: 100%; background-color: black; size: 20px;"/>
+									
+									<!-- Area for writing and posting discussion posts. -->
+									<div id="post_discs_box">
+										<form action="Post_Discussion" method="POST">
+											<h3>Post Discussion:</h3>
+											<textarea rows="5" cols="80" wrap="soft" style="border: 1px inset black;"></textarea>
+											<br/>
+											<br/>
+											<input type="submit" value="Post" style="margin-left: 300px"/>
+										</form>
+									</div>
 							</div>
 							
+							
 							<div id="event_reviews_tab" class="event_tab_page">
-								Reviews goes here!!!
+								
+								<!-- One event_review_post div per 1 review -->
+								<div class="event_review_post">
+									<hr style="width: 100%; background-color: purple; size: 10px;"/>
+									<div class="review_post_header">
+										<table>
+											<tr>
+												<td>
+													<b>Posted By:</b>
+												</td>
+												<td>
+													Ka Ho Cheng
+												</td>
+												<td>
+													<button type="button" name="subs_user_button" value="subscribe_user">Subscribe</button>
+												</td>
+												<td>
+													November 17th, 2011 at 7:30pm
+												</td>
+												<td>
+													&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp
+												</td>
+												<td>
+													<button type="button" name="like_rev_button" value="like_like">Useful</button>
+												</td>
+												<td rowspan="2">
+													<!-- ***Rating bar goes here!!! -->
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" style="text-align: center">
+													(50 out of 55 users found this review useful)
+												</td>
+												<td>
+													&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp
+												</td>
+												<td>
+													<button type="button" name="dislike_rev_button" value="dislike_like">Not Useful</button>
+												</td>
+											</tr>
+										</table>
+										<hr style="width: 100%; background-color: purple; size: 1px;"/>
+										<p class="review_post">
+											Post review here. The post will be flagged if its content is considered inappropriate, and might be removed by the moderator.
+										</p>
+										<br/>
+										<br/>
+									</div>
+								</div>
+								
+								<div class="event_review_post">
+									<hr style="width: 100%; background-color: purple; size: 10px;"/>
+									<div class="review_post_header">
+										<table>
+											<tr>
+												<td>
+													<b>Posted By:</b>
+												</td>
+												<td>
+													Ka Ho Cheng
+												</td>
+												<td>
+													<button type="button" name="subs_user_button" value="subscribe_user">Subscribe</button>
+												</td>
+												<td>
+													November 17th, 2011 at 7:30pm
+												</td>
+												<td>
+													&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp
+												</td>
+												<td>
+													<button type="button" name="like_rev_button" value="like_like">Useful</button>
+												</td>
+												<td rowspan="2">
+													<!-- ***Rating bar goes here!!! -->
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" style="text-align: center">
+													(50 out of 55 users found this review useful)
+												</td>
+												<td>
+													&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp
+												</td>
+												<td>
+													<button type="button" name="dislike_rev_button" value="dislike_like">Not Useful</button>
+												</td>
+											</tr>
+										</table>
+										<hr style="width: 100%; background-color: purple; size: 1px;"/>
+										<p class="review_post">
+											Post review here. The post will be flagged if its content is considered inappropriate, and might be removed by the moderator.
+										</p>
+										<br/>
+										<br/>
+									</div>
+								</div>
+								
+								<hr style="width: 100%; background-color: black; size: 20px;"/>
+									
+								<!-- Area for writing and posting reviews. -->
+								<div id="post_review_box">
+									<form action="Post_Review" method="POST">
+										<h3>Write Reviews:</h3>
+										<textarea rows="5" cols="80" wrap="soft" style="border: 1px inset black;"></textarea>
+										<br/>
+										<br/>
+										<input type="submit" value="Post" style="margin-left: 300px"/>
+									</form>
+								</div>
+								
 							</div>
 							
 							<div id="event_map_tab" class="event_tab_page">
