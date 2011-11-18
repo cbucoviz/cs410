@@ -150,16 +150,90 @@ else if (document.getElementById)
 						<div id="ddimagetabs" class="halfmoon" style="width: 700px">
 							<ul>
 								<li class="selected"><a onmousedown="expandcontent('event_info_tab', this)">Event Information</a></li>
+								<li><a onmousedown="expandcontent('event_discs_tab', this)">Discussions</a></li> <!-- user 'style="display:none"' to hide tab -->
 								<li><a onmousedown="expandcontent('event_reviews_tab', this)">Reviews</a></li>
 								<li><a onmousedown="expandcontent('event_map_tab', this)">Map</a></li>
 								<li><a onmousedown="expandcontent('event_stat_tab', this)">Statistics</a></li>
 							</ul>
 						</div>
 						
+						<!--  Individual tab pages -->
 						<div id="event_tab_container">
 						
 							<div id="event_info_tab" class="event_tab_page">
-								Info goes here!!!
+								<div id="event_desc_div" class="event_info_categories">
+									<div class="event_info_header">
+										<h4 style="margin-top: 5px;">Event Description:</h4>
+									</div>
+									<div class="event_info_content">
+										<p>Event Description goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+									</div>
+								</div>
+								<br>
+								<br>
+								<div id="event_venue_div" class="event_info_categories">
+									<div class="event_info_header">
+										<h4 style="margin-top: 5px;">Venue Description:</h4>
+									</div>
+									<div class="event_info_content">
+										<p>Venue Description goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+									</div>
+								</div>
+								<br>
+								<br>
+								<div id="event_cost_div" class="event_info_categories">
+									<div class="event_info_header">
+										<h4 style="margin-top: 5px;">Cost (& Methods of Payment, if applicable):</h4>
+									</div>
+									<div class="event_info_content">
+										<p>Cost and Methods of Payment for event goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+									</div>
+								</div>
+								<br>
+								<br>
+								<div id="event_transport_div" class="event_info_categories">
+									<div class="event_info_header">
+										<h4 style="margin-top: 5px;">Transportation & Driving Directions:</h4>
+									</div>
+									<div class="event_info_content">
+										<p>Transportation & Driving Directions to event goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+									</div>
+								</div>
+								<br>
+								<br>
+								<div id="event_others_div" class="event_info_categories">
+									<div class="event_info_header">
+										<h4 style="margin-top: 5px;">Other Useful Information:</h4>
+									</div>
+									<div class="event_info_content">
+										<p>Other Useful Information related to the event goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+									</div>
+								</div>
+								<br>
+								<br>
+								<div id="event_vid_link_div" class="event_info_categories">
+									<div class="event_info_header">
+										<h4 style="margin-top: 5px;">Related Videos:</h4>
+									</div>
+									<div class="event_info_content">
+										<p>Links for videos related to the event goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+									</div>
+								</div>
+								<br>
+								<br>
+								<div id="event_links_div" class="event_info_categories">
+									<div class="event_info_header">
+										<h4 style="margin-top: 5px;">Related Links:</h4>
+									</div>
+									<div class="event_info_content">
+										<p>Other links related to the event goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+									</div>
+								</div>
+								
+							</div>
+							
+							<div id="event_discs_tab" class="event_tab_page">
+								Discussions goes here!!!
 							</div>
 							
 							<div id="event_reviews_tab" class="event_tab_page">
