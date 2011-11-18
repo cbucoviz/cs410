@@ -63,9 +63,11 @@ sitems[11]=["***Mock City Page***", "citypage.jsp"]					//Debug use only...
 sitems[12]=["", ""]
 sitems[13]=["***Mock Event Page***", "eventpage.jsp"]					//Debug use only...
 sitems[14]=["", ""]
-sitems[15]=["Return to Home", "home.jsp"]
+sitems[15]=["***Mock Calendar Page***", "calendar.jsp"]					//Debug use only...
 sitems[16]=["", ""]
-sitems[17]=["About", ""]
+sitems[17]=["Return to Home", "home.jsp"]
+sitems[18]=["", ""]
+sitems[19]=["About", ""]
 
 
 

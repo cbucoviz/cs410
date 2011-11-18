@@ -6,6 +6,7 @@
 <head>
 
 <!-- BEGINNING OF INCLUDES  -->
+<%@ page import="Servlets.SessionVariables;" %>
 <%@ include file="config/constants.jsp" %>
 <link href="config/default.css" rel="stylesheet" type="text/css" />
 <link href="config/ticker.css" rel="stylesheet" type="text/css" />
@@ -21,20 +22,29 @@ $(document).ready(function()
 	$jScroller.start();	
 	calibrateSize();
 	
-
 	$("input[type=text]").focus(function() 
 	{	
 		$(this).select();
 	});
 	
 	$("input[type=password]").focus(function() 
-			{	
-				$(this).select();
-			});
+	{	
+		$(this).select();
+	});
+	
+	update();
 });
 
 function update()
 {
+	var requestData = ["<%=SessionVariables.LOGGED_IN%>"];
+	var sessionData = getSessionData(requestData);
+
+	if(sessionData["<%=SessionVariables.LOGGED_IN%>"] == true)
+	{
+			alert("you logged in!");
+	}
+	
 	setTimeout("update()", 1000);	
 }
 
@@ -44,9 +54,10 @@ function calibrateSize()
 	var windowHeight = $(window).innerHeight() -10;
 	
 	var mainContent = $("#mainContent");
-	mainContent.width(windowWidth * <%= FRAME_WIDTH %>);
-	mainContent.height((windowHeight * <%= FRAME_HEIGHT %>) - <%= TICKER_HEIGHT %> - <%= SEARCH_HEIGHT %>);
-
+	 
+	 mainContent.width(windowWidth * <%= FRAME_WIDTH %>);
+	 mainContent.height((windowHeight * <%= FRAME_HEIGHT %>) - <%= TICKER_HEIGHT %> - <%= SEARCH_HEIGHT %>);
+	
 	var scroller = $("#scrollerContainer");
 	scroller.width(windowWidth * <%= TICKER_WIDTH %>);	
 	
@@ -57,10 +68,43 @@ function calibrateSize()
 	
 }
 
+/*
+ * Takes in a string array, creates a map out of these arrays and 
+ * returns the values in another map
+ */
+function getSessionData(keywordArray)
+{
+	var dataMap = {};
+
+	// create a map where keys are keywords, values are empty strings
+	for(index in keywordArray)
+	{
+		dataMap[keywordArray[index]] = "";
+	}
+
+	// get the session variables requested	
+	$.ajax({
+		  url: 'DataExchange',
+		  async: false,
+		  data: dataMap,
+		  dataType: 'json',
+		  success: function (json) 
+		  {
+			  $.each(json, function(key, val) {
+				    dataMap[key] = val;
+				  });
+		  }
+		});
+	
+	return dataMap;
+}
+
 $(window).resize(function() 
 {	
 	calibrateSize();
 });
+
+
 
 </script>
 

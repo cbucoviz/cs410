@@ -1,7 +1,22 @@
 package Servlets;
 
 import java.io.IOException;
+import java.util.Properties;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.Message.RecipientType;
+import javax.mail.URLName;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +24,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.sun.mail.smtp.SMTPSSLTransport;
 
 import Database.DatabaseManager.UserType;
 import Models.Registration;
@@ -96,6 +113,7 @@ public class Register extends HttpServlet
 		{
 			UserType type = UserType.GENERAL;
 			registrationError = !Registration.registerUser(username, password1, type, city, state, country, email, age);
+			
 			if(registrationError)
 			{
 				request.setAttribute("emailUsed", true);
@@ -111,9 +129,11 @@ public class Register extends HttpServlet
 		else
 		{
 			HttpSession session = request.getSession();
-			session.setAttribute("loggedIn", true);
-			session.setAttribute("username", username);
+			session.setAttribute(SessionVariables.LOGGED_IN, true);
+			session.setAttribute(SessionVariables.USERNAME, username);
 			response.sendRedirect("home.jsp");
 		}
 	}
+	
 }
+	
