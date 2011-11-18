@@ -27,6 +27,12 @@ public class DataExchange extends HttpServlet {
     /**
      * Use this function for data exchange via client and server.  Client should poll
      * this page when in need of session data.
+     * 
+     * @param:		Session variable names as defined by SessionVariables.java.
+     * 				Parameter values are ignored, only the name of parameters is used
+     * 				eg:  DataExchange?loggedIn=&username= would return session variables
+     * 				username and logged in
+     * @return: 	Session variables requested
      */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
