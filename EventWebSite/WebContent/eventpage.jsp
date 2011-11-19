@@ -136,7 +136,7 @@ else if (document.getElementById)
 						<!-- Rating, Time, Address of Event -->
 						
 						<!-- Only show "Edit Event" button when the logged-in user is the owner of this event -->
-						<button type="button" name="edit_event_button" value="edit_event" style="float: right">Edit Event</button>
+						<button type="button" name="edit_event_button" value="edit_event" style="float: right" onclick="location.href='editevent.jsp'">Edit Event</button>
 						
 						<!-- Only display "Attend Button" before event occur -->
 						<b>10,000 people are attending this event!</b>
@@ -289,10 +289,10 @@ else if (document.getElementById)
 								<br>
 								<div id="event_transport_div" class="event_info_categories">
 									<div class="event_info_header">
-										<h4 style="margin-top: 5px;">Transportation & Driving Directions:</h4>
+										<h4 style="margin-top: 5px;">Commute & Driving Directions:</h4>
 									</div>
 									<div class="event_info_content">
-										<p>Transportation & Driving Directions to event goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+										<p>Commute & Driving Directions to event goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
 									</div>
 								</div>
 								<br>
