@@ -79,7 +79,7 @@
 							<font color="red">*</font> Date: 
 						</td>
 						<td>
-							<input name="date" id="date" type="text" size="10" disabled="disabled" maxlength="10" value="" style="margin-top:-10px"/>
+							<input name="create_date" id="date" type="text" size="10" disabled="disabled" maxlength="10" value="" style="margin-top:-10px"/>
 							<img src="resources/calendar.jpg" onclick="javascript: showCalendar('date')">
 						</td>
 					</tr>
@@ -278,7 +278,7 @@
 							<font color="red">*</font> Date: 
 						</td>
 						<td>
-							<input name="date" id="date" type="text" size="10" disabled="disabled" maxlength="10" value="" style="margin-top:-10px"/>
+							<input name="edit_date" id="date" type="text" size="10" disabled="disabled" maxlength="10" value="" style="margin-top:-10px"/>
 							<img src="resources/calendar.jpg" onclick="javascript: showCalendar('date')">
 						</td>
 					</tr>
