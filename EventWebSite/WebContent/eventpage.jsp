@@ -108,6 +108,7 @@ else if (document.getElementById)
 <body>
 	<div class="event_container">
 		<div class="event_name_header">
+			<button type="button" name="report_event_button" value="report_event" style="float: right; margin-right: 20px;">Report This Event</button>
 			<table class="event_name_header">
 				<tr>
 					<td colspan="2">
@@ -133,11 +134,14 @@ else if (document.getElementById)
 				<tr>
 					<td style="width: 760px">
 						<!-- Rating, Time, Address of Event -->
-						<button type="button" name="report_event_button" value="report_event" style="float: right">Report This Event</button>
+						
+						<!-- Only show "Edit Event" button when the logged-in user is the owner of this event -->
+						<button type="button" name="edit_event_button" value="edit_event" style="float: right">Edit Event</button>
 						
 						<!-- Only display "Attend Button" before event occur -->
 						<b>10,000 people are attending this event!</b>
 						<button type="button" name="attend_button" value="attend_event">Attend This Event</button>
+						<br>
 						<br>
 						
 						<table>
@@ -579,7 +583,15 @@ else if (document.getElementById)
 							</div>
 							
 							<div id="event_map_tab" class="event_tab_page">
-								Map goes here!!!
+								<div class="event_map">
+									Insert Google Map Here!!!
+								</div>
+								<div class="event_map_dir">
+									<h4><b>Directions to Event Location:</b></h4>
+									<p class="event_map_dir">
+										Insert directions to event location here!!!
+									</p>
+								</div>
 							</div>
 							
 							<div id="event_stat_tab" class="event_tab_page">
