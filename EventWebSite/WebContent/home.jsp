@@ -69,7 +69,7 @@
 			placemark.setGeometry(point);   
 			
 			//Event listener for when the placemark is clicked
-			google.earth.addEventListener(placemark, 'click', function(event) {  
+			google.earth.addEventListener(placemark, 'mouseover', function(event) {  
 				// prevent the default balloon from popping up  
 				event.preventDefault();    
 				var balloon = ge.createHtmlStringBalloon('');  
@@ -79,9 +79,23 @@
 		        balloon.setForegroundColor('#0000ff'); 
 				var evTarg = event.getTarget(); 
 				var cName = evTarg.getName();
-				var test = '<font color="#009900"><a href="http://localhost:8080/EventWebSite/citypage?city='+cName+'">Events in '+ cName + '</a></font>';
+				var test = '<font color="#ffffff">Events in '+ cName + '</font>';
 				balloon.setContentString(test);
-				ge.setBalloon(balloon);});
+				ge.setBalloon(balloon);
+			});
+			
+			google.earth.addEventListener(placemark, 'mouseout', function(event) {  
+				ge.setBalloon(null);
+			});
+			
+			google.earth.addEventListener(placemark, 'click', function(event) {  
+				event.preventDefault();
+				var evTarg = event.getTarget(); 
+				var cName = evTarg.getName();
+				var encodedCity = encodeURIComponent(cName);
+				var mainContent = $("#mainContent"); 
+				mainContent.load("citypage.jsp?city=" + encodedCity);
+			});
 			
 			//add placemark to GE.
 			ge.getFeatures().appendChild(placemark);
