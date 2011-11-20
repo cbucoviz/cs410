@@ -11,6 +11,7 @@
 <link href="config/default.css" rel="stylesheet" type="text/css" />
 <link href="config/ticker.css" rel="stylesheet" type="text/css" />
 <script src="plugins/jquery.js" type="text/javascript"></script>
+<script src="plugins/jquery-ui.js"></script>
 <script src="plugins/marquee.js" type="text/javascript"></script>
 <script src="scripts/forwarder.js" type="text/javascript"></script>
 <!-- END OF INCLUDES -->
