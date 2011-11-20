@@ -8,9 +8,8 @@
 <!-- BEGINNING OF INCLUDES  -->
 <%@ include file="config/constants.jsp" %>
 <link href="config/default.css" rel="stylesheet" type="text/css"/>
-<script src="plugins/jquery.js" type="text/javascript"></script>
+<link rel="stylesheet" href="config/jquery-ui.css">
 <script src="scripts/forwarder.js" type="text/javascript"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"></script>
 <script src="scripts/animatedcollapse.js" type="text/javascript"></script>
 <!-- END OF INCLUDES -->
 
@@ -18,7 +17,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%= WEBSITE_TITLE %></title>
 
+
 <script type="text/javascript">
+
+// hook in the abuse dialog
+$("button[name=report_post_button]").click(function()
+	{
+		$('#report_abuse_form').dialog('open');
+	}
+);
+
+$("button[name=report_event_button]").click(function()
+		{
+			$('#report_abuse_form').dialog('open');
+		}
+);
 
 /***********************************************
 * DD Tab Menu II script- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
@@ -604,6 +617,10 @@ else if (document.getElementById)
 			</table>
 		</div>
 	</div>
+
+<!--  include the report_abuse_dialog, we need to do it down here, this page loads too slow 
+and jquery can't hide it fast enough -->
+<%@ include file="report_abuse_dialog.jsp" %>
 
 </body>
 </html>
