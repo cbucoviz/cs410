@@ -53,64 +53,73 @@
 
 <form action="Register" method="POST">
 	<div id="signup_page_div">
-		<table id="signup_form_table">
-			<tr>
-				<td colspan="2" align="center">
-					<h1>Join Now!</h1>
-					
-				</td>
-			</tr>
-			<tr>
-				<td align="right">User Name: </td>
-				<td><input 	type="text" 
-							name='username' 
-							size="25" 
-							value="<%= request.getParameter("username") == null ? "" : request.getParameter("username")%>"/>
-				</td>
-			</tr>
-			<tr>
-				<td align="right">Full Name: </td>
-				<td><input type="text" name='fullname' size="25"/>
-				</td>
-			</tr>
-			<tr>
-				<td align="right">Email Address: </td>
-				<td><input type="text" name='useremail' size="25"/></td>
-			</tr>
-			<tr>
-				<td align="right">Password: </td>
-				<td><input type="password" name='password1' size="25"/></td>
-			</tr>
-			<tr>
-				<td align="right">Confirm Password: </td>
-				<td><input type="password" name='password2' size="25"/></td>
-			</tr>
-			<tr>
-				<td align="right">Age: </td>
-				<td><input type="text" name='age' size="25"/></td>
-			</tr>
-			<tr>
-				<td align="right">City: </td>
-				<td><input type="text" name='city' size="25"/></td>
-			</tr>
-			<tr>
-				<td align="right">State: </td>
-				<td><input type="text" name='state' size="25"/></td>
-			</tr>
-			<tr>
-				<td align="right">Country: </td>
-				<td><input type="text" name='country' size="25"/></td>
-			</tr>
-			
-			<tr>
-				<td><br></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center"><input type="submit" value="Register"/></td>
-			</tr>
-		</table>
-		<br>
-		<a href="home.jsp" style="color:yellow"><i><-- Return to main page</i></a>
+	
+		<div id="register_header">
+			<h2><b>Join Now!</b></h2>
+		</div>
+		
+		<div id="register_content">
+			<table id="signup_form_table">
+				<tr>
+					<td colspan="2" align="center">
+						<font color="red"><i>(*) = Mandatory/Required Information</i></font> 
+						<br/>
+						<br/>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"><font color="red">*</font> User Name: </td>
+					<td><input 	type="text" 
+								name='username' 
+								size="25" 
+								value="<%= request.getParameter("username") == null ? "" : request.getParameter("username")%>"/>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" valign="top"><font color="red">*</font> Email Address: </td>
+					<td>
+						<input type="text" name='useremail' size="25"/>
+						<br/>
+						<font size="2"><i>(Needed for Account Activation)</i></font>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"><font color="red">*</font> Password: </td>
+					<td><input type="password" name='password1' size="25"/></td>
+				</tr>
+				<tr>
+					<td align="right"><font color="red">*</font> Confirm Password: </td>
+					<td><input type="password" name='password2' size="25"/></td>
+				</tr>
+				<tr>
+					<td align="right">Age: </td>
+					<td><input type="text" name='age' size="25"/></td>
+				</tr>
+				<tr>
+					<td align="right"><font color="red">*</font> City: </td>
+					<td><input type="text" name='city' size="25"/></td>
+				</tr>
+				<tr>
+					<td align="right">State: </td>
+					<td><input type="text" name='state' size="25"/></td>
+				</tr>
+				<tr>
+					<td align="right"><font color="red">*</font> Country: </td>
+					<td><input type="text" name='country' size="25"/></td>
+				</tr>
+				
+				<tr>
+					<td><br></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+					<input type="submit" class="button1" value="Register"/>
+					<a href="home.jsp" class="button1">Return to Main Page</a></td>
+				</tr>
+			</table>
+			<br>
+		</div>
+		
 	</div>
 </form>
 </body>

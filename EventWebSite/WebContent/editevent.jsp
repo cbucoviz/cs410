@@ -390,7 +390,7 @@
 						<td>
 							<textarea name="video_links" cols="40" rows="5" wrap="soft">Enter Video Links Here</textarea>
 							<br/>
-							<i>(Separate with semicolon ;)</i>
+							<font size="2"><i>(Separate with semicolon ;)</i></font>
 							<br/>
 							<br/>
 						</td>
@@ -402,15 +402,15 @@
 						<td>
 							<textarea name="other_links" cols="40" rows="5" wrap="soft">Enter Other Description Here</textarea>
 							<br/>
-							<i>(Separate with semicolon ;)</i>
+							<font size="2"><i>(Separate with semicolon ;)</i></font>
 							<br/>
 							<br/>
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-							<input type="submit" value="Update Event"/>
-							<button type="button" value="Cancel" onclick="location.href='eventpage.jsp'">Cancel</button>
+							<input type="submit" class="button1" value="Update Event"/>
+							<button type="button" class="button1" value="Cancel" onclick="location.href='eventpage.jsp'">Cancel</button>
 						</td>
 					</tr>
 				</table>	

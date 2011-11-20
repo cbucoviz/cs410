@@ -189,7 +189,7 @@ else if (document.getElementById)
 								</tr>
 								<tr>
 									<td>
-										<input type="submit" value="Search" />
+										<input type="submit" class="button1" value="Search" />
 									</td>
 								</tr>
 							</table>
@@ -212,7 +212,7 @@ else if (document.getElementById)
 									<h4>Locale: Vancouver, Canada</h4>
 								</td>
 								<td>
-									<button type="button" name="subs_locale_button" value="subscribe_locale">Subscribe to Locale</button>
+									<button type="button" name="subs_locale_button" class="button1" value="subscribe_locale">Subscribe to Locale</button>
 								</td>
 							</tr>
 						</table>

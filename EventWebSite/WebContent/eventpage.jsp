@@ -108,23 +108,23 @@ else if (document.getElementById)
 <body>
 	<div class="event_container">
 		<div class="event_name_header">
-			<button type="button" name="report_event_button" value="report_event" style="float: right; margin-right: 20px;">Report This Event</button>
+			<button type="button" name="report_event_button"class="button1"  value="report_event" style="float: right; margin-right: 20px;">Report This Event</button>
 			<table class="event_name_header">
 				<tr>
 					<td colspan="2">
 						<h2 class="sports"><font>SPORTS EVENT: Vancouver Canucks vs. Philadelphia Flyers</font></h2>
 					</td>
 					<td style="padding-left:20px; text-align: center;" rowspan="2">
-						<button type="button" name="subs_event_button" value="subscribe_event">Subscribe to This Event</button>						
+						<button type="button" name="subs_event_button" class="button1" value="subscribe_event">Subscribe to This Event</button>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<font size="2"><b>LOCATION: </b>Vancouver, Canada</font>
-						<button type="button" name="subs_locale_button" value="subscribe_locale">Subscribe to Locale</button>
+						<button type="button" name="subs_locale_button" class="button1" value="subscribe_locale">Subscribe to Locale</button>
 					</td>
 					<td><font size="2"><b>POSTED BY: </b>User X</font>
-						<button type="button" name="subs_user_button" value="subscribe_user">Subscribe to User</button>
+						<button type="button" name="subs_user_button" class="button1" value="subscribe_user">Subscribe to User</button>
 					</td>
 				</tr>
 			</table>
@@ -136,11 +136,12 @@ else if (document.getElementById)
 						<!-- Rating, Time, Address of Event -->
 						
 						<!-- Only show "Edit Event" button when the logged-in user is the owner of this event -->
-						<button type="button" name="edit_event_button" value="edit_event" style="float: right" onclick="location.href='editevent.jsp'">Edit Event</button>
+						<a href="editevent.jsp" class="button1" style="float: right">Edit Event</a> 
+					
 						
 						<!-- Only display "Attend Button" before event occur -->
 						<b>10,000 people are attending this event!</b>
-						<button type="button" name="attend_button" value="attend_event">Attend This Event</button>
+						<button type="button" name="attend_button" class="button1" value="attend_event">Attend This Event</button>
 						<br>
 						<br>
 						
@@ -343,7 +344,7 @@ else if (document.getElementById)
 													Ka Ho Cheng
 												</td>
 												<td>
-													<button type="button" name="subs_user_button" value="subscribe_user">Subscribe</button>
+													<button type="button" name="subs_user_button" class="button1" value="subscribe_user">Subscribe</button>
 												</td>
 												<td>
 													November 17th, 2011 at 7:30pm
@@ -355,19 +356,19 @@ else if (document.getElementById)
 													Like: 20
 												</td>
 												<td>
-													<button type="button" name="like_post_button" value="like_post">Like</button>
+													<button type="button" name="like_post_button" class="button1" value="like_post">Like</button>
 												</td>
 												<td>
 													Dislike: 20
 												</td>
 												<td>
-													<button type="button" name="dislike_post_button" value="dislike_post">Dislike</button>
+													<button type="button" name="dislike_post_button" class="button1" value="dislike_post">Dislike</button>
 												</td>
 												<td>
 													&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp
 												</td>
 												<td>
-													<button type="button" name="report_post_button" value="report_post" >Report</button>
+													<button type="button" name="report_post_button" class="button1" value="report_post" >Report</button>
 												</td>
 											</tr>
 										</table>
@@ -376,7 +377,7 @@ else if (document.getElementById)
 											Post some comments or discussion related to the event here. The post will be flagged if its content is considered inappropriate.
 										</p>
 										
-										<button type="button" name="comment_post_button" value="comment_post" style="float: right">Comment Post</button>
+										<button type="button" name="comment_post_button" class="button1" value="comment_post" style="float: right">Comment Post</button>
 										<br/>
 										
 										<!-- Possible Implementation in future if have time??? Expandable div for comments of a post; Use this only if post have comments -->
@@ -403,7 +404,7 @@ else if (document.getElementById)
 														Ka Ho Cheng
 													</td>
 													<td>
-														<button type="button" name="subs_user_button" value="subscribe_user">Subscribe</button>
+														<button type="button" name="subs_user_button" class="button1" value="subscribe_user">Subscribe</button>
 													</td>
 													<td>
 														November 17th, 2011 at 7:30pm
@@ -415,19 +416,19 @@ else if (document.getElementById)
 														Like: 20
 													</td>
 													<td>
-														<button type="button" name="like_post_button" value="like_post">Like</button>
+														<button type="button" name="like_post_button" class="button1" value="like_post">Like</button>
 													</td>
 													<td>
 														Dislike: 20
 													</td>
 													<td>
-														<button type="button" name="dislike_post_button" value="dislike_post">Dislike</button>
+														<button type="button" name="dislike_post_button" class="button1" value="dislike_post">Dislike</button>
 													</td>
 													<td>
 														&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp
 													</td>
 													<td>
-														<button type="button" name="report_post_button" value="report_post">Report</button>
+														<button type="button" name="report_post_button" class="button1" value="report_post">Report</button>
 													</td>
 												</tr>
 											</table>
@@ -436,7 +437,7 @@ else if (document.getElementById)
 												Post some comments or discussion related to the event here. The post will be flagged if its content is considered inappropriate.
 											</p>
 											
-											<button type="button" name="comment_post_button" value="comment_post" style="float: right">Comment Post</button>
+											<button type="button" name="comment_post_button" class="button1" value="comment_post" style="float: right">Comment Post</button>
 											<br/>
 											
 											<!-- Possible Implementation in future if have time??? Expandable div for comments of a post; Use this only if post have comments -->
@@ -462,7 +463,7 @@ else if (document.getElementById)
 											<textarea rows="5" cols="80" wrap="soft" style="border: 1px inset black;"></textarea>
 											<br/>
 											<br/>
-											<input type="submit" value="Post" style="margin-left: 300px"/>
+											<input type="submit" class="button1" value="Post" style="margin-left: 300px"/>
 										</form>
 									</div>
 							</div>
@@ -483,7 +484,7 @@ else if (document.getElementById)
 													Ka Ho Cheng
 												</td>
 												<td>
-													<button type="button" name="subs_user_button" value="subscribe_user">Subscribe</button>
+													<button type="button" name="subs_user_button" class="button1" value="subscribe_user">Subscribe</button>
 												</td>
 												<td>
 													November 17th, 2011 at 7:30pm
@@ -492,7 +493,7 @@ else if (document.getElementById)
 													&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp
 												</td>
 												<td>
-													<button type="button" name="like_rev_button" value="like_like">Useful</button>
+													<button type="button" name="like_rev_button" class="button1" value="like_like">Useful</button>
 												</td>
 												<td rowspan="2">
 													<!-- ***Rating bar goes here!!! -->
@@ -506,7 +507,7 @@ else if (document.getElementById)
 													&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp
 												</td>
 												<td>
-													<button type="button" name="dislike_rev_button" value="dislike_like">Not Useful</button>
+													<button type="button" name="dislike_rev_button" class="button1" value="dislike_like">Not Useful</button>
 												</td>
 											</tr>
 										</table>
@@ -531,7 +532,7 @@ else if (document.getElementById)
 													Ka Ho Cheng
 												</td>
 												<td>
-													<button type="button" name="subs_user_button" value="subscribe_user">Subscribe</button>
+													<button type="button" name="subs_user_button" class="button1" value="subscribe_user">Subscribe</button>
 												</td>
 												<td>
 													November 17th, 2011 at 7:30pm
@@ -540,7 +541,7 @@ else if (document.getElementById)
 													&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp
 												</td>
 												<td>
-													<button type="button" name="like_rev_button" value="like_like">Useful</button>
+													<button type="button" name="like_rev_button" class="button1" value="like_like">Useful</button>
 												</td>
 												<td rowspan="2">
 													<!-- ***Rating bar goes here!!! -->
@@ -554,7 +555,7 @@ else if (document.getElementById)
 													&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp
 												</td>
 												<td>
-													<button type="button" name="dislike_rev_button" value="dislike_like">Not Useful</button>
+													<button type="button" name="dislike_rev_button" class="button1" value="dislike_like">Not Useful</button>
 												</td>
 											</tr>
 										</table>
@@ -576,7 +577,7 @@ else if (document.getElementById)
 										<textarea rows="5" cols="80" wrap="soft" style="border: 1px inset black;"></textarea>
 										<br/>
 										<br/>
-										<input type="submit" value="Post" style="margin-left: 300px"/>
+										<input type="submit" class="button1" value="Post" style="margin-left: 300px"/>
 									</form>
 								</div>
 								
