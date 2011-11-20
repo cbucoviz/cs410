@@ -76,7 +76,14 @@ public class DatabaseManager
 		ResultSet result = statement.executeQuery();
 		return result;
 	}
-
+	
+	/**
+	 * A simple function that checks if a given event exists in the database
+	 * @param eventID - id of the event
+	 * @return true if the event exists; false otherwise
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
 	public boolean eventExists(int eventID) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
@@ -92,7 +99,13 @@ public class DatabaseManager
 		return true;		
 	}
 	
-	
+	/**
+	 * Finds all the types that a given event belongs to (like Concert, Hockey, etc.)
+	 * @param eventID - id of the event
+	 * @return - result set to be passed to the Controller. 
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
 	public ResultSet findEventTypes (int eventID) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
@@ -365,9 +378,7 @@ public class DatabaseManager
         ResultSet result = statement.executeQuery();
 		
 		return result;
-	}
-
-	
+	}	
 	
 	/**
 	 * Lists all the cities where there are events which titles contain a given keyword.
@@ -681,6 +692,63 @@ public class DatabaseManager
 		return result;
 	}
 
+	/**
+	 * Finds all the users who are subscribed to the given event. 
+	 * @param eventID - id of the event
+	 * @return - result set to be passed to the Controller. 
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public ResultSet findEventSubsribers(int eventID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT U.userID, U.name " +
+				"FROM users AS U, eventsubscribers AS ES " +
+				"WHERE ES.eventID = "+eventID+" " +
+					  "AND U.userID = ES.subscriberID");
+		ResultSet result = statement.executeQuery();
+		
+		return result;
+	}
+	
+	/**
+	 * Finds all the users who are subscribed to the given location. 
+	 * @param locationID - id of the location
+	 * @return - result set to be passed to the Controller. 
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public ResultSet findLocaleSubsribers(int locationID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT U.userID, U.name " +
+				"FROM users AS U, subscribedlocales AS SL " +
+				"WHERE SL.locationID = "+locationID+" " +
+					  "AND U.userID = SL.userID");
+		ResultSet result = statement.executeQuery();
+		
+		return result;
+	}
+	
+	/**
+	 * Finds all the users who are subscribed to the given user. 
+	 * @param userID - id of the user others are subscribed to
+	 * @return - result set to be passed to the Controller. 
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public ResultSet findUserSubsribers(int userID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT U.userID, U.name " +
+				"FROM users AS U, usersubscribers AS US " +
+				"WHERE US.userID = "+userID+" " +
+					  "AND U.userID = US.subscriberID");
+		ResultSet result = statement.executeQuery();
+		
+		return result;
+	}	
+	
 	/**
 	 * This function returns information on all events created by a specific user (creator)
 	 * when a current user (subscriber) was off-line. The function is used, when a current user
@@ -1033,7 +1101,23 @@ public class DatabaseManager
 		statement.executeUpdate();
 	}	
 	
-	public void editEventInfo(int eventID, String title, String address, String venue,
+	
+	/**
+	 * Edits the main section of the given event (the one where a title, address,
+	 * start and end times, etc. are listed)
+	 * @param updatorID - an id of a user who edits the event
+	 * @param eventID - an id of the edited event
+	 * @param title - title of the event
+	 * @param address - an exact address of the event
+	 * @param venue - name of the venue for the event
+	 * @param eventDate - the exact date (year/month/day) when the event starts
+	 * @param startTime - the exact time(hour/minute/second) when the event starts
+	 * @param endTime - the exact time(hour/minute/second) when the event ends
+	 * @return - result set to be passed to the Controller.
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public ResultSet editEventInfo(int updatorID, int eventID, String title, String address, String venue,
 							Date eventDate,  String startTime, String endTime) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
@@ -1046,18 +1130,76 @@ public class DatabaseManager
 		statement.setString(2, address);
 		statement.setString(3, venue);
 		statement.executeUpdate();
+		
+		ResultSet result = edittedEventInfo(eventID, updatorID);
+		
+		return result;
 	}
 	
-	public void editEventContent(int eventID, String content, String contentType) throws SQLException
+	/**
+	 * Edits the given event's content (Event Description, Venue Description, etc.)
+	 * @param updatorID - an id of a user who edits the event
+	 * @param eventID - an id of the edited event
+	 * @param content - content of the update
+	 * @param contentType - where the editing takes place (Event Description, 
+	 * Venue Description, etc.)
+	 * @return - result set to be passed to the Controller.
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public ResultSet editEventContent(int updatorID, int eventID, String content, String contentType) throws SQLException
 	{				
 		PreparedStatement statement = connection.prepareStatement
 				("UPDATE eventcontent " +
-				"SET "+contentType+" = ?, lastMod = NOW() "+ 
+				"SET "+contentType+" = ? "+ 
 				"WHERE eventID = "+eventID + " ");
 		statement.setString(1, content);		
 		statement.executeUpdate();
+		
+		statement = connection.prepareStatement
+				("UPDATE events " +
+				"SET lastMod = NOW() "+ 
+				"WHERE eventID = "+eventID + " ");				
+		statement.executeUpdate();
+		
+		ResultSet result = edittedEventInfo(eventID, updatorID);
+		
+		return result;				
 	}
 	
+	/**
+	 * Mostly helper function, which is used to get a very small portion of the
+	 * details about a given edited event (to be precise, city, locationID, title and an 
+	 * editor's name). 
+	 * @param eventID - id of the given event
+	 * @param updatorID - an id of the editor of this event
+	 * @return - result set to be passed to the Controller.
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public ResultSet edittedEventInfo(int eventID, int updatorID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT E.title, L.city, U.name, L.locationID  " +						
+				 "FROM events AS E, locations AS L, users AS U "+
+	             "WHERE E.eventID = " + eventID + " " +
+	             	  " AND U.userID = " + updatorID + " " +
+	             	  " AND E.locationID = L.locationID");
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
+	/**
+	 * This function creates a new review for a given event. It also updates the overall
+	 * rating of the given event and increases the number of reviews the event has.
+	 * @param eventID - id of the given event
+	 * @param userID - the review creator's id
+	 * @param content - content of the review
+	 * @param rating - rating given to the event by the reviewer
+	 * @return - result set to be passed to the Controller.
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
 	public float newReview(int eventID, int userID, String content, int rating) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
@@ -1093,6 +1235,16 @@ public class DatabaseManager
 		
 	}
 	
+	/**
+	 * Deletes a given review from the event it is located in. Modifies the overall
+	 * rating of the event accordingly and also decreases the number of reviews 
+	 * this event has.
+	 * @param reviewID - id of the review
+	 * @param eventID - the event the given review is in
+	 * @return - result set to be passed to the Controller.
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
 	public float deleteReview(int reviewID, int eventID) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
@@ -1303,6 +1455,10 @@ public class DatabaseManager
 		statement.setString(1, content);		
 		statement.executeUpdate();
 	}
+	
+	
+	
+	
 	
 	
 	

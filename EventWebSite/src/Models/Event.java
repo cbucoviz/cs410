@@ -16,6 +16,7 @@ import Models.DiscussionPost.PostInfo;
 import Models.DiscussionPost.SortPosts;
 import Models.Review.ReviewInfo;
 import Models.Review.SortReviews;
+import Models.UserUpdates.UpdateType;
 
 public class Event 
 {
@@ -182,11 +183,23 @@ public class Event
 	        String endTimeForSQL =  dateFormatGmt.format(endTime);
 				        	        
 			int eventID = dbMan.newEvent(title, creatorID, locationID, address, venue,
-					startDateForSQL,startTimeForSQL, endTimeForSQL, types); 
+					startDateForSQL,startTimeForSQL, endTimeForSQL, types);
+			
+			
+			
+			ResultSet edittedEventInfo = dbMan.edittedEventInfo(eventID, creatorID);
+			edittedEventInfo.next();
+			String updator = edittedEventInfo.getString("U.name");
+			String location = edittedEventInfo.getString("L.city");
+			
+			UserUpdates.addUpdate(UpdateType.NEW_EV_BY_USER, title, 
+									eventID, updator, creatorID, location, locationID, null);
+			
+			UserUpdates.addUpdate(UpdateType.NEW_EV_BY_LOCATION, title, 
+									eventID, updator, creatorID, location, locationID, null);
 			
 			return eventID;
-	}
-	
+	}	
 	
 	public static boolean setContent(int eventID, String genDesc, String venueDesc, String priceInfo,
 			String transport, String awareness, String videos, String links, String otherInfo)
@@ -260,47 +273,66 @@ public class Event
 	}
 	
 	
-	public static boolean editEventContent(int eventID, String content, EventInfo type)
+	public static boolean editEventContent(int updatorID, int eventID, String content, EventInfo type)
 	{
-		String contentType = "";		
+		String contentType = "";
+		String editType="";
 		switch (type)
 		{
 			case GEN_INFO:
-			{contentType = "generalDesc";}
+			{contentType = "generalDesc";
+			editType = "General Description";}
 			break;
 			
 			case VENUE_INFO:
-			{contentType = "venueDesc";}
+			{contentType = "venueDesc";
+			editType = "Venue Description";}
 			break;
 			
 			case PRICE_INFO:
-			{contentType = "priceDesc";}
+			{contentType = "priceDesc";
+			editType = "Cost";}
 			break;	
 			
 			case TRANSPORT_INFO:
-			{contentType = "transportDesc";}
+			{contentType = "transportDesc";
+			editType = "Commute & Driving Directions";}
 			break;
 			
 			case AWARENESS_INFO:
-			{contentType = "awareInfo";}
+			{contentType = "awareInfo";
+			editType = "Things to be aware of";}
 			break;
 			
 			case VIDEOS:
-			{contentType = "videos";}
+			{contentType = "videos";
+			editType = "Related Videos";}
 			break;
 			
 			case LINKS:
-			{contentType = "links";}
+			{contentType = "links";
+			editType = "Related Links";}
 			break;
 			
 			case OTHER_INFO:
-			{contentType = "otherInfo";}
+			{contentType = "otherInfo";
+			editType = "Other Useful Information";}
 			break;
 		}
 		
 		try {
 			DatabaseManager dbMan = DatabaseManager.getInstance();
-			dbMan.editEventContent(eventID, content, contentType);	
+			ResultSet editEventInfo = dbMan.editEventContent(updatorID, eventID, content, contentType);	
+			
+			editEventInfo.next();
+			String updator = editEventInfo.getString("U.name");
+			String location = editEventInfo.getString("L.city");
+			String eventTitle = editEventInfo.getString("E.title");			
+			int locationID =Integer.parseInt(editEventInfo.getString("L.locationID"));
+			
+			UserUpdates.addUpdate(UpdateType.EVENT_EDITTED, eventTitle, 
+									eventID, updator, updatorID, location, locationID, editType);
+			
 			return true;
 		} catch (Exception e) {			
 			e.printStackTrace();			
@@ -308,7 +340,7 @@ public class Event
 		return false;		
 	}	
 	
-	public static boolean editEventInfo(int eventID, String nTitle, String nVenue, Date startDateTime, Date nEndTime, String nAddress)
+	public static boolean editEventInfo(int updatorID, int eventID, String nTitle, String nVenue, Date startDateTime, Date nEndTime, String nAddress)
 	{
 		java.sql.Date startDateForSQL = new java.sql.Date(startDateTime.getTime());
 		
@@ -318,8 +350,18 @@ public class Event
         
         try {
         	DatabaseManager dbMan = DatabaseManager.getInstance();
-			dbMan.editEventInfo(eventID, nTitle, nAddress, nVenue, 
+        	ResultSet editEventInfo = dbMan.editEventInfo(updatorID, eventID, nTitle, nAddress, nVenue, 
 					startDateForSQL, startTimeForSQL, endTimeForSQL);
+        	
+        	editEventInfo.next();
+			String updator = editEventInfo.getString("U.name");
+			String location = editEventInfo.getString("L.city");
+			String eventTitle = editEventInfo.getString("E.title");			
+			int locationID =Integer.parseInt(editEventInfo.getString("L.locationID"));
+			
+			UserUpdates.addUpdate(UpdateType.EVENT_EDITTED, eventTitle, 
+									eventID, updator, updatorID, location, locationID, null);
+			
 			return true;
 		} catch (Exception e) {			
 			e.printStackTrace();			

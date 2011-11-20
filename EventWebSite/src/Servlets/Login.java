@@ -3,6 +3,7 @@ package Servlets;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Database.DatabaseManager;
+import Models.UserUpdates;
 
 /**
  * Servlet implementation class Login
@@ -35,7 +37,6 @@ public class Login extends HttpServlet
 		String email = request.getParameter(SessionVariables.EMAIL);
 		String password = request.getParameter(SessionVariables.PASSWORD);
 		
-		
 		try
 		{
 			// is the requested password valid for this user?
@@ -58,9 +59,16 @@ public class Login extends HttpServlet
 			
 			// if you reach this point the user has authenticated correctly
 			HttpSession session = request.getSession();
+			session.setAttribute(SessionVariables.USER_ID, Integer.parseInt(user.getString("userID")));
 			session.setAttribute(SessionVariables.LOGGED_IN, true);
 			session.setAttribute(SessionVariables.EMAIL, email);
-			session.setAttribute(SessionVariables.USERNAME, user.getString("name"));	
+			session.setAttribute(SessionVariables.USERNAME, user.getString("name"));
+			session.setAttribute(SessionVariables.UPDATES, new ArrayList<String>());
+			
+			UserUpdates.addToSessions(
+					session.getAttribute(SessionVariables.USERNAME).toString(),         	
+		        	session);			
+			
 		}
 		catch(Exception e)
 		{

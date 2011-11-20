@@ -13,6 +13,7 @@ import Database.DatabaseManager;
 import Models.Comment.CommentInfo;
 import Models.Review.ReviewInfo;
 import Models.Review.SortReviews;
+import Models.UserUpdates.UpdateType;
 
 public class DiscussionPost
 {
@@ -83,6 +84,17 @@ public class DiscussionPost
 		try {
 			DatabaseManager dbMan = DatabaseManager.getInstance();		
 			dbMan.newPost(eventID, userID, content);
+			
+			ResultSet edittedEventInfo = dbMan.edittedEventInfo(eventID, userID);
+			edittedEventInfo.next();
+			String updator = edittedEventInfo.getString("U.name");
+			String location = edittedEventInfo.getString("L.city");
+			String eventTitle = edittedEventInfo.getString("E.title");			
+			int locationID =Integer.parseInt(edittedEventInfo.getString("L.locationID"));
+			
+			UserUpdates.addUpdate(UpdateType.NEW_DISCUSSION, eventTitle, 
+									eventID, updator, userID, location, locationID, null);
+			
 			return true;
 		} catch (Exception e) {			
 			e.printStackTrace();			

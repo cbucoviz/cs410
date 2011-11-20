@@ -10,6 +10,7 @@ import java.util.Map;
 
 import Database.DatabaseManager;
 import Models.Event.EventInfo;
+import Models.UserUpdates.UpdateType;
 
 
 public class Review
@@ -64,6 +65,18 @@ public class Review
 		try {
 			DatabaseManager dbMan = DatabaseManager.getInstance();		
 			float e_rating = dbMan.newReview(eventID, userID, content, rating);
+			
+			ResultSet edittedEventInfo = dbMan.edittedEventInfo(eventID, userID);
+			edittedEventInfo.next();
+			String updator = edittedEventInfo.getString("U.name");
+			String location = edittedEventInfo.getString("L.city");
+			String eventTitle = edittedEventInfo.getString("E.title");			
+			int locationID =Integer.parseInt(edittedEventInfo.getString("L.locationID"));
+			
+			UserUpdates.addUpdate(UpdateType.NEW_REVIEW, eventTitle, 
+									eventID, updator, userID, location, locationID, null);
+			
+			
 			return e_rating;
 		} catch (Exception e) {			
 			e.printStackTrace();			
