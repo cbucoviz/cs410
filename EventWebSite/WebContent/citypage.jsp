@@ -8,7 +8,6 @@
 <!-- BEGINNING OF INCLUDES  -->
 <%@ include file="config/constants.jsp" %>
 <link href="config/default.css" rel="stylesheet" type="text/css" />
-<script src="plugins/jquery.js" type="text/javascript"></script>
 <script src="scripts/ezcalendar_orange.js" type="text/javascript"></script>
 <script src="scripts/forwarder.js" type="javascript"></script>
 <!-- END OF INCLUDES -->
