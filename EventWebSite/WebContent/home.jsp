@@ -40,17 +40,20 @@
 				var lat = loc.lat;
 				//get longitude of location
 				var lng = loc.lng;
+				//get id of location
+				var id = loc.id + '';
 				//add location to GE
-				addPlace(name,lat,lng);
+				addPlace(name, lat, lng, id);
 			}
 			
 		}
 		
 		//Adds a location to GE and creates the associate balloon and event
-		function addPlace(name,lat,lng)
+		function addPlace(name,lat,lng,id)
 		{
 			var placemark = ge.createPlacemark(''); 
-			placemark.setName(name);  
+			placemark.setName(name);
+			placemark.setSnippet(id);
 			// Define a custom icon. 
 			var icon = ge.createIcon(''); 
 			icon.setHref('http://maps.google.com/mapfiles/kml/paddle/red-circle.png'); 
@@ -92,9 +95,10 @@
 				event.preventDefault();
 				var evTarg = event.getTarget(); 
 				var cName = evTarg.getName();
+				var cityId = evTarg.getSnippet();
 				var encodedCity = encodeURIComponent(cName);
 				var mainContent = $("#mainContent"); 
-				mainContent.load("citypage.jsp?city=" + encodedCity);
+				mainContent.load("citypage.jsp?city=" + cityId);
 			});
 			
 			//add placemark to GE.

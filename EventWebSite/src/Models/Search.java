@@ -16,7 +16,7 @@ public class Search {
 	private static final String LOCATION = "city";
 	private static final String LATITUDE = "Latitude";
 	private static final String LONGITUDE = "Longitude";
-	
+	private static final String ID = "locationID";
 	/**
 	 * Used to get the name, latitude and longitude of an event city to be displayed
 	 * on Google Earth.
@@ -31,7 +31,12 @@ public class Search {
 			ResultSet locations = dbMan.findGoogleEarthLocations();
 			while (locations.next()) 
 			{
-		        returnValue.add(createLocJson(locations.getString(LOCATION),locations.getDouble(LATITUDE),locations.getDouble(LONGITUDE)));
+		        returnValue.add(
+		        		createLocJson(	locations.getString(LOCATION),
+		        						locations.getDouble(LATITUDE),
+		        						locations.getDouble(LONGITUDE),
+		        						locations.getInt(ID)
+		        ));
 		    }
 		}
 		catch(SQLException sExp)
@@ -52,14 +57,16 @@ public class Search {
 	 * @param cityName - name of the event city
 	 * @param latitude - latitude of the city
 	 * @param longitude - longitude of the city
+	 * @param id - id of the city
 	 * @return JsonObject with the name, latitude and longitude
 	 */
-	private JsonObject createLocJson(String cityName, double latitude, double longitude)
+	private JsonObject createLocJson(String cityName, double latitude, double longitude, int id)
 	{
 		JsonObject json = new JsonObject();
 		json.addProperty("name", cityName);
 		json.addProperty("lat", latitude);
 		json.addProperty("lng", longitude);
+		json.addProperty("id", id);
 		return json;
 	}
 

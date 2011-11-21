@@ -1,3 +1,4 @@
+<%@page import="Models.LocationAddress"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -208,7 +209,12 @@ else if (document.getElementById)
 							<tr>
 								<td>
 									<!-- Insert Local Name Here (Replace next line)-->
-									<h4>Locale: Vancouver, Canada</h4>
+									<h4>Locale:
+									<% 
+										LocationAddress location = Models.Location.getLocationAddress(Integer.parseInt(request.getParameter("city")));
+										out.print(location.toString());
+									%>
+									</h4>
 								</td>
 								<td>
 									<button type="button" name="subs_locale_button" class="button1" value="subscribe_locale">Subscribe to Locale</button>

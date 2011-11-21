@@ -889,6 +889,17 @@ public class DatabaseManager
 			return result;
 	}
 	
+	public ResultSet getLocation(int id) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT L.city, L.state, L.country " +
+				"FROM locations AS L " +
+				"WHERE L.locationID  = '" + id + "' ");
+			ResultSet result = statement.executeQuery();
+			
+			return result;
+	}
+	
 	/**
 	 * New user is inserted into the database. Initially, activation status is 0,
 	 * and lastVisited field is set to the current server time. However, since the user has
