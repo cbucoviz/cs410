@@ -123,6 +123,22 @@ else if (document.getElementById)
 							<div id="cul_header_div" class="city_event_header">
 								<h4>Cultural</h4>
 							</div>
+							
+							
+							<!-- ktam: just put everything in cultural for now.. not sure
+							how Ka Ho wants to deal with this layout -->
+							<%@ page import="java.util.*" %>
+						
+							
+							<%
+								
+								ArrayList<Map<Models.Event.EventInfo, String>> events = Models.Location.getEventsAtLocation(Integer.parseInt(request.getParameter("city")));
+								for(int i = 0; i < events.size(); ++i)
+								{
+									out.println(events.get(i).get(Models.Event.EventInfo.TITLE) + "<br/>");
+								}
+							%>
+							
 						</div>
 						<div id="ed_event_div" class="city_event_categories">
 							<div id="ed_header_div" class="city_event_header">
