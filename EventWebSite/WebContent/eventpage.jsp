@@ -8,7 +8,6 @@
 <!-- BEGINNING OF INCLUDES  -->
 <%@ include file="config/constants.jsp" %>
 <link href="config/default.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="config/jquery-ui.css">
 <script src="scripts/forwarder.js" type="text/javascript"></script>
 <script src="scripts/animatedcollapse.js" type="text/javascript"></script>
 <!-- END OF INCLUDES -->
@@ -125,7 +124,7 @@ else if (document.getElementById)
 			<table class="event_name_header">
 				<tr>
 					<td colspan="2">
-						<h2 class="sports"><font>SPORTS EVENT: Vancouver Canucks vs. Philadelphia Flyers</font></h2>
+						<h2 class="sports"><font><%= request.getAttribute("title") %></font></h2>
 					</td>
 					<td style="padding-left:20px; text-align: center;" rowspan="2">
 						<button type="button" name="subs_event_button" class="button1" value="subscribe_event">Subscribe to This Event</button>
@@ -133,10 +132,10 @@ else if (document.getElementById)
 				</tr>
 				<tr>
 					<td>
-						<font size="2"><b>LOCATION: </b>Vancouver, Canada</font>
+						<font size="2"><b>LOCATION: </b><%= request.getAttribute("city") %>, <%= request.getAttribute("state") %>, <%= request.getAttribute("country") %> </font>
 						<button type="button" name="subs_locale_button" class="button1" value="subscribe_locale">Subscribe to Locale</button>
 					</td>
-					<td><font size="2"><b>POSTED BY: </b>User X</font>
+					<td><font size="2"><b>POSTED BY: </b><%= request.getAttribute("creator") %></font>
 						<button type="button" name="subs_user_button" class="button1" value="subscribe_user">Subscribe to User</button>
 					</td>
 				</tr>
@@ -153,7 +152,7 @@ else if (document.getElementById)
 					
 						
 						<!-- Only display "Attend Button" before event occur -->
-						<b>10,000 people are attending this event!</b>
+						<b><%= request.getAttribute("numAttendees") %> people are attending this event!</b>
 						<button type="button" name="attend_button" class="button1" value="attend_event">Attend This Event</button>
 						<br>
 						<br>
@@ -166,7 +165,7 @@ else if (document.getElementById)
 									<b>Rating: </b>
 								</td>
 								<td>
-									<!-- ***Insert rating image here!!! --> <i>[4 out of 5 (based on 25 reviews)]</i>
+									<!-- ***Insert rating image here!!! --> <i><%= request.getAttribute("rating") %></i>
 								</td>
 							</tr>
 							
@@ -176,7 +175,7 @@ else if (document.getElementById)
 									<b>Venue: </b>
 								</td>
 								<td>
-									<i>Rogers Arena</i>
+									<i><%= request.getAttribute("venue") %></i>
 								</td>
 							</tr>
 							
@@ -185,7 +184,7 @@ else if (document.getElementById)
 									<b>Address:</b>
 								</td>
 								<td>
-									<i>800 Griffiths Way</i>
+									<i><%= request.getAttribute("address") %></i>
 								</td>
 							</tr>
 							
@@ -194,7 +193,11 @@ else if (document.getElementById)
 									<b>Date: </b>
 								</td>
 								<td>
-									<i>November 17, 2011</i>
+									<i><% 
+									java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("MMM dd, yyyy");
+									java.util.Date date = (java.util.Date) request.getAttribute("eventDate");
+									out.println(formatter.format(date));
+									%></i>
 								</td>
 							</tr>
 							
@@ -203,7 +206,14 @@ else if (document.getElementById)
 									<b>Time: </b>
 								</td>
 								<td>
-									<i>7:00 PM PST</i>
+									<i>
+									<i><% 
+									java.text.SimpleDateFormat timeFormatter = new java.text.SimpleDateFormat("HH:mm:ss");
+									java.util.Date startTime = (java.util.Date) request.getAttribute("startTime");
+									java.util.Date endTime = (java.util.Date) request.getAttribute("endTime");
+									out.println(timeFormatter.format(startTime) + " - " + timeFormatter.format(endTime));
+									%></i>
+									</i>
 								</td>
 							</tr>
 						
@@ -276,7 +286,9 @@ else if (document.getElementById)
 										<h4 style="margin-top: 5px;">Event Description:</h4>
 									</div>
 									<div class="event_info_content">
-										<p>Event Description goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+										<p>
+											<%= request.getAttribute("genDesc") %>
+										</p>
 									</div>
 								</div>
 								<br>
@@ -286,7 +298,9 @@ else if (document.getElementById)
 										<h4 style="margin-top: 5px;">Venue Description:</h4>
 									</div>
 									<div class="event_info_content">
-										<p>Venue Description goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+										<p>
+											<%= request.getAttribute("venueDesc") %>
+										</p>
 									</div>
 								</div>
 								<br>
@@ -296,7 +310,9 @@ else if (document.getElementById)
 										<h4 style="margin-top: 5px;">Cost (& Methods of Payment, if applicable):</h4>
 									</div>
 									<div class="event_info_content">
-										<p>Cost and Methods of Payment for event goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+										<p>
+											<%= request.getAttribute("priceDesc") %>
+										</p>																			
 									</div>
 								</div>
 								<br>
@@ -306,7 +322,9 @@ else if (document.getElementById)
 										<h4 style="margin-top: 5px;">Commute & Driving Directions:</h4>
 									</div>
 									<div class="event_info_content">
-										<p>Commute & Driving Directions to event goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+										<p>
+											<%= request.getAttribute("transportDesc") %>
+										</p>	
 									</div>
 								</div>
 								<br>
@@ -316,7 +334,9 @@ else if (document.getElementById)
 										<h4 style="margin-top: 5px;">Other Useful Information:</h4>
 									</div>
 									<div class="event_info_content">
-										<p>Other Useful Information related to the event goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+										<p>
+											<%= request.getAttribute("otherInfo") %>
+										</p>
 									</div>
 								</div>
 								<br>
@@ -326,7 +346,9 @@ else if (document.getElementById)
 										<h4 style="margin-top: 5px;">Related Videos:</h4>
 									</div>
 									<div class="event_info_content">
-										<p>Links for videos related to the event goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+										<p>
+											<%= request.getAttribute("videos") %>
+										</p>
 									</div>
 								</div>
 								<br>
@@ -336,7 +358,9 @@ else if (document.getElementById)
 										<h4 style="margin-top: 5px;">Related Links:</h4>
 									</div>
 									<div class="event_info_content">
-										<p>Other links related to the event goes here!!! Feel free to edit when logged in as poster of this event. Thanks!</p>
+										<p>
+											<%= request.getAttribute("links") %>
+										</p>
 									</div>
 								</div>
 								

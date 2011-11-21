@@ -8,12 +8,14 @@ import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Models.Event;
 import Models.Event.EventInfo;
 
+@WebServlet("/EventPage")
 
 public class EventPage extends HttpServlet
 {
@@ -21,10 +23,6 @@ public class EventPage extends HttpServlet
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{	
 		try {
 			int eventID = Integer.parseInt(request.getParameter("eventID"));
 			
@@ -36,9 +34,9 @@ public class EventPage extends HttpServlet
 			String venue = myEvent.get(EventInfo.VENUE);
 			String address = myEvent.get(EventInfo.ADDRESS);
 			
-				Date eventDate = new SimpleDateFormat("yyyy-mm-dd").parse(myEvent.get(EventInfo.EVENT_DATE));
-				Date startTime = new SimpleDateFormat("HH:mm:ss").parse(myEvent.get(EventInfo.START_TIME));
-				Date endTime = new SimpleDateFormat("HH:mm:ss").parse(myEvent.get(EventInfo.END_TIME));
+			Date eventDate = new SimpleDateFormat("yyyy-MM-dd").parse(myEvent.get(EventInfo.EVENT_DATE));
+			Date startTime = new SimpleDateFormat("HH:mm:ss").parse(myEvent.get(EventInfo.START_TIME));
+			Date endTime = new SimpleDateFormat("HH:mm:ss").parse(myEvent.get(EventInfo.END_TIME));
 			
 			
 			float rating = Float.parseFloat(myEvent.get(EventInfo.RATING));
@@ -100,6 +98,10 @@ public class EventPage extends HttpServlet
 		} catch (ParseException e) {			
 			e.printStackTrace();
 		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{	
 	}
 	
 	

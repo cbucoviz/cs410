@@ -10,7 +10,7 @@
 <%@ include file="config/constants.jsp" %>
 <link href="config/default.css" rel="stylesheet" type="text/css" />
 <script src="scripts/ezcalendar_orange.js" type="text/javascript"></script>
-<script src="scripts/forwarder.js" type="javascript"></script>
+<script src="scripts/forwarder.js" type="text/javascript"></script>
 <!-- END OF INCLUDES -->
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -135,10 +135,9 @@ else if (document.getElementById)
 								ArrayList<Map<Models.Event.EventInfo, String>> events = Models.Location.getEventsAtLocation(Integer.parseInt(request.getParameter("city")));
 								for(int i = 0; i < events.size(); ++i)
 								{
-									out.println(events.get(i).get(Models.Event.EventInfo.TITLE) + "<br/>");
+									out.println("<a href='EventPage?eventID=" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'>" + events.get(i).get(Models.Event.EventInfo.TITLE) + "</a><br/>");
 								}
 							%>
-							
 						</div>
 						<div id="ed_event_div" class="city_event_categories">
 							<div id="ed_header_div" class="city_event_header">
