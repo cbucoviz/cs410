@@ -4,6 +4,8 @@ package Models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 
 import Database.DatabaseManager;
 
@@ -17,6 +19,8 @@ public class Search {
 	private static final String LATITUDE = "Latitude";
 	private static final String LONGITUDE = "Longitude";
 	private static final String ID = "locationID";
+	
+	
 	/**
 	 * Used to get the name, latitude and longitude of an event city to be displayed
 	 * on Google Earth.
@@ -54,20 +58,158 @@ public class Search {
 	/**
 	 * creates a JsonObject that has the event city details as properties.
 	 * 
-	 * @param cityName - name of the event city
-	 * @param latitude - latitude of the city
-	 * @param longitude - longitude of the city
-	 * @param id - id of the city
+	 * @param name - name 
+	 * @param latitude - latitude
+	 * @param longitude - longitude 
+	 * @param id - id 
 	 * @return JsonObject with the name, latitude and longitude
 	 */
-	private JsonObject createLocJson(String cityName, double latitude, double longitude, int id)
+	private JsonObject createLocJson(String name, double latitude, double longitude, int id)
 	{
 		JsonObject json = new JsonObject();
-		json.addProperty("name", cityName);
+		json.addProperty("name", name);
 		json.addProperty("lat", latitude);
 		json.addProperty("lng", longitude);
 		json.addProperty("id", id);
 		return json;
 	}
+	
+	
+	/**
+	 * This method searches the database for events in a city that are of a certain typw and returns 
+	 * their id's in an arraylist.
+	 * @param type - the type of the event
+	 * @param location - the location of the event
+	 * @return - an ArrayList with the id's of matching events.
+	 */
+	public ArrayList<Integer> getEventsByCityAndType(String type, String location)
+	{
+		ArrayList<Integer> eventId = new ArrayList<Integer>();
+		try
+		{
+			DatabaseManager dbMan = DatabaseManager.getInstance();
+			ResultSet events = dbMan.findEventsByTypeLocation(type, location);
+			
+			while (events.next()) 
+			{
+				eventId.add(events.getInt("eventID"));
+				
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return eventId;
+	}
+	
+	
+	/**
+	 * This method searches the database for events in a city and returns 
+	 * their id's in an ArrayList.
+	 * @param location - the location of the event
+	 * @return - an ArrayList with the id's of matching events.
+	 */
+	public ArrayList<Integer> getEventsByLocation(String location)
+	{
+		ArrayList<Integer> eventId = new ArrayList<Integer>();
+		try
+		{
+			DatabaseManager dbMan = DatabaseManager.getInstance();
+			ResultSet events = dbMan.findEventsByLocation(location);
+			
+			while (events.next()) 
+			{
+				eventId.add(events.getInt("eventID"));
+				
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return eventId;
+	}
+	
+	
+	/**
+	 * This method searches the database for events between certain dates and returns 
+	 * their id's in an ArrayList.
+	 * @param location - the location of the event
+	 * @return - an ArrayList with the id's of matching events.
+	 */
+	public ArrayList<Integer> getEventsBetweenDates(Date from, Date to)
+	{
+		ArrayList<Integer> eventId = new ArrayList<Integer>();
+		try
+		{
+			DatabaseManager dbMan = DatabaseManager.getInstance();
+			ResultSet events = dbMan.findEventsByDates(from, to);
+			
+			while (events.next()) 
+			{
+				eventId.add(events.getInt("eventID"));
+				
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return eventId;
+	}
+	
+	/**
+	 * Gets events that have a rating higher thatn the parameter passed in.
+	 * @param rating
+	 * @return
+	 */
+	public ArrayList<Integer> getEventsWithRating(float rating)
+	{
+		ArrayList<Integer> eventId = new ArrayList<Integer>();
+		try
+		{
+			DatabaseManager dbMan = DatabaseManager.getInstance();
+			ResultSet events = dbMan.findEventsByRating(rating);
+			
+			while (events.next()) 
+			{
+				eventId.add(events.getInt("eventID"));
+				
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return eventId;
+	}
+	
+	/**
+	 * Gets events that were created by a certain user
+	 * @param rating
+	 * @return
+	 */
+	public ArrayList<Integer> getEventsByUser(String user)
+	{
+		ArrayList<Integer> eventId = new ArrayList<Integer>();
+		try
+		{
+			DatabaseManager dbMan = DatabaseManager.getInstance();
+			ResultSet events = dbMan.findEventsByUser(user);
+			
+			while (events.next()) 
+			{
+				eventId.add(events.getInt("eventID"));
+				
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return eventId;
+	}
+	
 
 }

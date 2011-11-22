@@ -488,6 +488,77 @@ public class DatabaseManager
 			
 		return result;
 	}
+	
+	/**
+	 * Finds all the id's of events matching a certain type and location
+	 * @param type - event type
+	 * @param location - event location
+	 * @return
+	 * @throws SQLException
+	 */
+	public ResultSet findEventsByTypeLocation(String type,String location) throws SQLException
+	{
+		
+		PreparedStatement statement = connection.prepareStatement
+			      ("SELECT E.eventID FROM events AS E WHERE E.locationID IN " + 
+			    		  "(SELECT locationID FROM locations WHERE city = ?) "+
+			    		  "AND E.eventID in (SELECT eventID FROM eventsandtypes AS A, " +
+			    		  "eventtypes AS T WHERE A.eventTypeID = T.typeID AND T.eventType = ? )");
+			statement.setString(1, location);
+			statement.setString(2, type);
+			ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
+	/**
+	 * Finds all the id's of events matching a certain location
+	 * @param type - event type
+	 * @param location - event location
+	 * @return
+	 * @throws SQLException
+	 */
+	public ResultSet findEventsByLocation(String location) throws SQLException
+	{
+		
+		PreparedStatement statement = connection.prepareStatement
+			      ("SELECT E.eventID FROM events AS E WHERE E.locationID IN " + 
+			    		  "(SELECT locationID FROM locations WHERE city = ?) ");
+			statement.setString(1, location);
+			ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
+	/**
+	 * Gets all event id's for events that have a higher rating than the parameter.
+	 * @param rating
+	 * @return
+	 * @throws SQLException
+	 */
+	public ResultSet findEventsByRating(float rating) throws SQLException
+	{
+		
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT E.eventID FROM events AS E WHERE E.rating >="+rating);
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
+	/**
+	 * Gets the event Id's that were created by "user"
+	 * @param user
+	 * @return
+	 * @throws SQLException
+	 */
+	public ResultSet findEventsByUser(String user) throws SQLException
+	{
+		
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT E.eventID FROM events AS E, users AS U WHERE E.creatorID = U.userID " + 
+						"AND U.name = ?");
+		statement.setString(1, user);
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
 
 	/**
 	 * An advanced version of find events functions. It takes a location, a range of dates,
@@ -541,6 +612,19 @@ public class DatabaseManager
 		ResultSet result = statement.executeQuery();
 		
 		return result;
+	}
+	
+	public ResultSet findEventsByDates (Date from, Date to) throws SQLException
+	{
+		java.sql.Date sqlFrom = new java.sql.Date(from.getTime());
+		java.sql.Date sqlTo = new java.sql.Date(to.getTime());
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT E.eventID FROM events AS E " +
+						"WHERE E.eventDate BETWEEN "+sqlFrom+" AND "+sqlTo+" ");
+		ResultSet result = statement.executeQuery();
+		
+		return result; 
+						
 	}
 
 	/**
@@ -955,6 +1039,21 @@ public class DatabaseManager
 	{
 		PreparedStatement statement = connection.prepareStatement
 			("SELECT * FROM users AS U WHERE U.email = '"+ email +"' "); 
+		ResultSet result = statement.executeQuery();
+		
+		return result;
+	}
+	
+	/**
+	 * Gets the user associated with an id
+	 * @param userID - an id of a user
+	 * @throws SQLException - most likely various problems with syntax and/or some problems
+	 *                        with the database (tables changed, etc.)
+	 */
+	public ResultSet getUser(int id) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+			("SELECT * FROM users AS U WHERE U.userID = '"+ id +"' "); 
 		ResultSet result = statement.executeQuery();
 		
 		return result;
@@ -1470,7 +1569,15 @@ public class DatabaseManager
 	
 	
 	
-	
+	public void testQuery2(String user) throws SQLException
+	{
+		
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT E.eventID FROM events AS E, users AS U WHERE E.creatorID = U.userID " + 
+						"AND U.name = ?");
+		statement.setString(1, user);
+		ResultSet result = statement.executeQuery();
+	}
 	
 	
 	public void testQuery() throws SQLException

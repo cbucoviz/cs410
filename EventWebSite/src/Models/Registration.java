@@ -1,11 +1,11 @@
 package Models;
 
+
 import java.sql.ResultSet;
 
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -13,7 +13,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import biz.source_code.base64Coder.Base64Coder;
+
+
+
+
+
 
 
 import Database.DatabaseManager;
@@ -22,7 +27,12 @@ import Database.DatabaseManager.UserType;
 public class Registration 
 {
 	
-	private static final int fail = -1;
+	private static final int FAIL = -1;
+	
+
+
+
+
 	
 	/**
 	 * Registers the user, calls the databaseManager to place user in DB and instantiates the 
@@ -43,7 +53,7 @@ public class Registration
 	{
 		Boolean registered = false;
 		DatabaseManager dbMan = null;
-		int userID = fail;
+		int userID = FAIL;
 		try {
 			dbMan = DatabaseManager.getInstance();
 			ResultSet result = dbMan.getLocationID(city, state, country);
@@ -58,7 +68,7 @@ public class Registration
 			{
 				userID = user.getInt("userID");
 			}
-			if(userID != fail)
+			if(userID != FAIL)
 			{
 				emailUser(name,password,email,userID);
 			}
@@ -71,7 +81,7 @@ public class Registration
 			{
 				dbMan = DatabaseManager.getInstance();
 			}
-			if(userID != fail)
+			if(userID != FAIL)
 			{
 				dbMan.deleteUser(userID);
 			}
@@ -86,6 +96,24 @@ public class Registration
 		
 	}
 	
+	public static int activateUser(String id)
+	{
+		int success = -1;
+		DatabaseManager dbMan = null;
+		try {
+			String decoded = Base64Coder.decodeString(id);
+			int userID = Integer.parseInt(decoded);
+			dbMan = DatabaseManager.getInstance();
+			dbMan.activateUser(userID);
+			success = userID;
+		}
+		catch(Exception ex)
+		{
+			return -1;
+		}
+		return success;
+	}
+	
 	
 	/**
 	 * E-mails the user the link to follow for activation of their account
@@ -94,12 +122,17 @@ public class Registration
 	 * @param password - the users password
 	 * @param email - the email that the activation link will be mailed to.
 	 * @param userID - the new userId of the user
-	 * @throws NamingException 
-	 * @throws MessagingException 
+	 * @throws Exception 
 	 */
-	public static void emailUser(String name, String password, String email, int userID) throws NamingException, MessagingException
+	public static void emailUser(String name, String password, String email, int userID) throws Exception
 	{
-			String link = "http://localhost:8080/EventWebSite/activate?Id="+userID;
+			email = email.trim();
+			
+			String id = String.valueOf(userID);
+			
+			String encoded = Base64Coder.encodeString(id);
+			
+			String link = "http://localhost:8080/EventWebSite/activate?Id="+encoded;
 		 	Context initCtx = new InitialContext();
 	        Context envCtx = (Context) initCtx.lookup("java:comp/env");
 	        Session session = (Session) envCtx.lookup("mail/Session");
@@ -112,6 +145,10 @@ public class Registration
 	        				link +" \n\nThank you,\n\nThe Global Events Team");
 	        Transport.send(message);
 	}
+	
+
+
+
 }
 
 class SMTPAuthenticator extends Authenticator {
