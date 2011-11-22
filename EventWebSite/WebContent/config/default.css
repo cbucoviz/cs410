@@ -36,27 +36,27 @@ hr
 	color: #ffffff;
 }
 
-h2.cultural
+.cultural
 {
 	color: yellow;
 }
 
-h2.education
+.education
 {
 	color: orange;
 }
 
-h2.music
+.music
 {
 	color: purple;
 }
 
-h2.sports
+.sports
 {
 	color: blue;
 }
 
-h2.others
+.others
 {
 	color: brown;
 }

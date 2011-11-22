@@ -124,10 +124,12 @@ else if (document.getElementById)
 			<table class="event_name_header">
 				<tr>
 					<td colspan="2">
-						<h2 class="sports"><font><%= request.getAttribute("title") %></font></h2>
-					</td>
-					<td style="padding-left:20px; text-align: center;" rowspan="2">
+						<i><b><font size="6"><%= request.getAttribute("title") %></font></b></i>
 						<button type="button" name="subs_event_button" class="button1" value="subscribe_event">Subscribe to This Event</button>
+						<br>
+						<i><b>Category: <font class="sports">Sports</font></b></i>
+						<br>
+						<br>
 					</td>
 				</tr>
 				<tr>
