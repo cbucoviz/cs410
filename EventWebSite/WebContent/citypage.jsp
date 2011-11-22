@@ -108,6 +108,26 @@ else if (document.getElementById)
 	<table class="city_event_table">
 		<tr>
 			<td id="city_tab_td">	
+			
+				<div class="city_name_tag">
+					<table>
+						<tr>
+							<td>
+								<!-- Insert Local Name Here (Replace next line)-->
+								<h4>Locale:
+								<% 
+									LocationAddress location = Models.Location.getLocationAddress(Integer.parseInt(request.getParameter("city")));
+									out.print(location.toString());
+								%>
+								</h4>
+							</td>
+							<td>
+								<button type="button" name="subs_locale_button" class="button1" value="subscribe_locale">Subscribe to Locale</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+					
 				<div id="ddimagetabs" class="halfmoon">
 					<ul>
 						<li class="selected"><a onmousedown="expandcontent('city_event_tab', this)">Event</a></li>
@@ -219,24 +239,6 @@ else if (document.getElementById)
 			</td>
 			<td id="city_map_td">
 				<div class="city_map_container">
-					<div class="city_name_tag">
-						<table>
-							<tr>
-								<td>
-									<!-- Insert Local Name Here (Replace next line)-->
-									<h4>Locale:
-									<% 
-										LocationAddress location = Models.Location.getLocationAddress(Integer.parseInt(request.getParameter("city")));
-										out.print(location.toString());
-									%>
-									</h4>
-								</td>
-								<td>
-									<button type="button" name="subs_locale_button" class="button1" value="subscribe_locale">Subscribe to Locale</button>
-								</td>
-							</tr>
-						</table>
-					</div>
 					<div class="city_map">
 					</div>
 				</div>
