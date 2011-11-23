@@ -32,6 +32,28 @@ public class Location
 		return null;
 	}
 	
+	public static int getLocationId(LocationAddress address)
+	{
+		try
+		{
+			// get the events by location, no filtering
+			DatabaseManager dbManager = DatabaseManager.getInstance();
+			ResultSet result = dbManager.getLocationID(address.city, address.state, address.country);
+			
+			if(result.next())
+			{
+				return result.getInt("locationID");
+				
+			}
+		} 
+		catch(Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
+		
+		return -1;
+	}
+	
 	public static ArrayList<Map<EventInfo, String>> getEventsAtLocation(int locId)
 	{
 		ArrayList<Map<EventInfo, String>> returnList = new ArrayList<Map<EventInfo, String>>();
