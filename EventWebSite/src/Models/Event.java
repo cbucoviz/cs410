@@ -448,8 +448,55 @@ public class Event
 		return false;		
 	}
 	
+	public static void subscribeToEvent(int eventID, int subscriberID)
+	{
+		DatabaseManager dbManager;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			dbManager.subscribeToEvent(eventID, subscriberID);
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		}
+	}
 	
+	public static void unsubscribeFromEvent(int eventID, int subscriberID)
+	{
+		DatabaseManager dbManager;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			dbManager.unsubscribeFromEvent(eventID, subscriberID);
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		}
+	}	
 	
+	public static void attendEvent(int eventID, int attendeeID)
+	{
+		DatabaseManager dbManager;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			dbManager.attendEvent(eventID, attendeeID);
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		}
+	}
 	
-	
+	public static void stopAttendingEvent(int eventID, int attendeeID)
+	{
+		DatabaseManager dbManager;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			dbManager.stopAttendingEvent(eventID, attendeeID);
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		}
+	}	
 }
