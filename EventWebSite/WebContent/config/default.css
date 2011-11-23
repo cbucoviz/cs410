@@ -649,12 +649,12 @@ table.city_event_table
 
 #edit_event_div
 {
-	display: block;
+	display: none;
 }
 
 #create_event_div
 {
-	display: none;
+	display: block;
 }
 
 #register_header

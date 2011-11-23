@@ -124,6 +124,11 @@ else if (document.getElementById)
 							<td>
 								<button type="button" name="subs_locale_button" class="button1" value="subscribe_locale">Subscribe to Locale</button>
 							</td>
+							<td>
+								<% if(session.getAttribute(Servlets.SessionVariables.LOGGED_IN) != null && (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN)){ %>
+									<a href="editevent.jsp?locationId=<%= request.getParameter("city") %>" class="button1">Create Event at Locale</a>
+								<% } %> 
+							</td>
 						</tr>
 					</table>
 				</div>
