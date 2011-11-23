@@ -521,7 +521,7 @@ public class DatabaseManager
 	{
 		
 		PreparedStatement statement = connection.prepareStatement
-			      ("SELECT E.eventID FROM events AS E WHERE E.locationID IN " + 
+			      ("SELECT * FROM events AS E WHERE E.locationID IN " + 
 			    		  "(SELECT locationID FROM locations WHERE city = ?) ");
 			statement.setString(1, location);
 			ResultSet result = statement.executeQuery();

@@ -19,6 +19,8 @@ public class Search {
 	private static final String LATITUDE = "Latitude";
 	private static final String LONGITUDE = "Longitude";
 	private static final String ID = "locationID";
+	private static final String TITLE = "title";
+	private static final String EVENTID = "eventID";
 	
 	
 	/**
@@ -211,5 +213,38 @@ public class Search {
 		return eventId;
 	}
 	
+	/**
+	 * Used to get the name, latitude, longitude and id of an event to be displayed
+	 * on Google Earth.
+	 * @return returns a Json Array with the Event Location information
+	 */
+	public JsonArray getGoogleMapEvents(String city)
+	{
+		JsonArray returnValue = new JsonArray();
+		try
+		{
+			DatabaseManager dbMan = DatabaseManager.getInstance();
+			ResultSet locations = dbMan.findEventsByLocation(city);
+			while (locations.next()) 
+			{
+		        returnValue.add(
+		        		createLocJson(	locations.getString(TITLE),
+		        						locations.getDouble(LATITUDE),
+		        						locations.getDouble(LONGITUDE),
+		        						locations.getInt(EVENTID)
+		        ));
+		    }
+		}
+		catch(SQLException sExp)
+		{
+			sExp.printStackTrace();
+		} 
+		catch (ClassNotFoundException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return returnValue;
+	}
 
 }
