@@ -120,7 +120,12 @@ else if (document.getElementById)
 <body>
 	<div class="event_container">
 		<div class="event_name_header">
+		
+			<a  class="button1"  href="citypage.jsp?city=<%= request.getAttribute("locationID") %>" style="margin-left: 10px;">Return to <%= request.getAttribute("city") %></a>
 			<button type="button" name="report_event_button"class="button1"  value="report_event" style="float: right; margin-right: 20px;">Report This Event</button>
+			<br>
+			<br>
+			
 			<table class="event_name_header">
 				<tr>
 					<td colspan="2">
