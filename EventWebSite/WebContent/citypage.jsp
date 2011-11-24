@@ -11,6 +11,7 @@
 <link href="config/default.css" rel="stylesheet" type="text/css" />
 <script src="scripts/ezcalendar_orange.js" type="text/javascript"></script>
 <script src="scripts/forwarder.js" type="text/javascript"></script>
+<script src="plugins/jquery-qtip.js"></script>
 <!-- END OF INCLUDES -->
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -99,6 +100,36 @@ else if (document.getElementById)
 {
 	window.onload=do_onload
 }
+
+
+
+$(document).ready(function()
+{
+	// any button with the popup attribute will have a qtip associated with it
+	$('li[popup]').each(function() 
+	{
+		$(this).qtip(
+		{
+			 content: {
+			     // create a qtip with this button.. i'm not sure if it should be $(this) or $(this).parent().attr("popup") look at jquery api
+			     // use alerts to debug.. alert($(this).attr("popup")) should return eventId if it is working
+			      url: "popup.jsp?eventId=" + $(this).attr('popup')
+			 },
+			 position: {
+			     corner: {
+			          target: 'bottomRight',
+			          tooltip: 'topRight'    
+			     }
+			 },
+			 hide: {
+			      when: 'mouseout',
+			      fixed: true,
+			      delay: 100
+			 }
+		});
+	});
+});
+
 </script>
 
 </head>
@@ -148,14 +179,14 @@ else if (document.getElementById)
 							<ul>
 							
 							<%
-								
+
 								ArrayList<Map<Models.Event.EventInfo, String>> events = Models.Location.getEventsAtLocation(Integer.parseInt(request.getParameter("city")));
 								for(int i = 0; i < events.size(); ++i)
 								{
-									out.println("<li class='event_item' onmouseover=''><a href='EventPage?eventID=" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'>" + events.get(i).get(Models.Event.EventInfo.TITLE) + "</a></li>");
+								out.println("<li class='event_item' popup='" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'><a href='EventPage?eventID=" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'>" + events.get(i).get(Models.Event.EventInfo.TITLE) + "</a></li>");
 								}
 							%>
-								<li class="event_item" onmouseover=""><a class="event" href="#">blah</a></li>
+							
 							</ul>
 						</div>
 						<div id="ed_event_div" class="city_event_categories">

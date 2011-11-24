@@ -95,7 +95,7 @@ ul
    cursor: pointer;
 }
 
-li.event_item 
+.event_item 
 {
 	background:url("../resources/item_gradient.jpg") repeat-x;
   	border: 1px #ff0000 outset; 
@@ -105,14 +105,14 @@ li.event_item
   	margin: 0px 30px 0px -30px;
 }
 
-li.event_item:visited, li.event_item:active
+.event_item:visited, .event_item:active
 {  
   	color: #ffffff;
   	text-decoration: none;
   	margin: 0px 30px 0px -30px;
 }
 
-li.event_item:hover
+.event_item:hover
 {
   	color: #ffffff;
   	text-decoration: none;
@@ -122,6 +122,17 @@ li.event_item:hover
   	cursor: pointer;
   	margin: 0px 30px 0px -30px;
   	font-weight: bold;
+}
+
+div.event_popup
+{
+	background-color: red;
+	height: auto;
+	width: 200px;
+	margin-left: 313px;
+	margin-top: -22px;
+	position: absolute;
+	visibility: visible;
 }
 
 div.city_tab_page
