@@ -1567,6 +1567,125 @@ public class DatabaseManager
 	}
 	
 	
+	public void subscribeToEvent(int eventID, int subscriberID) throws SQLException
+	{	
+		PreparedStatement statement = connection.prepareStatement
+				("INSERT INTO eventsubscribers (subscriberID, eventID) " +
+						
+							"VALUES ("+subscriberID+","+eventID+")");						
+		statement.executeUpdate();		
+		
+		statement = connection.prepareStatement
+				("UPDATE events " +
+				"SET numSubscribers = numSubscribers + 1 "+ 
+				"WHERE eventID = "+eventID+ " ");				
+		statement.executeUpdate();
+	}
+	
+	public void unsubscribeFromEvent(int eventID, int subscriberID) throws SQLException
+	{	
+		PreparedStatement statement = connection.prepareStatement
+				("DELETE FROM eventsubscribers " +
+				"WHERE eventID = "+eventID+" " +
+					 " AND subscriberID = "+subscriberID+" ");						
+		statement.executeUpdate();		
+		
+		statement = connection.prepareStatement
+				("UPDATE events " +
+				"SET numSubscribers = numSubscribers - 1 "+ 
+				"WHERE eventID = "+eventID+ " ");				
+		statement.executeUpdate();
+	}
+	
+	
+	public void attendEvent(int eventID, int attendeeID) throws SQLException
+	{	
+		PreparedStatement statement = connection.prepareStatement
+				("INSERT INTO eventattendees (attendeeID, eventID) " +
+						
+							"VALUES ("+attendeeID+","+eventID+")");						
+		statement.executeUpdate();		
+		
+		statement = connection.prepareStatement
+				("UPDATE events " +
+				"SET numAttendees = numAttendees + 1 "+ 
+				"WHERE eventID = "+eventID+ " ");				
+		statement.executeUpdate();
+		
+		if(isSubscribed(attendeeID, eventID))
+		{
+			return;
+		}
+		subscribeToEvent(eventID, attendeeID);
+	}
+	
+	public void stopAttendingEvent(int eventID, int attendeeID) throws SQLException
+	{	
+		PreparedStatement statement = connection.prepareStatement
+				("DELETE FROM eventattendees " +
+				"WHERE eventID = "+eventID+" " +
+					 " AND attendeeID = "+attendeeID+" ");						
+		statement.executeUpdate();		
+		
+		statement = connection.prepareStatement
+				("UPDATE events " +
+				"SET numAttendees = numAttendees - 1 "+ 
+				"WHERE eventID = "+eventID+ " ");				
+		statement.executeUpdate();
+	}
+	
+	public boolean isSubscribed(int userID, int eventID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT SU.subscriberID " +						
+				 "FROM eventsubscribers AS SU "+
+	             "WHERE SU.eventID = " + eventID +" " +
+	             		"AND SU.subscriberID = "+userID+" ");		
+		ResultSet result = statement.executeQuery();
+		if(result.next())
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	
+	public void subscribeToUser(int userID, int subscriberID) throws SQLException
+	{	
+		PreparedStatement statement = connection.prepareStatement
+				("INSERT INTO usersubscribers (subscriberID, userID) " +
+						
+							"VALUES ("+subscriberID+","+userID+")");						
+		statement.executeUpdate();
+	}
+	
+	public void unsubscribeFromUser(int userID, int subscriberID) throws SQLException
+	{	
+		PreparedStatement statement = connection.prepareStatement
+				("DELETE FROM usersubscribers " +
+				"WHERE userID = "+userID+" " +
+					 " AND subscriberID = "+subscriberID+" ");						
+		statement.executeUpdate();
+	}
+	
+	public void subscribeToLocation(int locationID, int subscriberID) throws SQLException
+	{	
+		PreparedStatement statement = connection.prepareStatement
+				("INSERT INTO subscribedlocales (userID, locationID) " +
+						
+							"VALUES ("+subscriberID+","+locationID+")");						
+		statement.executeUpdate();
+	}
+	
+	public void unsubscribeFromLocation(int locationID, int subscriberID) throws SQLException
+	{	
+		PreparedStatement statement = connection.prepareStatement
+				("DELETE FROM subscribedlocales " +
+				"WHERE locationID = "+locationID+" " +
+					 " AND userID = "+subscriberID+" ");						
+		statement.executeUpdate();
+	}
+	
 	
 	
 	public void testQuery2(String user) throws SQLException

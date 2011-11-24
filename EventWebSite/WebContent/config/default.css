@@ -12,6 +12,7 @@ body
 a
 {
 	color: #ffffff;
+	text-decoration: none;
 }
 
 hr
@@ -20,6 +21,11 @@ hr
 	height: 3px;
 	background-color: gray;
 	color: gray; 
+}
+
+ul
+{
+	list-style-type: none;
 }
 
 .indent 
@@ -61,32 +67,61 @@ hr
 	color: brown;
 }
 
-.button1 
+.button1
 {
 	background:url("../resources/button_gradient.gif") repeat-x;
-  	border: 1px #ff0000 outset; 
-  	padding: 1px 4px;
-  	color:#000000;
-  	text-decoration: none;
-  	font: bold 10px Verdana;  
+   border: 1px #ff0000 outset;
+   padding: 1px 4px;
+   color:#000000;
+   text-decoration: none;
+   font: bold 10px Verdana;
 }
 
 .button1:visited, .button1:active
-{  
-  	color: #ffffff;
-  	text-decoration: none;
-  	font: bold 10px Verdana;  
+{
+   color: #ffffff;
+   text-decoration: none;
+   font: bold 10px Verdana;
 }
 
 .button1:hover
 {
+   color: #ffffff;
+   text-decoration: none;
+   font: bold 10px Verdana;
+   border-style: inset;
+   background-color: #0000ff;
+   padding: 2px 3px 0px 5px; /* shift text 1px to the right and down */
+   cursor: pointer;
+}
+
+li.event_item 
+{
+	background:url("../resources/item_gradient.jpg") repeat-x;
+  	border: 1px #ff0000 outset; 
+  	padding: 1px 4px;
+  	color: black;
+  	text-decoration: none;
+  	margin: 0px 30px 0px -30px;
+}
+
+li.event_item:visited, li.event_item:active
+{  
   	color: #ffffff;
   	text-decoration: none;
-  	font: bold 10px Verdana;
+  	margin: 0px 30px 0px -30px;
+}
+
+li.event_item:hover
+{
+  	color: #ffffff;
+  	text-decoration: none;
   	border-style: inset;
-  	background-color: #0000ff;
+  	background-color: #0000CD;
   	padding: 2px 3px 0px 5px; /* shift text 1px to the right and down */
   	cursor: pointer;
+  	margin: 0px 30px 0px -30px;
+  	font-weight: bold;
 }
 
 div.city_tab_page
@@ -109,8 +144,8 @@ div.event_tab_page
 div.city_page_background
 {
 	background: green;
-	margin: 30px; 
-	margin-left: 100px; 
+	margin: 30px;
+	margin-left: 100px;
 	border: 4px outset green;
 	width: 1060px;
 	height: auto;
@@ -134,10 +169,9 @@ div.city_name_tag
 div.city_map
 {
 	border: 3px groove black;
-	height: 520px;
+	height: 460px;
 	width: 470px;
 	margin: 20px;
-	margin-top: 100px;
 	background: white;
 }
 
@@ -154,12 +188,8 @@ div.event_info_categories
 div.city_event_header
 {
 	height: 50px;
-	padding-bottom: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 0.1px;
-	margin-left: -10px;
-	margin-top: 20px;
+	padding: 0.1px 20px 5px 20px;
+	margin: 20px 0px -16px -10px;
 	width: 320px;
 	color: white;
 }
@@ -167,8 +197,8 @@ div.city_event_header
 div.event_info_header
 {
 	height: 30px;
-    padding-left: 20px;
-    padding-right: 20px;
+	padding-left: 20px;
+	padding-right: 20px;
 	margin-left: 30px;
 	width: 665px;
 	color: white;
@@ -190,8 +220,8 @@ div.event_info_content
 div.event_container
 {
 	background: green;
-	margin: 30px; 
-	margin-left: 100px; 
+	margin: 30px;
+	margin-left: 100px;
 	border: 4px outset green;
 	width: 1060px;
 	height: auto;
@@ -245,14 +275,14 @@ div.discs_post_header
 {
 	height: auto;
 	width: 100%;
-	font-size: 13spx;
+	font-size: 13px;
 }
 
 div.review_post_header
 {
 	height: auto;
 	width: 100%;
-	font-size: 13spx;
+	font-size: 13px;
 }
 
 div.event_map
@@ -306,7 +336,7 @@ p.post_comment
 
 p.comment_content
 {
-	text-indent: 80px; 
+	text-indent: 80px;
 	margin-top: -15px;
 }
 
@@ -328,13 +358,13 @@ table.city_event_table
 
 #save_login_indent
 {
-	margin-left:90px; 
-	margin-bottom:-40px; 
+	margin-left:90px;
+	margin-bottom:-40px;
 	margin-top:-15px;
 }
 
 #login_button_indent
-{ 
+{
 	margin-left: 90px;
 	margin-bottom: -20px;
 }
@@ -355,8 +385,8 @@ table.city_event_table
 #signup_page_div
 {
 	background: green;
-	margin: 30px; 
-	margin-left: 100px; 
+	margin: 30px;
+	margin-left: 100px;
 	border: 4px outset green;
 	height: auto;
 	width: 1060px;
@@ -466,7 +496,7 @@ table.city_event_table
 	border: 1px solid black;
 }
 
-#EZcalendar 
+#EZcalendar
 {
 	display: none;
 	position: absolute;
@@ -478,11 +508,14 @@ table.city_event_table
 	font: 11px Arial, Helvetica, sans-serif;
 	border: 4px solid #C6470E;
 }
-#EZcalendar form {
+
+#EZcalendar form 
+{
 	margin: 0;
 	padding: 0;
 }
-#EZcalendar table 
+
+#EZcalendar table
 {
 	border: 1px solid #eee;
 	border-collapse: collapse;
@@ -490,7 +523,8 @@ table.city_event_table
 	margin: 0;
 	padding: 0;
 }
-#EZcalendar table td, #EZcalendar table th 
+
+#EZcalendar table td, #EZcalendar table th
 {
 	width: 16px;
 	height: 16px;
@@ -498,7 +532,7 @@ table.city_event_table
 	text-align: center;
 }
 
-#EZcalendar table td a.outsideMonth 
+#EZcalendar table td a.outsideMonth
 {
 	background: #E86A11;
 	color: #fff;
@@ -509,7 +543,7 @@ table.city_event_table
 	background: #F9812D;
 	color: #fff;
 }
-#EZcalendar table td a 
+#EZcalendar table td a
 {
 	background: #F29917;
 	color: #333;
@@ -523,13 +557,13 @@ table.city_event_table
 	text-decoration: none;
 }
 
-#EZcalendar table td a:hover 
+#EZcalendar table td a:hover
 {
 	color: #333;
 	background: #FFFF99;
 }
 
-#EZcalendar table td#EZcalendar_text 
+#EZcalendar table td#EZcalendar_text
 {
 	background: #F29917;
 	text-align: center;
@@ -537,7 +571,7 @@ table.city_event_table
 	height: 16px;
 }
 
-#EZcalendar input 
+#EZcalendar input
 {
 	border: none;
 	background: #E86A11;
@@ -550,17 +584,17 @@ table.city_event_table
 	text-align: center;
 }
 
-#EZcalendar input.left 
+#EZcalendar input.left
 {
 	float: left;
 }
 
-#EZcalendar input.right 
+#EZcalendar input.right
 {
 	float: right;
 }
 
-#EZcalendar_table 
+#EZcalendar_table
 {
 	clear: both;
 }
@@ -584,7 +618,7 @@ table.city_event_table
 }
 
 #sports_header_div
-{	
+{
 	background-color: blue;
 	border: 2px outset blue;
 }
@@ -639,12 +673,12 @@ table.city_event_table
 #edit_event_container
 {
 	background: green;
-	margin: 30px; 
-	margin-left: 100px; 
+	margin: 30px;
+	margin-left: 100px;
 	border: 4px outset green;
 	height: auto;
 	width: 1060px;
-	font-family: verdana;	
+	font-family: verdana;
 }
 
 #edit_event_div
@@ -672,4 +706,11 @@ table.city_event_table
 	color: black;
 	padding: 20px;
 	padding-top: 0px;
+}
+
+#city_buttons
+{
+	margin-left: 20px;
+	margin-top: 100px;
+	height: 20px;
 }

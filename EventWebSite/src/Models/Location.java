@@ -1,6 +1,7 @@
 package Models;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -76,6 +77,33 @@ public class Location
 		}
 		
 		return returnList;
+	}
+	
+	
+	public static void subscribeToLocation(int locationID, int subscriberID)
+	{
+		DatabaseManager dbManager;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			dbManager.subscribeToLocation(locationID, subscriberID);
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		}
+	}
+	
+	public static void unsubscribeFromLocation(int locationID, int subscriberID)
+	{
+		DatabaseManager dbManager;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			dbManager.unsubscribeFromLocation(locationID, subscriberID);
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		}
 	}
 }
 

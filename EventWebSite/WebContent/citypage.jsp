@@ -121,14 +121,6 @@ else if (document.getElementById)
 								%>
 								</h4>
 							</td>
-							<td>
-								<button type="button" name="subs_locale_button" class="button1" value="subscribe_locale">Subscribe to Locale</button>
-							</td>
-							<td>
-								<% if(session.getAttribute(Servlets.SessionVariables.LOGGED_IN) != null && (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN)){ %>
-									<a href="editevent.jsp?locationId=<%= request.getParameter("city") %>" class="button1">Create Event at Locale</a>
-								<% } %> 
-							</td>
 						</tr>
 					</table>
 				</div>
@@ -153,16 +145,18 @@ else if (document.getElementById)
 							<!-- ktam: just put everything in cultural for now.. not sure
 							how Ka Ho wants to deal with this layout -->
 							<%@ page import="java.util.*" %>
-						
+							<ul>
 							
 							<%
 								
 								ArrayList<Map<Models.Event.EventInfo, String>> events = Models.Location.getEventsAtLocation(Integer.parseInt(request.getParameter("city")));
 								for(int i = 0; i < events.size(); ++i)
 								{
-									out.println("<a href='EventPage?eventID=" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'>" + events.get(i).get(Models.Event.EventInfo.TITLE) + "</a><br/>");
+									out.println("<li class='event_item' onmouseover=''><a href='EventPage?eventID=" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'>" + events.get(i).get(Models.Event.EventInfo.TITLE) + "</a></li>");
 								}
 							%>
+								<li class="event_item" onmouseover=""><a class="event" href="#">blah</a></li>
+							</ul>
 						</div>
 						<div id="ed_event_div" class="city_event_categories">
 							<div id="ed_header_div" class="city_event_header">
@@ -244,7 +238,16 @@ else if (document.getElementById)
 			</td>
 			<td id="city_map_td">
 				<div class="city_map_container">
+				
+					<div id="city_buttons">
+						<% if(session.getAttribute(Servlets.SessionVariables.LOGGED_IN) != null && (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN)){ %>
+							<a class="button1" href="editevent.jsp?locationId=<%= request.getParameter("city") %>" class="button1">Create Event at Locale</a>
+						<% } %> 
+						<button type="button" name="subs_locale_button" class="button1" value="subscribe_locale">Subscribe to Locale</button>				
+					</div>
+					
 					<div class="city_map">
+					
 					</div>
 				</div>
 				
