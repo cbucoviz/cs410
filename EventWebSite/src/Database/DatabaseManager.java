@@ -701,7 +701,8 @@ public class DatabaseManager
 				          "AND U.userID = SL.userID " +
 				          "AND L.locationID = SL.locationID " +
 				          "AND E.locationID = SL.locationID) " +				          
-				    "AS Temp");
+				    "AS Temp " +
+			"GROUP BY Temp.city");
 		ResultSet result = statement.executeQuery();
 		
 		return result;
@@ -899,7 +900,7 @@ public class DatabaseManager
 	{
 		PreparedStatement statement = connection.prepareStatement
 			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.endTime, " +
-					"U.userID, U.name " +
+					"U.userID, U.name, L.city " +
 			"FROM events AS E, users AS U, locations AS L " +
 			"WHERE L.locationID = "+locationID+" " +
 			     "AND E.locationID = L.locationID " +
@@ -912,7 +913,7 @@ public class DatabaseManager
 	}
 	
 	/**
-	 * This function returns top 10 users for a given location. User rating is calculating by 
+	 * This function returns top 10 users who created events for a given location. User rating is calculating by 
 	 * multiplying a rating of an event created by that user by a multiplier (which depends
 	 * on number of reviews for that event:<br/>
 	 *				  If between 1 and 4 -> 1 (multiplier)<br/>
@@ -942,8 +943,9 @@ public class DatabaseManager
 			     "FROM events AS E, users AS U, locations AS L " +
 			     "WHERE  E.creatorID = U.userID " +
 			            "AND L.locationID = "+locationID+" " +
-			            "AND U.locationID = L.locationID) AS Temp " +
-			"ORDER BY 'User rating' " +
+			            "AND E.locationID = L.locationID) AS Temp " +
+			"GROUP BY Temp.name " +
+			"ORDER BY 'User rating' " +			
 			"LIMIT 10");
 		ResultSet result = statement.executeQuery();
 		
@@ -1685,6 +1687,23 @@ public class DatabaseManager
 					 " AND userID = "+subscriberID+" ");						
 		statement.executeUpdate();
 	}
+	
+	public ResultSet findAttendeesToMailTo() throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT U.name, U.email,U.userID, E.title, E.eventID,E.eventDate, " +
+						"DateDiff(E.eventDate, CURDATE()) AS NumberOfDays " +
+				"FROM users AS U, events AS E, eventattendees AS EA " +
+				"WHERE E.eventID = EA.eventID " +
+					  "AND U.userID = EA.attendeeID " +
+					  "AND (CURDATE()<=E.eventDate) " +
+					  "AND (DateDiff(E.eventDate, CURDATE()) = 7 " +
+					  		"OR DateDiff(E.eventDate, CURDATE()) = 1) " +
+				"ORDER BY U.name");
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
 	
 	
 	
