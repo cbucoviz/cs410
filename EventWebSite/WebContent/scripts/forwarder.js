@@ -126,10 +126,7 @@ $(document).ready(function()
 		{
 			eventButton.html("Unsubscribe from the Event")
 		}
-		else
-		{
-			eventButton.html("Subscribe to the Event")
-		}
+		
 	});
 
 });
