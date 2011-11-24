@@ -1,3 +1,4 @@
+<%@page import="Models.Location"%>
 <%@page import="Models.LocationAddress"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -242,8 +243,21 @@ else if (document.getElementById)
 					<div id="city_buttons">
 						<% if(session.getAttribute(Servlets.SessionVariables.LOGGED_IN) != null && (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN)){ %>
 							<a class="button1" href="editevent.jsp?locationId=<%= request.getParameter("city") %>" class="button1">Create Event at Locale</a>
+						
+							<button type="button" name="subs_locale_button" class="button1" subscribe="locale" subscribeId='<%= request.getParameter("city") %>' value="subscribe_locale">
+							<% 
+							if(Models.Location.isSubscribed((Integer) session.getAttribute(Servlets.SessionVariables.USER_ID), Integer.parseInt(request.getParameter("city"))))
+							{
+								out.println("Unsubscribe from Locale");
+							}
+							else
+							{
+								out.println("Subscribe to Locale");
+							}
+							%>
+							</button>
 						<% } %> 
-						<button type="button" name="subs_locale_button" class="button1" value="subscribe_locale">Subscribe to Locale</button>				
+										
 					</div>
 					
 					<div class="city_map">

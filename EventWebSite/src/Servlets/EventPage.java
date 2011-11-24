@@ -85,6 +85,7 @@ public class EventPage extends HttpServlet
 			
 			request.setAttribute("creator", creator);
 			request.setAttribute("creatorID", creatorID);
+			request.setAttribute("eventID", eventID);
 			request.setAttribute("locationID", locationID);
 			request.setAttribute("city", city);
 			request.setAttribute("state", state);

@@ -130,8 +130,22 @@ else if (document.getElementById)
 				<tr>
 					<td colspan="2">
 						<i><b><font size="6"><%= request.getAttribute("title") %></font></b></i>
-						<button type="button" name="subs_event_button" class="button1" value="subscribe_event">Subscribe to This Event</button>
-						<br>
+						
+						<% if(session.getAttribute(Servlets.SessionVariables.LOGGED_IN) != null && (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN)){ %>					
+						<button type="button" name="subs_event_button" class="button1" value="subscribe_event" subscribe="event" subscribeId="<%= request.getAttribute("eventID") %>">
+						<%
+							if(Models.Event.isSubscribed((Integer) session.getAttribute(Servlets.SessionVariables.USER_ID), (Integer) request.getAttribute("eventID")))
+							{
+								out.println("Unsubscribe from the Event");
+							}
+							else
+							{
+								out.println("Subscribe to the Event");
+							}
+						%>
+						</button>
+					<% } %>
+<br>
 						<i><b>Category: <font class="sports">Sports</font></b></i>
 						<br>
 						<br>
@@ -140,10 +154,39 @@ else if (document.getElementById)
 				<tr>
 					<td>
 						<font size="2"><b>LOCATION: </b><%= request.getAttribute("city") %>, <%= request.getAttribute("state") %>, <%= request.getAttribute("country") %> </font>
-						<button type="button" name="subs_locale_button" class="button1" value="subscribe_locale">Subscribe to Locale</button>
+						
+						
+						<% if(session.getAttribute(Servlets.SessionVariables.LOGGED_IN) != null && (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN)){ %>
+
+							<button type="button" name="subs_locale_button" class="button1" subscribe="locale" subscribeId='<%= request.getAttribute("locationID") %>' value="subscribe_locale">
+							<% 
+							if(Models.Location.isSubscribed((Integer) session.getAttribute(Servlets.SessionVariables.USER_ID), (Integer) request.getAttribute("locationID")))
+							{
+								out.println("Unsubscribe from Locale");
+							}
+							else
+							{
+								out.println("Subscribe to Locale");
+							}
+							%>
+							</button>
+						<% } %> 	
 					</td>
 					<td><font size="2"><b>POSTED BY: </b><%= request.getAttribute("creator") %></font>
-						<button type="button" name="subs_user_button" class="button1" value="subscribe_user">Subscribe to User</button>
+					<% if(session.getAttribute(Servlets.SessionVariables.LOGGED_IN) != null && (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN)){ %>					
+						<button type="button" name="subs_user_button" class="button1" value="subscribe_user" subscribe="user" subscribeId="<%= request.getAttribute("creatorID") %>">
+						<%
+							if(Models.User.isSubscribed((Integer) session.getAttribute(Servlets.SessionVariables.USER_ID), (Integer) request.getAttribute("creatorID")))
+							{
+								out.println("Unsubscribe from User");
+							}
+							else
+							{
+								out.println("Subscribe to User");
+							}
+						%>
+						</button>
+					<% } %>
 					</td>
 				</tr>
 			</table>
@@ -159,8 +202,22 @@ else if (document.getElementById)
 					
 						
 						<!-- Only display "Attend Button" before event occur -->
-						<b><%= request.getAttribute("numAttendees") %> people are attending this event!</b>
-						<button type="button" name="attend_button" class="button1" value="attend_event">Attend This Event</button>
+						<b><div style="display: inline" id="attendeesLabel" numAttendees="<%= request.getAttribute("numAttendees") %>"><%= request.getAttribute("numAttendees") %> people are attending this event!</div></b>
+						
+						<% if(session.getAttribute(Servlets.SessionVariables.LOGGED_IN) != null && (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN)){ %>					
+						<button type="button" name="attend_button" class="button1" value="attend_event" attend="<%= request.getAttribute("eventID") %>">
+						<%
+							if(Models.Event.isAttending((Integer) request.getAttribute("eventID"), (Integer) session.getAttribute(Servlets.SessionVariables.USER_ID)))
+							{
+								out.println("Unattend this Event");
+							}
+							else
+							{
+								out.println("Attend this Event");
+							}
+						%>
+						</button>
+						<% } %>
 						<br>
 						<br>
 						

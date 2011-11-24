@@ -474,6 +474,21 @@ public class Event
 		}
 	}	
 	
+	public static boolean isSubscribed(int userID, int eventID)
+	{
+		DatabaseManager dbManager;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			return dbManager.isSubscribedToEvent(userID, eventID);
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 	public static void attendEvent(int eventID, int attendeeID)
 	{
 		DatabaseManager dbManager;
@@ -498,5 +513,20 @@ public class Event
 		} catch (SQLException e1) {			
 			e1.printStackTrace();
 		}
+	}	
+	
+	public static boolean isAttending(int eventID, int attendeeID)
+	{
+		DatabaseManager dbManager;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			return dbManager.isAttendingEvent(eventID, attendeeID);
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		}
+		
+		return false;
 	}	
 }
