@@ -1614,7 +1614,7 @@ public class DatabaseManager
 				"WHERE eventID = "+eventID+ " ");				
 		statement.executeUpdate();
 		
-		if(isSubscribed(attendeeID, eventID))
+		if(isSubscribedToEvent(attendeeID, eventID))
 		{
 			return;
 		}
@@ -1636,7 +1636,22 @@ public class DatabaseManager
 		statement.executeUpdate();
 	}
 	
-	public boolean isSubscribed(int userID, int eventID) throws SQLException
+	public boolean isAttendingEvent(int eventID, int userID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT SU.attendeeID " +						
+				 "FROM eventattendees AS SU "+
+	             "WHERE SU.eventID = " + eventID +" " +
+	             		"AND SU.attendeeID = "+userID+" ");		
+		ResultSet result = statement.executeQuery();
+		if(result.next())
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isSubscribedToEvent(int userID, int eventID) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
 				("SELECT SU.subscriberID " +						
@@ -1651,7 +1666,35 @@ public class DatabaseManager
 		return false;
 	}
 	
+	public boolean isSubscribedToUser(int userID, int targetUserID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT SU.subscriberID " +						
+				 "FROM usersubscribers AS SU "+
+	             "WHERE SU.userID = " + targetUserID +" " +
+	             		"AND SU.subscriberID = "+userID+" ");		
+		ResultSet result = statement.executeQuery();
+		if(result.next())
+		{
+			return true;
+		}
+		return false;
+	}
 	
+	public boolean isSubscribedToLocale(int userID, int localeID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT SU.userID " +						
+				 "FROM subscribedlocales AS SU "+
+	             "WHERE SU.locationID= " + localeID +" " +
+	             		"AND SU.userID = "+userID+" ");		
+		ResultSet result = statement.executeQuery();
+		if(result.next())
+		{
+			return true;
+		}
+		return false;
+	}
 	public void subscribeToUser(int userID, int subscriberID) throws SQLException
 	{	
 		PreparedStatement statement = connection.prepareStatement
