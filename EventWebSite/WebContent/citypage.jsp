@@ -118,14 +118,22 @@ $(document).ready(function()
 			 },
 			 position: {
 			     corner: {
-			          target: 'bottomRight',
-			          tooltip: 'topRight'    
+			          target: 'rightTop',
+			          tooltip: 'topLeft'    
 			     }
 			 },
 			 hide: {
 			      when: 'mouseout',
 			      fixed: true,
-			      delay: 100
+			      delay: 100,
+			      effect: {
+			    		type: 'fade',
+			    		length: 700
+			      }
+			 },
+			 style: {
+				 name: 'green',
+				 tip: 'leftTop'
 			 }
 		});
 	});
