@@ -25,6 +25,7 @@ $('#username_header').text(sessionData["<%=SessionVariables.USERNAME%>"]);
 		<td id="dashboard_main_cell">
 		
 			<a class="button1" style="float: right" href="home.jsp"><- Return to Main</a>
+			<br>
 			
 			<div id="dashboard_main">
 				<b><i><h1 id="username_header"></h1></i></b>
