@@ -114,8 +114,16 @@ public class Review
 	public static Map<ReviewInfo, Integer> rateDown(int reviewID) {
 		try {			
 			DatabaseManager dbMan = DatabaseManager.getInstance();			
-			dbMan.rateDownReview(reviewID);					
-			return getRating(reviewID);
+			dbMan.rateDownReview(reviewID);	
+			Map<ReviewInfo, Integer> rating = getRating(reviewID);
+			if(rating.get(ReviewInfo.BAD_RATING) 
+					- rating.get(ReviewInfo.GOOD_RATING)
+						== 50)
+			{
+				Event.reportReview(reviewID);
+				return rating;
+			}
+			return rating;
 		} catch (Exception e) {			
 			e.printStackTrace();			
 		}
