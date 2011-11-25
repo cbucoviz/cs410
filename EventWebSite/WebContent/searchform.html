@@ -1,17 +1,18 @@
 <html>
 <head>
 	<script src="scripts/forwarder.js" type="text/javascript"></script>
+	<script src="scripts/ezcalendar_orange.js" type="text/javascript"></script>
 </head>
 <body>
-<form id="searchForm" method="POST">
-	Event Keyword:<br/><input type="text" name="eventKeyword" size="25" /><br/>
-	City:<br/><input type="text" name="city" size="25" /><br/>
-	State:<br/><input type="text" name="state" size="25" /><br/>
-	Country:<br/><input type="text" name="country" size="25" /><br/>
-	Start Date (dd/mm/yyyy):<br/><input type="text" name="startDate" size="25" /><br/>
-	End Date (dd/mm/yyyy):<br/><input type="text" name="endDate" size="25" />
+<form id="searchForm" style="font-family: verdana" method="POST">
+	<b>Event Keyword: </b><br/><i><font size="2">(Separate with ,)</font></i><br/><input type="text" name="eventKeyword" size="25" /><br/>
+	<b>City:</b><br/><input type="text" name="city" size="25" /><br/>
+	<b>State:</b><br/><input type="text" name="state" size="25" /><br/>
+	<b>Country:</b><br/><input type="text" name="country" size="25" /><br/>
+	<b>Start Date:</b><br/><input name="start_date" id="start_date" type="text" size="10" disabled="disabled" maxlength="10" value="" style="margin-top:-10px"/><img src="resources/calendar.jpg" onclick="javascript: showCalendar('start_date')"><br/>
+	<b>End Date:</b><br/><input name="start_date" id="end_date" type="text" size="10" disabled="disabled" maxlength="10" value="" style="margin-top:-10px"/><img src="resources/calendar.jpg" onclick="javascript: showCalendar('end_date')"><br/>
 	<br/>
-	<input type="submit" value="Search"/>					
+	<input class="button1" type="submit" value="Search"/>					
 						
 </form>
 </body>
