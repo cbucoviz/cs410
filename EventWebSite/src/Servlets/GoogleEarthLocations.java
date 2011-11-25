@@ -3,6 +3,7 @@ package Servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import java.util.Enumeration;
 
 
 import javax.servlet.ServletException;
@@ -26,10 +27,14 @@ public class GoogleEarthLocations extends HttpServlet {
      
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			
 			Search srch = new Search();
 			JsonObject result = new JsonObject();
-			JsonArray locations = srch.getGoogleEarthLoc();
+			
+			JsonArray locations = srch.getGoogleEarthLoc(request.getParameter("keyWord"),request.getParameter("city"),
+					request.getParameter("state"),request.getParameter("country"),request.getParameter("startDate"),request.getParameter("endDate"));
 			result.add("locations", locations);
+			
 			PrintWriter out = response.getWriter();
 			out.write(result.toString());
 		} catch(Exception e) {

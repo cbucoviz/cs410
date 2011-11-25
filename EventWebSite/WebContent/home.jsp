@@ -113,7 +113,6 @@
 				features.removeChild(features.getFirstChild());
 		}
 
-
 		
 		function failureCB(errorCode) 
 		{       
@@ -124,13 +123,29 @@
 		function geSearch(eventKeyword, city, state, country, startDate, endDate)
 		{
 			// chris put your stuff here
-			alert(	"EventKeyword: " + eventKeyword + "\n" + 
+			var validformat=/^\d{2}\/\d{2}\/\d{4}$/ ;
+			if(!startDate == '' && !validformat.test(startDate))
+			{
+				alert("Please enter Start Date in proper format");
+				return;
+			}
+			if(!endDate == '' && !validformat.test(endDate))
+			{
+				alert("Please enter End Date in proper format");
+				return;
+			}
+			removeAll();
+			$.getJSON('/EventWebSite/GElocations', { keyWord:eventKeyword,city:city,state:state,country:country,
+									startDate:startDate,endDate:endDate }, setAddresses );
+			
+			/*alert(	"EventKeyword: " + eventKeyword + "\n" + 
 					"City: " + city + "\n" + 
 					"State: " + state + "\n" + 
 					"Country: " + country + "\n" + 
 					"Start Date: " + startDate + "\n" + 
 					"End Date: " + endDate 	
-				);
+				);*/
+				
 		}
 	</script>  
 
