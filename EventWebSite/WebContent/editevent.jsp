@@ -289,8 +289,8 @@
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-							<input type="submit" value="Create Event"/>
-							<button type="button" value="Cancel" onclick="location.href='citypage.jsp'">Cancel</button>
+							<input class="button1" type="submit" value="Create Event"/>
+							<button class="button1" type="button" value="Cancel" onclick="location.href='citypage.jsp'">Cancel</button>
 						</td>
 					</tr>
 				</table>	
