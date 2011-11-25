@@ -120,7 +120,18 @@
 			
 		}        
 		 
-		
+	
+		function geSearch(eventKeyword, city, state, country, startDate, endDate)
+		{
+			// chris put your stuff here
+			alert(	"EventKeyword: " + eventKeyword + "\n" + 
+					"City: " + city + "\n" + 
+					"State: " + state + "\n" + 
+					"Country: " + country + "\n" + 
+					"Start Date: " + startDate + "\n" + 
+					"End Date: " + endDate 	
+				);
+		}
 	</script>  
 
  

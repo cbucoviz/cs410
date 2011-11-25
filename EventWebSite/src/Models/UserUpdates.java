@@ -2,16 +2,38 @@ package Models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 
+import biz.source_code.base64Coder.Base64Coder;
+
 
 import Database.DatabaseManager;
+import Models.Event.EventInfo;
+import Models.Search.EventInfoSearch;
 import Servlets.SessionVariables;
 
 public class UserUpdates 
@@ -258,6 +280,118 @@ public class UserUpdates
 	    						session.getAttribute(SessionVariables.UPDATES);    	
     	prevUpdates.clear();
     	session.setAttribute(SessionVariables.UPDATES, prevUpdates);    	
+    }
+    
+    
+    public static void mailAttendeesOfUpcomingEvents()
+    {
+    	DatabaseManager dbMan;
+		try {
+			dbMan = DatabaseManager.getInstance();
+			ResultSet relevantUsers = dbMan.findAttendeesToMailTo();
+						
+			Map<Integer, HashMap<Integer,ArrayList<String>>> attendeeMap = Collections.synchronizedMap
+					(new HashMap<Integer,HashMap<Integer,ArrayList<String>>>());
+			
+			Map<Integer, ArrayList<String>> userInfo = Collections.synchronizedMap
+					(new HashMap<Integer, ArrayList<String>>());
+			
+			String prev ="";
+			
+			HashMap<Integer,ArrayList<String>> eventMap = new HashMap<Integer,ArrayList<String>>();
+			
+			while(relevantUsers.next())
+			{
+				String email = relevantUsers.getString("U.email");
+				String userName = relevantUsers.getString("U.name");
+				int userID = Integer.parseInt(relevantUsers.getString("U.userID"));
+				String title = relevantUsers.getString("E.title");
+				String eventDate = relevantUsers.getString("E.eventDate");				
+				String numOfDays = relevantUsers.getString("NumberOfDays");
+				
+				int eventID = Integer.parseInt(relevantUsers.getString("E.eventID"));
+				
+				ArrayList<String> eventInfo = new ArrayList<String>();				
+				eventInfo.add(title);
+				eventInfo.add(eventDate);
+				eventInfo.add(numOfDays);
+				
+				//if the first row is checked or a new user is to be e-mailed
+				if(prev.isEmpty() || !prev.equals(userName))
+				{
+					ArrayList<String> user = new ArrayList<String>();
+					
+					user.add(userName);
+					user.add(email);
+					userInfo.put(userID, user);
+					
+					eventMap.clear();
+					eventMap.put(eventID, eventInfo);
+					attendeeMap.put(userID, eventMap);
+					prev = userName;
+				}
+				else 
+				{
+					attendeeMap.get(userID).put(eventID, eventInfo);
+				}
+			}
+			
+			synchronized(attendeeMap)
+			{
+				Iterator<Entry<Integer, HashMap<Integer, ArrayList<String>>>> iter = 
+										attendeeMap.entrySet().iterator();
+			    while (iter.hasNext()) {			    	
+			        Entry<Integer, HashMap<Integer, ArrayList<String>>> pairs = iter.next();			        
+			       	ArrayList<String> userInfoToSend = userInfo.get(pairs.getKey());
+			        emailUser(userInfoToSend,pairs.getValue());							       
+			    }
+			}
+		
+		} catch (Exception e1) {			
+			e1.printStackTrace();
+		} 
+    }
+   
+    private static void emailUser(ArrayList<String> userInfo, HashMap<Integer, 
+    							  ArrayList<String>> eventInfo) 
+    							  throws ParseException, NamingException, MessagingException
+    {
+    	String userName = userInfo.get(0);
+    	String email = userInfo.get(1);
+    	String messageContent = "Greetings, "+userName+"!\n\n " +
+    			"This is just a friendly reminder that you have the following event(s) " +
+    			"happening soon:\n\n";
+    	synchronized(eventInfo)
+		{
+			Iterator<Entry<Integer, ArrayList<String>>> iter = 
+									eventInfo.entrySet().iterator();
+		    while (iter.hasNext()) {			    	
+		        Entry<Integer, ArrayList<String>> pairs = iter.next();			        
+		        String eventPage = "http://localhost/EventWebSite/EventPage?eventID="+pairs.getKey()+"";	       
+		        String title = pairs.getValue().get(0);
+		        Date eventDate = new SimpleDateFormat("yyyy-MM-dd").parse(pairs.getValue().get(1));
+		        int numOfDays = Integer.parseInt(pairs.getValue().get(2));
+		        
+		        SimpleDateFormat df = new SimpleDateFormat("EEEEEEEEE, d/MMM/yyyy");		        
+		        
+		        String aboutTheEvent = " "+title+" is happening on "+df.format(eventDate)+", exactly " +
+		        		""+numOfDays+" day(s) from the day this email was sent. Please follow the link " +
+		        				"to access this event's page: "+eventPage+"\n\n";
+		        messageContent = messageContent + aboutTheEvent;
+		    }
+		}    	
+    	messageContent = messageContent + "Thank you,\n\nThe Global Events Team";
+    	email = email.trim();		
+	 	Context initCtx = new InitialContext();
+        Context envCtx = (Context) initCtx.lookup("java:comp/env");
+        Session session = (Session) envCtx.lookup("mail/Session");
+        InternetAddress toAddress = new InternetAddress(email);
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("globalevents410@gmail.com"));
+        message.addRecipient(Message.RecipientType.TO, toAddress);
+        message.setSubject("Upcoming events information");
+        message.setText(messageContent);
+        Transport.send(message);
     }
 }
 

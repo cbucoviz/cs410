@@ -13,6 +13,7 @@
 <link href="config/ticker.css" rel="stylesheet" type="text/css" />
 <script src="plugins/jquery.js" type="text/javascript"></script>
 <script src="plugins/jquery-ui.js"></script>
+<script src="plugins/jquery-qtip.js"></script>
 <script src="plugins/marquee.js" type="text/javascript"></script>
 <script src="scripts/forwarder.js" type="text/javascript"></script>
 <!-- END OF INCLUDES -->
@@ -33,6 +34,24 @@ $(document).ready(function()
 	{	
 		$(this).select();
 	});
+	
+	$("#searchTip").qtip(
+   	{
+    	content: {
+    		url: 'searchform.html'
+    	},
+    	position: {
+    		corner: {
+    			target: 'bottomLeft',
+        		tooltip: 'topRight'	
+    		}
+    	},
+   		hide: {
+   			when: 'mouseout',
+   			fixed: true,
+   			delay: 100
+   		}
+   	});
 	
 	update();
 });
@@ -66,10 +85,8 @@ function calibrateSize()
 	var scroller = $("#scrollerContainer");
 	scroller.width(windowWidth * <%= TICKER_WIDTH %>);	
 	
-	var search = $("#searchBox");
-	search.width(<%= SEARCH_WIDTH %>);
-	search.height(<%= SEARCH_HEIGHT %>);
-	search.offset({ top: 0, left: (windowWidth - search.width())});
+	var search = $("#searchTip");
+	search.offset({ top: 0, left: (windowWidth - search.width() - 10)});
 	
 }
 
@@ -123,9 +140,7 @@ $(window).resize(function()
 
 <table></table>
 
-<form action="Search" method="POST">
-	<input type="text" id="searchBox" name='search' value='Search'/>
-</form>
+<a id="searchTip">Search</a>
 
 
 <div id="mainContent" class="scrollFrame">

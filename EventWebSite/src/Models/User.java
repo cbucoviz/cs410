@@ -31,4 +31,19 @@ public class User
 			e1.printStackTrace();
 		}
 	}
+	
+	public static boolean isSubscribed(int userID, int targetUserID)
+	{
+		DatabaseManager dbManager;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			return dbManager.isSubscribedToUser(userID, targetUserID);
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		}
+		
+		return false;
+	}
 }
