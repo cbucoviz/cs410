@@ -380,6 +380,57 @@ public class DatabaseManager
 		return result;
 	}	
 	
+	public ResultSet findGoogleLocations(String keyWord, String city, String state, String country, java.sql.Date start,java.sql.Date end) throws SQLException
+	{
+		String query = "SELECT * from locations AS L WHERE L.locationID IN " +
+				"(SELECT E.locationID FROM events AS E";
+		String innerCond = "";
+		innerCond = (keyWord == null || keyWord.trim() == "") ? innerCond : " WHERE E.title LIKE ?";
+		innerCond = start == null ? innerCond : ((keyWord == null || keyWord.trim() == "") ? " WHERE E.eventDate >= ?" : innerCond.concat(" AND E.eventDate >= ?"));
+		innerCond = end == null ? innerCond : (((keyWord == null || keyWord.trim() == "") && start == null) ? " WHERE E.eventDate <= ?" : innerCond.concat(" AND E.eventDate <= ?"));
+		query = query.concat(innerCond) + ")";
+		query = (city == null || city.trim() == "") ? query : query.concat(" AND L.city = ?");
+		query = (state == null || state.trim() == "") ? query : query.concat(" AND L.state = ?");
+		query = (country == null || country.trim() == "") ? query : query.concat("AND L.country = ?");
+	
+		PreparedStatement statement = connection.prepareStatement(query);
+		int counter = 1;
+		if(keyWord != null && keyWord.trim() != "")
+		{
+			statement.setString(counter, "%"+keyWord+"%");
+			counter ++;
+		}
+		if(start != null)
+		{
+			statement.setDate(counter, start);
+			counter ++;
+		}
+		if(end != null)
+		{
+			statement.setDate(counter, end);
+			counter ++;
+		}
+		if(city != null && city.trim() != "")
+		{
+			statement.setString(counter, city.trim());
+			counter ++;
+		}
+		if(state != null && state.trim() != "")
+		{
+			statement.setString(counter, state.trim());
+			counter ++;
+		}
+		if(country != null && country.trim() != "")
+		{
+			statement.setString(counter, country.trim());
+			counter ++;
+		}
+		
+		ResultSet result = statement.executeQuery();
+		return result;
+		
+	}
+	
 	/**
 	 * Lists all the cities where there are events which titles contain a given keyword.
 	 * Lists also how many matching events happen in each of the listed cities.<br/>

@@ -4,6 +4,8 @@ package Models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -72,7 +74,8 @@ public class Search {
 		try
 		{
 			DatabaseManager dbMan = DatabaseManager.getInstance();
-			ResultSet locations = dbMan.findGoogleEarthLocations();
+			//ResultSet locations = dbMan.findGoogleEarthLocations();
+			ResultSet locations = dbMan.findGoogleLocations(null, null, null, null, null, null);
 			while (locations.next()) 
 			{
 		        returnValue.add(
@@ -90,6 +93,53 @@ public class Search {
 		catch (ClassNotFoundException e) 
 		{
 			e.printStackTrace();
+		}
+		
+		return returnValue;
+	}
+	
+	public JsonArray getGoogleEarthLoc(String keyWord, String city, String state, String country, String start,String end) 
+	{
+		JsonArray returnValue = new JsonArray();
+		java.sql.Date startDate = null;
+		java.sql.Date endDate = null;
+		DateFormat formater = new SimpleDateFormat("dd/MM/yyyy"); 
+		try
+		{
+			if(start != null && start.trim() != "")
+			{
+				java.util.Date parsedUtilDate = formater.parse(start);  
+				startDate= new java.sql.Date(parsedUtilDate.getTime()); 
+			}
+			if(end != null && end.trim() != "")
+			{
+				java.util.Date parsedUtilDate = formater.parse(end);  
+				endDate= new java.sql.Date(parsedUtilDate.getTime()); 
+			}
+			DatabaseManager dbMan = DatabaseManager.getInstance();
+			//ResultSet locations = dbMan.findGoogleEarthLocations();
+			ResultSet locations = dbMan.findGoogleLocations(keyWord, city, state, country, startDate, endDate);
+			while (locations.next()) 
+			{
+		        returnValue.add(
+		        		createLocJson(	locations.getString(LOCATION),
+		        						locations.getDouble(LATITUDE),
+		        						locations.getDouble(LONGITUDE),
+		        						locations.getInt(ID)
+		        ));
+		    }
+		}
+		catch(SQLException sExp)
+		{
+			sExp.printStackTrace();
+		} 
+		catch (ClassNotFoundException e) 
+		{
+			e.printStackTrace();
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
 		}
 		
 		return returnValue;
@@ -509,3 +559,4 @@ public class Search {
 		return usersToReturn;
 	}
 }
+						

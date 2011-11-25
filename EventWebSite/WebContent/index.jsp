@@ -36,19 +36,36 @@ $(document).ready(function()
 	$("#searchTip").qtip(
    	{
     	content: {
-    		url: 'searchform.html'
+    		url: 'searchform.html',
+    		title: {
+    			text: 'Quick Search',
+    			button: 'close'
+    		}
     	},
     	position: {
     		corner: {
-    			target: 'bottomLeft',
+    			target: 'bottomRight',
         		tooltip: 'topRight'	
+    		},
+    		adjust: {
+    			x: -6,
+    			y: 1
     		}
     	},
-   		hide: {
-   			when: 'mouseout',
-   			fixed: true,
-   			delay: 100
-   		}
+    	show: {
+    		effect: {
+    			type: 'slide',
+    			length: 700
+    		},
+    		when: {
+    			event: 'click'
+    		}
+    	},
+    	hide: false,
+	 	style: {
+		 	name: 'green',
+		 	tip: 'leftTop'
+	 	}
    	});
 	
 	update();
@@ -66,8 +83,9 @@ function update()
 		if(firstLogin)
 		{
 			firstLogin = false;
-			$("#slidemenubar2").html("Welcome back " + sessionData["<%=SessionVariables.USERNAME%>"]);	
+			$("#slidemenubar2").load("dashboard_postlogin.jsp");	
 		}
+			
 		
 		// check for updates..
 		var updateRequest = ["<%=SessionVariables.UPDATES%>"];
@@ -165,7 +183,7 @@ $(window).resize(function()
 
 <table></table>
 
-<a id="searchTip">Search</a>
+<a id="searchTip">Quick Search</a>
 
 
 <div id="mainContent" class="scrollFrame">

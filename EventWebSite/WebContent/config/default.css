@@ -100,21 +100,20 @@ ul
 	background:url("../resources/item_gradient.jpg") repeat-x;
   	border: 1px #ff0000 outset; 
   	padding: 1px 4px;
-  	color: black;
   	text-decoration: none;
   	margin: 0px 30px 0px -30px;
 }
 
 .event_item:visited, .event_item:active
 {  
-  	color: #ffffff;
+  	color: black;
   	text-decoration: none;
   	margin: 0px 30px 0px -30px;
 }
 
 .event_item:hover
 {
-  	color: #ffffff;
+  	color: black;
   	text-decoration: none;
   	border-style: inset;
   	background-color: #0000CD;
@@ -122,6 +121,41 @@ ul
   	cursor: pointer;
   	margin: 0px 30px 0px -30px;
   	font-weight: bold;
+}
+
+.page_container
+{
+	background: green;
+	margin: 30px;
+	margin-left: 100px;
+	border: 4px outset green;
+	height: auto;
+	width: 1060px;
+	font-family: verdana;
+}
+
+.page_header
+{
+	text-align: center;
+	vertical-align: middle;
+}
+
+.page_content
+{
+	background: #C6BFFF;
+	height: auto;
+	border: 2px groove blue;
+	color: black;
+	padding: 20px;
+	padding-top: 0px;
+}
+
+
+div.profile_header
+{
+	background-color: #2F23B1;
+	padding: 5px;
+	border: 2px outset #4236C2;
 }
 
 div.event_popup
@@ -512,7 +546,7 @@ table.city_event_table
 	display: none;
 	position: absolute;
 	margin: 0;
-	z-index: 99;
+	z-index: 99999;
 	background: #C6470E;
 	color: #fff;
 	/* safer to use fixed font sizes */
@@ -710,7 +744,6 @@ table.city_event_table
 
 #register_content
 {
-	/* Remove overflow and height back to auto later*/
 	background: #C6BFFF;
 	height: auto;
 	border: 2px groove blue;
@@ -724,4 +757,58 @@ table.city_event_table
 	margin-left: 20px;
 	margin-top: 100px;
 	height: 20px;
+}
+
+#dashboard_frame
+{
+	
+}
+
+#dashboard_main_cell
+{
+	padding-left: 20px;
+	padding-top: 10px;
+	width: 260px;
+	height: 600px;
+	vertical-align: top;
+}
+
+#dashboard_main
+{
+}
+
+#view_profile_btn
+{
+	margin-top: -50px;
+}
+
+#my_events_list > li, #subs_events_list > li, #subs_locale_list > li
+{
+	margin-top: -12px;
+	margin-left: -30px;
+	width: 110%;
+}
+
+#logout_btn
+{
+	bottom: 10px;
+	right: 45px;
+	position: absolute;
+}
+
+#searchTip
+{
+	z-index: 99;
+	font-family: verdana;
+	font-weight: bold;
+	background-color: blue;
+	padding: 5px;
+	border: 2px outset #3032B9;
+}
+
+#searchTip:hover
+{
+	cursor: pointer;
+	background-color: #222491;
+	color: #B0B1FF;
 }

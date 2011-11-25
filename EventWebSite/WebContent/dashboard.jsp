@@ -40,7 +40,7 @@ document.write('<layer id="slidemenubar" left=0 top='+slidemenu_top+' width='+sl
 
 document.write('<table>');
 document.write('<tr>');
-document.write('<td>');
+document.write('<td style="height: 600px; vertical-align: top; padding-top: 10px;">');
 
 var sitems=new Array()
 
@@ -49,27 +49,16 @@ var sitems=new Array()
 //siteitems[x]=["Item Text", "Optional URL associated with text"]
 
 //***For Main Page Login ONLY
-sitems[0]=["<h1><b>Welcome</b></h1>", ""]
-sitems[1]=["", ""]
+sitems[0]=["<button class='button1' style='float: right'><- Return to Main</button><br>", "home.jsp"]
+sitems[1]=["<h1><b>Welcome</b></h1>", ""]
 sitems[2]=["", ""]
-sitems[3]=["<h2><b>Login:</b></h2>", ""]
-sitems[4]=["<form action='Login' method='POST'><p class='indent' style='margin-top:-20px'>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Email: <input type='text' name='<%=SessionVariables.EMAIL%>' size='20'></p>", ""]
-sitems[5]=["<h5><p id='save_login_indent'><input type='checkbox' name='save_login_checkbox'>Remember Me?</p></h5>", ""]
-sitems[6]=["<p class='indent'>Password: <input type='password' name='<%=SessionVariables.PASSWORD%>' size='20'></p>", ""]
-sitems[7]=["<p id='login_button_indent'><input type='submit' class='button1' value='Login'/></p></form>", ""]
-sitems[8]=["<p class='indent'><u><i>Not a member yet? Sign up NOW!</i></u></p>", "register.jsp"]
-sitems[9]=["", ""]
-sitems[10]=["", ""]
-sitems[11]=["***Mock City Page***", "citypage.jsp"]					//Debug use only...
-sitems[12]=["", ""]
-sitems[13]=["***Mock Event Page***", "eventpage.jsp"]					//Debug use only...
-sitems[14]=["", ""]
-sitems[15]=["***Mock Calendar Page***", "calendar.jsp"]					//Debug use only...
-sitems[16]=["", ""]
-sitems[17]=["Return to Home", "home.jsp"]
-sitems[18]=["", ""]
-sitems[19]=["About", ""]
-
+sitems[3]=["", ""]
+sitems[4]=["<h2><b>Login:</b></h2>", ""]
+sitems[5]=["<form action='Login' method='POST'><p class='indent' style='margin-top:-20px'>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Email: <input type='text' name='<%=SessionVariables.EMAIL%>' size='20'></p>", ""]
+sitems[6]=["<h5><p id='save_login_indent'><input type='checkbox' name='save_login_checkbox'>Remember Me?</p></h5>", ""]
+sitems[7]=["<p class='indent'>Password: <input type='password' name='<%=SessionVariables.PASSWORD%>' size='20'></p>", ""]
+sitems[8]=["<p id='login_button_indent'><input type='submit' class='button1' value='Login'/></p></form>", ""]
+sitems[9]=["<p class='indent'><u><i>Not a member yet? Sign up NOW!</i></u></p>", "register.jsp"]
 
 
 //If you want the links to load in another frame/window, specify name of target (ie: target="_new")

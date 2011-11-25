@@ -26,7 +26,9 @@ public class Main {
 			e1.printStackTrace();
 		}	
 		
-		try {				
+		try {	
+			
+			manager.testQuery2("Vitali");
 		    manager.testQuery();
 			//Calendar c = Calendar.getInstance();
 			
