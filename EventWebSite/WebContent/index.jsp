@@ -21,10 +21,8 @@
 <script type="text/javascript">
 $(document).ready(function()
 {
-	$jScroller.add("#scrollerContainer", "#scroller", "left", 1, true);	 
-	$jScroller.start();	
 	calibrateSize();
-	
+
 	$("input[type=text]").focus(function() 
 	{	
 		$(this).select();
@@ -62,11 +60,38 @@ function update()
 {
 	var requestData = ["<%=SessionVariables.LOGGED_IN%>", "<%=SessionVariables.USERNAME%>"];
 	var sessionData = getSessionData(requestData);
-
-	if(firstLogin &&sessionData["<%=SessionVariables.LOGGED_IN%>"] == true)
+	
+	if(sessionData["<%=SessionVariables.LOGGED_IN%>"] == true)
 	{
-		firstLogin = false;
-		$("#slidemenubar2").html("Welcome back " + sessionData["<%=SessionVariables.USERNAME%>"]);
+		if(firstLogin)
+		{
+			firstLogin = false;
+			$("#slidemenubar2").html("Welcome back " + sessionData["<%=SessionVariables.USERNAME%>"]);	
+		}
+		
+		// check for updates..
+		var updateRequest = ["<%=SessionVariables.UPDATES%>"];
+		var updates = getSessionData(updateRequest)["<%=SessionVariables.UPDATES%>"];
+		if(updates != null && updates.length > 0)
+		{
+			// push updates only if the ticker is at the leftmost position
+			if($("#scroller").css("left") == "-1000px")
+			{
+				// glob all updates together
+				var glob = "";
+				for(var i = 0; i < updates.length; i++)
+				{
+					glob = glob + " &#8902; " + updates[i];
+				}
+				
+				$("#scroller").html(glob);
+				$jScroller.add("#scrollerContainer", "#scroller", "left", 1, true);	 
+				$jScroller.start();
+				
+				// now that we have dispalyed the updates, remove them from server
+				$.post("RemoveUpdates");
+			}
+		}
 	}
 	
 	setTimeout("update()", 1000);	
@@ -149,7 +174,7 @@ $(window).resize(function()
 
 
 <div id="scrollerContainer">
-		<div id="scroller">This is what the scroller looks like</div>
+		<div style="left: -1000px" id="scroller"></div>
 </div>
 
 

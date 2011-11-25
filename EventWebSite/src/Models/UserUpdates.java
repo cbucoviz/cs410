@@ -110,23 +110,23 @@ public class UserUpdates
 		   			String username = onlineUsers.get(h);
 			   		if(editType!=null)
 			   		{
-			   			update = "<p>User "+updator+" (" +
+			   			update = "User "+updator+" (" +
 						   		"<a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
 						   		"sub="+username+"&usid="+updatorID+"\">Subscribe</a>) " +
 						   		"has editted <b>" +editType+"</b> section of the event " +
 						   		"<a href=\"http://localhost/EventWebSite/eventPage.jsp?id="+eventID+"\">" +
 								""+eventTitle+"</a> (in <a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
-						   		"id="+locationID+"\">"+location+"</a>)</p>";			   			
+						   		"id="+locationID+"\">"+location+"</a>)";			   			
 			   		}
 			   		else
 			   		{
-			   			update = "<p>User "+updator+" (" +
+			   			update = "User "+updator+" (" +
 						   		"<a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
 						   		"sub="+username+"&usid="+updatorID+"\">Subscribe</a>) " +
 						   		"has editted the main section of the event " +
 						   		"<a href=\"http://localhost/EventWebSite/eventPage.jsp?id="+eventID+"\">" +
 								""+eventTitle+"</a> (in <a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
-						   		"id="+locationID+"\">"+location+"</a>)</p>";
+						   		"id="+locationID+"\">"+location+"</a>)";
 			   		
 			   		}
 		   			
@@ -145,13 +145,13 @@ public class UserUpdates
 		   		for(int h=0; h<onlineUsers.size(); h++)
 		   		{
 		   			String username = onlineUsers.get(h);			   		
-			   		update = "<p>User "+updator+" (" +
+			   		update = "User "+updator+" (" +
 						   		"<a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
 						   		"sub="+username+"&usid="+updatorID+"\">Subscribe</a>) " +
 						   		"has just written a new review in the event " +
 						   		"<a href=\"http://localhost/EventWebSite/eventPage.jsp?id="+eventID+"\">" +
 								""+eventTitle+"</a> (in <a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
-						   		"id="+locationID+"\">"+location+"</a>)</p>";
+						   		"id="+locationID+"\">"+location+"</a>)";
 		   			updateSession(username, update);
 		   			update = "";
 		   		}		   	
@@ -167,13 +167,13 @@ public class UserUpdates
 		   		for(int h=0; h<onlineUsers.size(); h++)
 		   		{
 		   			String username = onlineUsers.get(h);			   		
-			   		update = "<p>User "+updator+" (" +
+			   		update = "User "+updator+" (" +
 						   		"<a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
 						   		"sub="+username+"&usid="+updatorID+"\">Subscribe</a>) " +
 						   		"has just created a new discussion post in the event " +
 						   		"<a href=\"http://localhost/EventWebSite/eventPage.jsp?id="+eventID+"\">" +
 								""+eventTitle+"</a> (in <a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
-						   		"id="+locationID+"\">"+location+"</a>)</p>";
+						   		"id="+locationID+"\">"+location+"</a>)";
 		   			updateSession(username, update);
 		   			update = "";
 		   		}		   	
@@ -189,13 +189,13 @@ public class UserUpdates
 		   		for(int h=0; h<onlineUsers.size(); h++)
 		   		{
 		   			String username = onlineUsers.get(h);			   		
-			   		update = "<p>User "+updator+" (" +
+			   		update = "User "+updator+" (" +
 						   		"<a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
 						   		"sub="+username+"&usid="+updatorID+"\">Subscribe</a>) " +
 						   		"has just created a new event " +
 						   		"<a href=\"http://localhost/EventWebSite/eventPage.jsp?id="+eventID+"\">" +
 								""+eventTitle+"</a> (in <a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
-						   		"id="+locationID+"\">"+location+"</a>)</p>";
+						   		"id="+locationID+"\">"+location+"</a>)";
 		   			updateSession(username, update);
 		   			update = "";
 		   		}		   	
@@ -211,13 +211,13 @@ public class UserUpdates
 		   		for(int h=0; h<onlineUsers.size(); h++)
 		   		{
 		   			String username = onlineUsers.get(h);			   		
-			   		update = "<p>User "+updator+" (" +
+			   		update = "User "+updator+" (" +
 						   		"<a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
 						   		"sub="+username+"&usid="+updatorID+"\">Subscribe</a>) " +
 						   		"has just created a new event " +
 						   		"<a href=\"http://localhost/EventWebSite/eventPage.jsp?id="+eventID+"\">" +
 								""+eventTitle+"</a> for <a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
-						   		"id="+locationID+"\">"+location+"</a></p>";
+						   		"id="+locationID+"\">"+location+"</a>";
 		   			updateSession(username, update);
 		   			update = "";
 		   		}		   	
