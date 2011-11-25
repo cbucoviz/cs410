@@ -4,6 +4,7 @@
    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
    <title>City Google Map</title> 
    <script src="http://maps.googleapis.com/maps/api/js?key=ABQIAAAA15VoHdx-aRwSchSg3DCmmBT8PMUw5z7_OLJoE1lh2VQyfb-WOxQRzxP2sRQf5GrkdoVIzL1QD02q3Q&sensor=false" type="text/javascript"></script>
+   	<script type='text/javascript' src='http://code.jquery.com/jquery-1.6.4.js'></script>
    <script type="text/javascript"> 
    
   
@@ -15,7 +16,12 @@
    { 
 		  var latlng = new google.maps.LatLng(-34.397, 150.644); 
 		  var myOptions = {zoom: 8,center: latlng ,mapTypeId: google.maps.MapTypeId.ROADMAP}; 
-	      gmap = new google.maps.Map(document.getElementById('cityMap'), myOptions); 
+	      gmap = new google.maps.Map(document.getElementById('cityMap'), myOptions);
+	      gmap.draggable = false;
+	      gmap.panControl = false;
+	      gmap.zoomControl = false;
+	      gmap.scrollwheel = false;
+	      gmap.disableDoubleClickZoom = true;
 	      markerBounds = new google.maps.LatLngBounds();
 	      
 	      
@@ -40,7 +46,7 @@
 			var lng = loc.lng;
 			//get id of location
 			var id = loc.id + '';
-			//add location to GE
+			//add location to Google Maps
 			addPlaces(name, lat, lng, id);
 		}
 		

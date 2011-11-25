@@ -91,7 +91,7 @@
 				ge.setBalloon(null);
 			});
 			
-			google.earth.addEventListener(placemark, 'click', function(event) {  
+			google.earth.addEventListener(placemark, 'click', function(event) { 
 				event.preventDefault();
 				var evTarg = event.getTarget(); 
 				var cName = evTarg.getName();
@@ -106,7 +106,12 @@
 		
 		}
 		
-		
+		function removeAll()
+		{
+			var features = ge.getFeatures(); 
+			while (features.getFirstChild())    
+				features.removeChild(features.getFirstChild());
+		}
 
 
 		

@@ -246,5 +246,28 @@ public class Search {
 		
 		return returnValue;
 	}
+	
+	public void eventSearch(String title, String venue, String Address,int rating,int numSub,int numAtt,
+							String creator, String city)
+	{
+		try
+		{
+			DatabaseManager dbMan = DatabaseManager.getInstance();
+			ResultSet locations = dbMan.findEventsByLocation(city);
+			while (locations.next()) 
+			{
+			
+			}
+		}
+		catch(SQLException sExp)
+		{
+			sExp.printStackTrace();
+		} 
+		catch (ClassNotFoundException e) 
+		{
+			e.printStackTrace();
+		}
+		
+	}
 
 }
