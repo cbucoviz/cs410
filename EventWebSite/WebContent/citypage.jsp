@@ -106,14 +106,12 @@ else if (document.getElementById)
 
 $(document).ready(function()
 {
-	// any button with the popup attribute will have a qtip associated with it
+	// any <li> with the popup attribute will have a qtip associated with it
 	$('li[popup]').each(function() 
 	{
 		$(this).qtip(
 		{
 			 content: {
-			     // create a qtip with this button.. i'm not sure if it should be $(this) or $(this).parent().attr("popup") look at jquery api
-			     // use alerts to debug.. alert($(this).attr("popup")) should return eventId if it is working
 			      url: "popup.jsp?eventId=" + $(this).attr('popup')
 			 },
 			 position: {
@@ -181,22 +179,16 @@ $(document).ready(function()
 								<h4>Cultural</h4>
 							</div>
 							
-							
-							<!-- ktam: just put everything in cultural for now.. not sure
-							how Ka Ho wants to deal with this layout -->
 							<%@ page import="java.util.*" %>
 							<ul>
-							
-							<%
-
-								ArrayList<Map<Models.Event.EventInfo, String>> events = Models.Location.getEventsAtLocation(Integer.parseInt(request.getParameter("city")));
+							<%ArrayList<Map<Models.Event.EventInfo, String>> events = Models.Location.getEventsAtLocation(Integer.parseInt(request.getParameter("city")));
 								for(int i = 0; i < events.size(); ++i)
 								{
 								out.println("<li class='event_item' popup='" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'><a href='EventPage?eventID=" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'>" + events.get(i).get(Models.Event.EventInfo.TITLE) + "</a></li>");
 								}
 							%>
-							
 							</ul>
+							
 						</div>
 						<div id="ed_event_div" class="city_event_categories">
 							<div id="ed_header_div" class="city_event_header">

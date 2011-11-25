@@ -66,7 +66,7 @@ function update()
 	if(firstLogin &&sessionData["<%=SessionVariables.LOGGED_IN%>"] == true)
 	{
 		firstLogin = false;
-		$("#slidemenubar2").html("Welcome back " + sessionData["<%=SessionVariables.USERNAME%>"]);
+		$("#slidemenubar2").load("dashboard_postlogin.jsp");
 	}
 	
 	setTimeout("update()", 1000);	
