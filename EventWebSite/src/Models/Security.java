@@ -27,12 +27,12 @@ public class Security
 		}
 		return false;
 	}
-	public static boolean isModerator(int userID, int locationID)
+	public static boolean isModerator(int userID)
 	{
 		DatabaseManager dbMan;
 		try {
 			dbMan = DatabaseManager.getInstance();
-			ResultSet result = dbMan.isModerator(userID, locationID);
+			ResultSet result = dbMan.isModerator(userID);
 			if(result.next())
 			{
 				return true;
@@ -158,6 +158,32 @@ public class Security
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public static void createModerator(int userID)
+	{
+		DatabaseManager dbMan;
+		try {
+			dbMan = DatabaseManager.getInstance();	
+			dbMan.createModerator(userID);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {			
+			e.printStackTrace();
+		}
+	}
+	
+	public static void removeModerator(int userID)
+	{
+		DatabaseManager dbMan;
+		try {
+			dbMan = DatabaseManager.getInstance();	
+			dbMan.removeModerator(userID);
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {			
+			e.printStackTrace();
+		}
 	}
 }
 

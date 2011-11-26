@@ -1813,14 +1813,13 @@ public class DatabaseManager
 		return result;
 	}
 	
-	public ResultSet isModerator(int userID, int locationID) throws SQLException
+	public ResultSet isModerator(int userID) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
 				("SELECT U.name " +
 				"FROM users AS U, locations AS L " +
 				"WHERE U.userID = "+userID+" "+					 
-					  "AND L.locationID = "+locationID+" " +
-					  "AND L.moderator = U.userID");		
+					  "AND U.type = 1");		
 		ResultSet result = statement.executeQuery();
 		return result;
 	}
@@ -1891,14 +1890,13 @@ public class DatabaseManager
 	}
 	
 	
-	public ResultSet findModerator(int eventID) throws SQLException
+	public ResultSet findModerators(int eventID) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
 				("SELECT E.eventID, E.title, U.name,U.email " +						
-				 "FROM events AS E, users AS U, locations AS L " +				 		
+				 "FROM events AS E, users AS U " +				 		
 	             "WHERE E.eventID = " + eventID + " " +
-						"AND L.moderator = U.userID " +
-						"AND E.locationID = L.locationID ");
+						"AND U.type = 1 ");
 		ResultSet result = statement.executeQuery();
 		return result;
 	}
@@ -1907,12 +1905,11 @@ public class DatabaseManager
 	{
 		PreparedStatement statement = connection.prepareStatement
 				("SELECT P.eventID, E.title, P.dateTime, P.postContent, U.name, U.email, Poster.name " +						
-				 "FROM events AS E, users AS U, users AS Poster, locations AS L, discussionpost AS P " +				 		
+				 "FROM events AS E, users AS U, users AS Poster, discussionpost AS P " +				 		
 	             "WHERE P.postID = " + postID + " " +
 				 		"AND E.eventID = P.eventID "+
 				 		"AND Poster.userID = P.userID "+
-						"AND L.moderator = U.userID " +
-						"AND E.locationID = L.locationID ");
+						"AND U.type = 1 ");
 		ResultSet result = statement.executeQuery();
 		return result;
 	}
@@ -1921,41 +1918,33 @@ public class DatabaseManager
 	{
 		PreparedStatement statement = connection.prepareStatement
 				("SELECT R.eventID, E.title, R.dateTime, R.reviewContent, U.name, U.email, Poster.name " +						
-				 "FROM events AS E, users AS U, users AS Poster, locations AS L, reviews AS R " +				 		
+				 "FROM events AS E, users AS U, users AS Poster, reviews AS R " +				 		
 	             "WHERE R.reviewID = " + reviewID + " " +
 				 		"AND E.eventID = R.eventID "+
 				 		"AND Poster.userID = R.userID "+
-						"AND L.moderator = U.userID " +
-						"AND E.locationID = L.locationID ");
+						"AND U.type = 1 ");
 		ResultSet result = statement.executeQuery();
 		return result;
 	}
 	
 	
-	public void createModerator(int locationID, int userID) throws SQLException
+	public void createModerator(int userID) throws SQLException
 	{
-		if(!Security.isAdmin(userID))
-		{
 			PreparedStatement statement = connection.prepareStatement
 					("UPDATE users " +
 					"SET type = 1 "+ 
 					"WHERE userID = "+userID+ " ");				
 			statement.executeUpdate();
-			
-			statement = connection.prepareStatement
-					("UPDATE locations " +
-					"SET moderator = "+userID+" "+ 
-					"WHERE locationID = "+locationID+ " ");				
-			statement.executeUpdate();
-			return;
-		}
-		PreparedStatement statement = connection.prepareStatement
-				("UPDATE locations " +
-				"SET moderator = "+userID+" "+ 
-				"WHERE locationID = "+locationID+ " ");				
-		statement.executeUpdate();			
-	}
+	}	
 	
+	public void removeModerator(int userID) throws SQLException
+	{
+			PreparedStatement statement = connection.prepareStatement
+					("UPDATE users " +
+					"SET type = 0 "+ 
+					"WHERE userID = "+userID+ " ");				
+			statement.executeUpdate();
+	}
 	
 	
 	public void testQuery2(String user) throws SQLException

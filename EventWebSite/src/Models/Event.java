@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -539,16 +540,20 @@ public class Event
 		DatabaseManager dbManager;
 		try {
 			dbManager = DatabaseManager.getInstance();
-			ResultSet sqlInfo = dbManager.findModerator(eventID);
+			ResultSet sqlInfo = dbManager.findModerators(eventID);
 			String title = "";
 			String modName = "";
 			String modEmail = "";
-			while(sqlInfo.next())
-			{
+			
+			sqlInfo.last();
+			int numOfRows = sqlInfo.getRow();			
+			int random = new Random().nextInt(numOfRows);
+			random++;
+			sqlInfo.absolute(random);
+			
 				title = sqlInfo.getString("E.title");
 				modName = sqlInfo.getString("U.name");
-				modEmail = sqlInfo.getString("U.email");				
-			}
+				modEmail = sqlInfo.getString("U.email");
 			
 			String link = "http://localhost/EventWebSite/EventPage?eventID="+eventID+"";
 			String completeMessage = "Dear "+modName+"\n\n" +
@@ -580,8 +585,13 @@ public class Event
 			String modName = "";
 			String modEmail = "";
 			int eventID = 0;
-			while(sqlInfo.next())
-			{
+			
+			sqlInfo.last();
+			int numOfRows = sqlInfo.getRow();
+			int random = new Random().nextInt(numOfRows);
+			random++;
+			sqlInfo.absolute(random);
+			
 				title = sqlInfo.getString("E.title");
 				modName = sqlInfo.getString("U.name");
 				modEmail = sqlInfo.getString("U.email");
@@ -590,7 +600,7 @@ public class Event
 				postUser = sqlInfo.getString("Poster.name");
 				postDate = sqlInfo.getString("P.dateTime");
 				eventID = Integer.parseInt(sqlInfo.getString("P.eventID"));
-			}
+			
 			
 			String link = "http://localhost/EventWebSite/EventPage?eventID="+eventID+"";
 			String completeMessage = "Dear "+modName+"\n\n" +
@@ -624,8 +634,13 @@ public class Event
 			String modName = "";
 			String modEmail = "";
 			int eventID = 0;
-			while(sqlInfo.next())
-			{
+			
+			sqlInfo.last();
+			int numOfRows = sqlInfo.getRow();
+			int random = new Random().nextInt(numOfRows);
+			random++;
+			sqlInfo.absolute(random);
+			
 				title = sqlInfo.getString("E.title");
 				modName = sqlInfo.getString("U.name");
 				modEmail = sqlInfo.getString("U.email");
@@ -634,7 +649,7 @@ public class Event
 				reviewUser = sqlInfo.getString("Poster.name");
 				reviewDate = sqlInfo.getString("R.dateTime");
 				eventID = Integer.parseInt(sqlInfo.getString("R.eventID"));
-			}
+		
 			
 			String link = "http://localhost/EventWebSite/EventPage?eventID="+eventID+"";
 			String completeMessage = "Dear "+modName+"\n\n" +
