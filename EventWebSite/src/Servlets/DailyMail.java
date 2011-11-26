@@ -11,7 +11,7 @@ public class DailyMail extends HttpServlet
 
 	public void init() throws ServletException
     {
-		DailyMailTask mailTask = new DailyMailTask(1);
+		DailyMailTask mailTask = new DailyMailTask(24);
 		mailTask.start();
     }    
 }
