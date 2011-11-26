@@ -8,8 +8,8 @@ public class DailyMailTask {
 	    private final Timer timer = new Timer();
 	    private final int hours;
 
-	    public DailyMailTask(int minutes) {
-	        this.hours = minutes;
+	    public DailyMailTask(int hours) {
+	        this.hours = hours;
 	    }
 
 	    public void start() {
