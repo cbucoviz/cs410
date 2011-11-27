@@ -706,6 +706,20 @@ public class DatabaseManager
 		return result;
 	}
 	
+	public ResultSet findMyAttendingEvents(int myUserID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+			(	"SELECT " +
+				"E.eventID, E.title, E.eventDate, E.startTime, E.endTime " +
+	         	"FROM events AS E, eventattendees AS U " +
+	         	"WHERE U.attendeeID = " + myUserID + " " +
+	         	"AND U.eventID = E.eventID" + " " + 
+				"ORDER BY E.eventDate ASC");
+		ResultSet result = statement.executeQuery();
+		    		
+		return result;
+	}
+	
 	/**
 	 * Finds all the events a given user has created and sorts them by starting date
 	 * (so the events that will happen in the future go on top). It also shows for each event

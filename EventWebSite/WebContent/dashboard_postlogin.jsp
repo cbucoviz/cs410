@@ -29,7 +29,8 @@ $('#username_header').text(sessionData["<%=SessionVariables.USERNAME%>"]);
 			
 			<div id="dashboard_main">
 				<b><i><h1 id="username_header"></h1></i></b>
-				<a id="view_profile_btn" class="button1" href="profilepage.jsp">View Profile</a>
+				<a id="view_profile_btn" class="button1" href="profilepage.jsp">View Profile</a><br/><br/>
+				<a id="view_calendar_btn" class="button1" href="calendar.jsp">View Calendar</a>
 				<br>
 				<br>
 				<br>

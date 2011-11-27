@@ -1,3 +1,4 @@
+<%@page import="Models.User"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -8,63 +9,42 @@
 <link href="config/fullcalendar.css" rel="stylesheet" type="text/css"/>
 <link href='config/fullcalendar.print.css'  rel='stylesheet' type='text/css' media='print' />
 <script type='text/javascript' src='plugins/fullcalendar.js'></script>
+<script type='text/javascript' src='scrips/forwarder.js'></script>
 <script type='text/javascript'>
 
 	$(document).ready(function() {
 	
-		var date = new Date();
-		var d = date.getDate();
-		var m = date.getMonth();
-		var y = date.getFullYear();
 		
 		$('#calendar').fullCalendar({
 			editable: false,
 			events: [
+
+
+		<%
+			Boolean loggedIn = (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN);
+			
+			if(loggedIn != null && loggedIn == true)
+			{
+				// we're logged in, get all the events for this user
+				java.util.HashSet<Models.CalendarEvent> calendarEvents = Models.User.getAttendingEvents((Integer) session.getAttribute(Servlets.SessionVariables.USER_ID));
+				java.util.Iterator<Models.CalendarEvent> myItr = calendarEvents.iterator();
+						
+				while(myItr.hasNext())
 				{
-					title: 'All Day Event',
-					start: new Date(y, m, 1)
-				},
-				{
-					title: 'Long Event',
-					start: new Date(y, m, d-5),
-					end: new Date(y, m, d-2)
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d-3, 16, 0),
-					allDay: false
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d+4, 16, 0),
-					allDay: false
-				},
-				{
-					title: 'Meeting',
-					start: new Date(y, m, d, 10, 30),
-					allDay: false
-				},
-				{
-					title: 'Lunch',
-					start: new Date(y, m, d, 12, 0),
-					end: new Date(y, m, d, 14, 0),
-					allDay: false
-				},
-				{
-					title: 'Birthday Party',
-					start: new Date(y, m, d+1, 19, 0),
-					end: new Date(y, m, d+1, 22, 30),
-					allDay: false
-				},
-				{
-					title: 'Click for Google',
-					start: new Date(y, m, 28),
-					end: new Date(y, m, 29),
-					url: 'http://google.com/'
+					
+					out.println(myItr.next().getJQueryCalendarString());
 				}
-			]
+			}
+			
+		%>
+			],
+			eventClick: function(event) {
+		        if (event.url) {
+		            $("#mainContent").load(event.url);
+		            return false;
+		        }
+		    },
+			timeFormat: 'h:mm tt'
 		});
 		
 	});
