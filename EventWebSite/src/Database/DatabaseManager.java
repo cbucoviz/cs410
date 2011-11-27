@@ -9,6 +9,7 @@ import java.util.Date;
 
 import Models.DiscussionPost.SortPosts;
 import Models.Review.SortReviews;
+import Models.Security;
 
 
 public class DatabaseManager 
@@ -1813,6 +1814,151 @@ public class DatabaseManager
 	}
 	
 	
+	
+	
+	public ResultSet isAdmin(int userID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT U.name " +
+				"FROM users AS U " +
+				"WHERE U.userID = "+userID+" "+
+					  "AND U.type = 0");		
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
+	public ResultSet isModerator(int userID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT U.name " +
+				"FROM users AS U, locations AS L " +
+				"WHERE U.userID = "+userID+" "+					 
+					  "AND U.type = 1");		
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
+	public ResultSet isOwner(int userID, int eventID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT U.name " +
+				"FROM users AS U, events AS E " +
+				"WHERE U.userID = "+userID+" "+
+					  "AND E.creatorID = U.userID " +
+					  "AND E.eventID = "+eventID+" ");		
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	public ResultSet isReviewOwner(int userID, int reviewID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT U.name " +
+				"FROM users AS U, reviews AS R " +
+				"WHERE U.userID = "+userID+" "+
+					  "AND R.userID = U.userID " +
+					  "AND R.reviewID = "+reviewID+" ");		
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	public ResultSet isPostOwner(int userID, int postID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT U.name " +
+				"FROM users AS U, discussionpost AS P " +
+				"WHERE U.userID = "+userID+" "+
+					  "AND P.userID = U.userID " +
+					  "AND P.postID = "+postID+" ");		
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	public ResultSet isCommentOwner(int userID, int commentID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT U.name " +
+				"FROM users AS U, comments AS C " +
+				"WHERE U.userID = "+userID+" "+
+					  "AND C.userID = U.userID " +
+					  "AND C.commentID = "+commentID+" ");		
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
+	public ResultSet isLocked(int eventID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT E.isLocked " +
+				"FROM events AS E " +
+				"WHERE E.eventID = "+eventID+" ");		
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	public ResultSet isPastEvent(int eventID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT E.title " +
+				"FROM events AS E " +
+				"WHERE E.eventID = "+eventID+" " +
+					  "AND (CURDATE() > E.eventDate)");		
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
+	
+	public ResultSet findModerators(int eventID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT E.eventID, E.title, U.name,U.email " +						
+				 "FROM events AS E, users AS U " +				 		
+	             "WHERE E.eventID = " + eventID + " " +
+						"AND U.type = 1 ");
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
+	public ResultSet findPostModerator(int postID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT P.eventID, E.title, P.dateTime, P.postContent, U.name, U.email, Poster.name " +						
+				 "FROM events AS E, users AS U, users AS Poster, discussionpost AS P " +				 		
+	             "WHERE P.postID = " + postID + " " +
+				 		"AND E.eventID = P.eventID "+
+				 		"AND Poster.userID = P.userID "+
+						"AND U.type = 1 ");
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
+	public ResultSet findReviewModerator(int reviewID) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("SELECT R.eventID, E.title, R.dateTime, R.reviewContent, U.name, U.email, Poster.name " +						
+				 "FROM events AS E, users AS U, users AS Poster, reviews AS R " +				 		
+	             "WHERE R.reviewID = " + reviewID + " " +
+				 		"AND E.eventID = R.eventID "+
+				 		"AND Poster.userID = R.userID "+
+						"AND U.type = 1 ");
+		ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
+	
+	public void createModerator(int userID) throws SQLException
+	{
+			PreparedStatement statement = connection.prepareStatement
+					("UPDATE users " +
+					"SET type = 1 "+ 
+					"WHERE userID = "+userID+ " ");				
+			statement.executeUpdate();
+	}	
+	
+	public void removeModerator(int userID) throws SQLException
+	{
+			PreparedStatement statement = connection.prepareStatement
+					("UPDATE users " +
+					"SET type = 0 "+ 
+					"WHERE userID = "+userID+ " ");				
+			statement.executeUpdate();
+	}
 	
 	
 	public void testQuery2(String user) throws SQLException

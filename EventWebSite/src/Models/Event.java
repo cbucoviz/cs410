@@ -9,6 +9,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.naming.*;
 
 import Database.DatabaseManager;
 
@@ -529,4 +534,153 @@ public class Event
 		
 		return false;
 	}	
+	
+	public static void reportEventAbuse(int eventID, String message)
+	{
+		DatabaseManager dbManager;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			ResultSet sqlInfo = dbManager.findModerators(eventID);
+			String title = "";
+			String modName = "";
+			String modEmail = "";
+			
+			sqlInfo.last();
+			int numOfRows = sqlInfo.getRow();			
+			int random = new Random().nextInt(numOfRows);
+			random++;
+			sqlInfo.absolute(random);
+			
+				title = sqlInfo.getString("E.title");
+				modName = sqlInfo.getString("U.name");
+				modEmail = sqlInfo.getString("U.email");
+			
+			String link = "http://localhost/EventWebSite/EventPage?eventID="+eventID+"";
+			String completeMessage = "Dear "+modName+"\n\n" +
+					"  Please see below a message sent by a user about a violation he/she has "+
+					"noticed on the main page of "+title+" event: "+link+"\n\n\n\nREPORT:\n\n";
+			
+			completeMessage = completeMessage + "\"" + message + "\"";
+			
+			emailModerator(modEmail, completeMessage);
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}
+	}
+	
+	public static void reportPostAbuse(int postID, String message)
+	{
+		DatabaseManager dbManager;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			ResultSet sqlInfo = dbManager.findPostModerator(postID);
+			String title = "";
+			String postContent = "";
+			String postDate = "";
+			String postUser = "";
+			String modName = "";
+			String modEmail = "";
+			int eventID = 0;
+			
+			sqlInfo.last();
+			int numOfRows = sqlInfo.getRow();
+			int random = new Random().nextInt(numOfRows);
+			random++;
+			sqlInfo.absolute(random);
+			
+				title = sqlInfo.getString("E.title");
+				modName = sqlInfo.getString("U.name");
+				modEmail = sqlInfo.getString("U.email");
+				
+				postContent = sqlInfo.getString("P.postContent");
+				postUser = sqlInfo.getString("Poster.name");
+				postDate = sqlInfo.getString("P.dateTime");
+				eventID = Integer.parseInt(sqlInfo.getString("P.eventID"));
+			
+			
+			String link = "http://localhost/EventWebSite/EventPage?eventID="+eventID+"";
+			String completeMessage = "Dear "+modName+"\n\n" +
+					"  Please see below a message sent by a user about a violation he/she has "+
+					"noticed on one of the posts of the "+title+" event: "+link+"\n\n"+
+					"The post is created by "+postUser+" on "+postDate+" and its content is:\n\n" +
+					""+postContent+"\n\nREPORT:\n\n";
+			
+			completeMessage = completeMessage + "\"" + message + "\"";
+			
+			emailModerator(modEmail, completeMessage);
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}
+	}
+	
+	public static void reportReview(int reviewID)
+	{
+		DatabaseManager dbManager;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			ResultSet sqlInfo = dbManager.findReviewModerator(reviewID);
+			String title = "";
+			String reviewContent = "";
+			String reviewDate = "";
+			String reviewUser = "";
+			String modName = "";
+			String modEmail = "";
+			int eventID = 0;
+			
+			sqlInfo.last();
+			int numOfRows = sqlInfo.getRow();
+			int random = new Random().nextInt(numOfRows);
+			random++;
+			sqlInfo.absolute(random);
+			
+				title = sqlInfo.getString("E.title");
+				modName = sqlInfo.getString("U.name");
+				modEmail = sqlInfo.getString("U.email");
+				
+				reviewContent = sqlInfo.getString("R.reviewContent");
+				reviewUser = sqlInfo.getString("Poster.name");
+				reviewDate = sqlInfo.getString("R.dateTime");
+				eventID = Integer.parseInt(sqlInfo.getString("R.eventID"));
+		
+			
+			String link = "http://localhost/EventWebSite/EventPage?eventID="+eventID+"";
+			String completeMessage = "Dear "+modName+"\n\n" +
+					"  Please note that one of the reviews of the "+title+" event has just "+
+					"received an unusually bad disapproval of users. Please investigate as " +
+					"soon as possible. The link to the events is: "+link+"\n\n"	+				
+					"The review is created by "+reviewUser+" on "+reviewDate+" and its content is:\n\n" +
+					""+reviewContent+" ";
+			
+			emailModerator(modEmail, completeMessage);
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		} catch (Exception e) {			
+			e.printStackTrace();
+		}
+	}
+	
+	private static void emailModerator(String email, String report) throws Exception
+	{		
+    	email = email.trim();		
+	 	Context initCtx = new InitialContext();
+        Context envCtx = (Context) initCtx.lookup("java:comp/env");
+        Session session = (Session) envCtx.lookup("mail/Session");
+        InternetAddress toAddress = new InternetAddress(email);
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("globalevents410@gmail.com"));
+        message.addRecipient(Message.RecipientType.TO, toAddress);
+        message.setSubject("Report about an abuse");
+        message.setText(report);
+        Transport.send(message);
+	}
 }
