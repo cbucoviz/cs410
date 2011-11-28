@@ -31,7 +31,7 @@ $(document).ready(function()
 			{
 				// we're not on google earth.. load it
 				var url = "";
-				url += "eventKeyword=" + encodeURIComponent(eventKeyword;
+				url += "eventKeyword=" + encodeURIComponent(eventKeyword);
 				url += "&city=" + encodeURIComponent(city);
 				url += "&state=" + encodeURIComponent(state);
 				url += "&country=" + encodeURIComponent(country);
