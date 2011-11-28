@@ -212,11 +212,11 @@
 									<br/>
 									
 									<b>Creator: </b> <%=topEvents.get(i).get(5) %>
-									(<a href="http://localhost/EventWebSite/subscribeToUser.jsp?sub=<%=topEvents.get(i).get(5) %>&usid=<%=topEvents.get(i).get(6)%>">Subscribe</a>) 
+									<a class="button1" href="http://localhost/EventWebSite/subscribeToUser.jsp?sub=<%=topEvents.get(i).get(5) %>&usid=<%=topEvents.get(i).get(6)%>">Subscribe</a>
 									<br/>
 									
 									<b>City: </b> <%=topEvents.get(i).get(7) %>
-									(<a href="http://localhost/EventWebSite/subscribeToUser.jsp?id=<%=request.getAttribute("locationID")%>">Subscribe</a>) 
+									<a class="button1" href="http://localhost/EventWebSite/subscribeToUser.jsp?id=<%=request.getAttribute("locationID")%>">Subscribe</a>
 									<br/>
 									
 									<a href="EventPage?eventID=<%=topEvents.get(i).get(8) %>" style="float: right">More...</a>

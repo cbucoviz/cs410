@@ -812,3 +812,13 @@ table.city_event_table
 	background-color: #222491;
 	color: #B0B1FF;
 }
+
+#account_info_div
+{
+	background-color: white;
+	border: 2px ridge black;
+	padding: 20px;
+	padding-top: 0px;
+	height: auto;
+	width: 50%;
+}
