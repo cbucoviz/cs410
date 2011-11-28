@@ -61,6 +61,11 @@ public class Search {
 		IS_EDITED;	
 	}
 	
+	public enum ModeratorInfo
+	{
+		MOD_ID,
+		MOD_NAME;
+	}
 	
 	
 	/**
@@ -557,6 +562,23 @@ public class Search {
 		}
 	
 		return usersToReturn;
+	}
+	
+	public static  List<Map<ModeratorInfo,String>> getMods() throws ClassNotFoundException, SQLException
+	{
+		DatabaseManager dbMan = DatabaseManager.getInstance();
+		ResultSet moderators = dbMan.getAllModerators();
+		List<Map<ModeratorInfo, String>> modsToReturn = Collections.synchronizedList
+						(new ArrayList<Map<ModeratorInfo,String>>());
+		while(moderators.next())
+		{	
+			Map<ModeratorInfo, String> subscribedUser = Collections.synchronizedMap(new HashMap<ModeratorInfo,String>());
+			subscribedUser.put(ModeratorInfo.MOD_ID,	moderators.getString("userID"));
+			subscribedUser.put(ModeratorInfo.MOD_NAME,		moderators.getString("name"));					
+			
+			modsToReturn.add(subscribedUser);
+		}
+		return modsToReturn;
 	}
 }
 						

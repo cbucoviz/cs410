@@ -1951,15 +1951,43 @@ public class DatabaseManager
 			statement.executeUpdate();
 	}	
 	
+	public void createModerator(String username) throws SQLException
+	{
+			PreparedStatement statement = connection.prepareStatement
+					("UPDATE users " +
+					"SET type = 1 "+ 
+					"WHERE name LIKE ? "+
+					"AND type > 0");
+			statement.setString(1, username);	
+			statement.executeUpdate();
+	}	
+	
 	public void removeModerator(int userID) throws SQLException
 	{
 			PreparedStatement statement = connection.prepareStatement
 					("UPDATE users " +
-					"SET type = 0 "+ 
+					"SET type = 2 "+ 
 					"WHERE userID = "+userID+ " ");				
 			statement.executeUpdate();
 	}
 	
+	public void removeModerator(String username) throws SQLException
+	{
+			PreparedStatement statement = connection.prepareStatement
+					("UPDATE users " +
+					"SET type = 2 "+ 
+					"WHERE name LIKE ?");
+			statement.setString(1, username);	
+			statement.executeUpdate();
+	}
+	
+	public ResultSet getAllModerators() throws SQLException
+	{
+			PreparedStatement statement = connection.prepareStatement
+					("SELECT * FROM users WHERE type = 1");				
+			ResultSet result = statement.executeQuery();
+			return result;
+	}
 	
 	public void testQuery2(String user) throws SQLException
 	{

@@ -94,4 +94,32 @@ public class User
 		return returnSet;
 	}
 	
+	public static boolean makeModerator(String username)
+	{
+		try 
+		{
+			DatabaseManager dbManager = DatabaseManager.getInstance();
+			dbManager.createModerator(username);
+		}
+		catch(Exception ex)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean removeModerator(String username)
+	{
+		try 
+		{
+			DatabaseManager dbManager = DatabaseManager.getInstance();
+			dbManager.removeModerator(username);
+		}
+		catch(Exception ex)
+		{
+			return false;
+		}
+		return true;
+	}
+	
 }
