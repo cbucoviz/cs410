@@ -58,7 +58,13 @@ $(document).ready(function()
 				// login form is special, we don't want to reload content on login
 				var data = form.serialize();
 				$.post(form.attr("action"), data);
-				return;
+				
+				var isLogin = form.find("input[name='isLogin']").val();
+				if(isLogin == "false")
+				{
+					// this is a logout, don't prevent default
+					return;
+				}
 			}
 			else
 			{
