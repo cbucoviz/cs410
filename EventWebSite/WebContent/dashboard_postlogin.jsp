@@ -89,7 +89,10 @@ $('#username_header').text(sessionData["<%=SessionVariables.USERNAME%>"]);
 					</div>
 				</div>
 			</div>
-			<button id="logout_btn" name="logout_btn" value="log_out" class="button1">Log Out</button>
+			<form action='Login' method='POST'>
+				<input type='hidden' name='isLogin' value='false'/>
+				<button id="logout_btn" name="logout_btn" type="submit" value="log_out" class="button1">Log Out</button>
+			</form>
 		</td>
 		<td style="width:40px;text-align:center;valign:middle">
 			<font color="yellow"><big> >>> </big></font>

@@ -57,7 +57,7 @@ sitems[4]=["<i><font size='3'>Search for the most popular and amazing events aro
 sitems[5]=["", ""]
 sitems[6]=["", ""]
 sitems[7]=["<h2><b>Login:</b></h2>", ""]
-sitems[8]=["<form action='Login' method='POST'><p class='indent' style='margin-top:-20px'>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Email: <input type='text' name='<%=SessionVariables.EMAIL%>' size='20'></p>", ""]
+sitems[8]=["<form action='Login' method='POST'><input type='hidden' name='isLogin' value='true'/><p class='indent' style='margin-top:-20px'>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Email: <input type='text' name='<%=SessionVariables.EMAIL%>' size='20'></p>", ""]
 sitems[9]=["<h5><p id='save_login_indent'><input type='checkbox' name='save_login_checkbox'>Remember Me?</p></h5>", ""]
 sitems[10]=["<p class='indent'>Password: <input type='password' name='<%=SessionVariables.PASSWORD%>' size='20'></p>", ""]
 sitems[11]=["<p id='login_button_indent'><input type='submit' class='button1' value='Login'/></p></form>", ""]

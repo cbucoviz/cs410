@@ -37,7 +37,9 @@ $(document).ready(function()
 			if(form.attr("action") == "Login")
 			{
 				// login form is special, we don't want to reload content on login
-				$.post(form.attr("action"), form.serialize());
+				var data = form.serialize();
+				$.post(form.attr("action"), data);
+				return;
 			}
 			else
 			{
