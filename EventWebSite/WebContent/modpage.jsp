@@ -3,27 +3,8 @@
 <head> 
    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
    <title>Moderator Table</title> 
-   
-</head>
- 
-<TABLE ID="tblMods" border="1" STYLE="border width:1 orange dashed;background color:#F0E68C;table-row width:2;">
-	<TR>
-		
-		<TH WIDTH="230">Moderator Name</TH>
-		<TH WIDTH="100"></TH>
-		
-	</TR>
-	
-</TABLE>
-<form name="modForm"  method="POST">
-  New Moderator Name: <input type="text" name="fname" /><br />
-  <input type="submit" value="Submit" onClick="addMod(this.form)"/>
-</form>  
 
-
-<body> 
-	<script type='text/javascript' src='http://code.jquery.com/jquery-1.6.4.js'></script>
-   <SCRIPT TYPE="text/javascript">
+<SCRIPT TYPE="text/javascript">
 	  var count = "1";
 	  init('tblMods');
 	  
@@ -100,15 +81,39 @@
 		  var tbody = document.getElementById("tblMods").getElementsByTagName("TBODY")[0];
 		  var row = document.createElement("TR");
 		  var td1 = document.createElement("TD");
-		  //td1.setAttribute("align", "center");
+		  td1.setAttribute("align", "center");
 		  td1.innerHTML = name;
 		  var td2 = document.createElement("TD");
 		  td2.innerHTML = "<INPUT TYPE=\"Button\" CLASS=\"Button\" onClick=\"remove(this)\" VALUE=\"Delete Row\">";
 		  row.appendChild(td1);
 		  row.appendChild(td2);
 		  tbody.appendChild(row);
+		  
 	  }
 </SCRIPT>
+
+   
+</head>
+ 
+
+
+<body> 
+
+<TABLE ID="tblMods" border="1" STYLE="border width:1 orange dashed;background color:#F0E68C;table-row width:2;">
+	<TR>
+		
+		<TH WIDTH="230">Moderator Name</TH>
+		<TH WIDTH="100"></TH>
+		
+	</TR>
+	
+</TABLE>
+<form name="modForm"  method="POST">
+  New Moderator Name: <input type="text" name="fname" /><br />
+  <input type="button" value="Submit" onClick="addMod(this.form)"/>
+</form>  
+
+
 </body> 
 
 </html>

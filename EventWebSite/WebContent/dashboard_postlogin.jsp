@@ -1,3 +1,4 @@
+<%@page import="Models.Security"%>
 <html>
 <head>
 <%@ page import="Servlets.SessionVariables" %>
@@ -30,7 +31,21 @@ $('#username_header').text(sessionData["<%=SessionVariables.USERNAME%>"]);
 			<div id="dashboard_main">
 				<b><i><h1 id="username_header"></h1></i></b>
 				<a id="view_profile_btn" class="button1" href="profilepage.jsp">View Profile</a><br/><br/>
-				<a id="view_calendar_btn" class="button1" href="calendar.jsp">View Calendar</a>
+				<a id="view_calendar_btn" class="button1" href="calendar.jsp">View Calendar</a><br/><br/>
+				<% 
+					Boolean loggedIn = (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN);
+					if(loggedIn != null && loggedIn == true)
+					{
+						Integer userId = (Integer) session.getAttribute(Servlets.SessionVariables.USER_ID);
+						boolean isAdmin = Models.Security.isAdmin(userId);
+						if(isAdmin)
+						{
+				%>				
+							<a id="manage_mod_btn" class="button1" href="modpage.jsp">Manage Moderators</a>
+				<%
+						}
+					}
+				%>
 				<br>
 				<br>
 				<br>
