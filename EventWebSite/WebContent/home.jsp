@@ -25,8 +25,17 @@
 			ge = instance;
 			//Make the instance of google earth visible
 			ge.getWindow().setVisibility(true); 
+			
 			//Get the locations that need to be placed on GE.
-			$.getJSON('/EventWebSite/GElocations', setAddresses);
+			var eventKeyword = '<%= request.getParameter("eventKeyword") != null ? request.getParameter("eventKeyword") : "" %>';
+			var city = '<%= request.getParameter("city") != null ? request.getParameter("city") : "" %>';
+			var state = '<%= request.getParameter("state") != null ? request.getParameter("state") : "" %>';
+			var country = '<%= request.getParameter("country") != null ? request.getParameter("country") : "" %>';
+			var startDate = '<%= request.getParameter("startDate") != null ? request.getParameter("startDate") : "" %>';;
+			var endDate = '<%= request.getParameter("endDate") != null ? request.getParameter("endDate") : "" %>';
+
+			geSearch(eventKeyword, city, state, country, startDate, endDate);
+			
 		}        
 		
 		//Callback for successful location look up
@@ -45,7 +54,6 @@
 				//add location to GE
 				addPlace(name, lat, lng, id);
 			}
-			
 		}
 		
 		//Adds a location to GE and creates the associate balloon and event
@@ -136,16 +144,7 @@
 			}
 			removeAll();
 			$.getJSON('/EventWebSite/GElocations', { keyWord:eventKeyword,city:city,state:state,country:country,
-									startDate:startDate,endDate:endDate }, setAddresses );
-			
-			/*alert(	"EventKeyword: " + eventKeyword + "\n" + 
-					"City: " + city + "\n" + 
-					"State: " + state + "\n" + 
-					"Country: " + country + "\n" + 
-					"Start Date: " + startDate + "\n" + 
-					"End Date: " + endDate 	
-				);*/
-				
+									startDate:startDate,endDate:endDate }, setAddresses );		
 		}
 	</script>  
 
