@@ -64,7 +64,7 @@ $(document).ready(function()
     	hide: false,
 	 	style: {
 		 	name: 'green',
-		 	tip: 'leftTop'
+		 	tip: 'topMiddle'
 	 	}
    	});
 	
@@ -122,15 +122,14 @@ function calibrateSize()
 	
 	var mainContent = $("#mainContent");
 	 
-	 mainContent.width(windowWidth * <%= FRAME_WIDTH %>);
-	 mainContent.height((windowHeight * <%= FRAME_HEIGHT %>) - <%= TICKER_HEIGHT %> - <%= SEARCH_HEIGHT %>);
+	mainContent.width(windowWidth * <%= FRAME_WIDTH %>);
+	mainContent.height((windowHeight * <%= FRAME_HEIGHT %>) - <%= TICKER_HEIGHT %> - <%= SEARCH_HEIGHT %>);
 	
 	var scroller = $("#scrollerContainer");
 	scroller.width(windowWidth * <%= TICKER_WIDTH %>);	
 	
 	var search = $("#searchTip");
-	search.offset({ top: 0, left: (windowWidth - search.width() - 10)});
-	
+	search.offset({ top: 0, left: (windowWidth - search.width() - 12)});
 }
 
 /*
@@ -183,7 +182,7 @@ $(window).resize(function()
 
 <table></table>
 
-<a id="searchTip">Quick Search</a>
+<div style="height: 35px"><a id="searchTip">Quick Search</a></div>
 
 
 <div id="mainContent" class="scrollFrame">
