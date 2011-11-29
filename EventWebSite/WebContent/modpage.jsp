@@ -25,7 +25,8 @@
 		        td.setAttribute("align", "center");
 		        td.innerHTML = Mod.name;
 		        td = tr.insertCell(tr.cells.length);
-		        td.innerHTML = "<INPUT TYPE=\"Button\" CLASS=\"Button\" onClick=\"remove(this)\" VALUE=\"Delete Row\">";
+		        td.setAttribute("align", "center");
+		        td.innerHTML = "<INPUT TYPE=\"Button\" CLASS=\"button1\" onClick=\"remove(this)\" VALUE=\"Remove\">";
 			  	
 		  }
 	  }
@@ -76,19 +77,23 @@
 	  function addMod(form)
 	  {
 		  var name = form.fname.value;
-		  $.post("moderators?addname="+name);
 		  
-		  var tbody = document.getElementById("tblMods").getElementsByTagName("TBODY")[0];
-		  var row = document.createElement("TR");
-		  var td1 = document.createElement("TD");
-		  td1.setAttribute("align", "center");
-		  td1.innerHTML = name;
-		  var td2 = document.createElement("TD");
-		  td2.innerHTML = "<INPUT TYPE=\"Button\" CLASS=\"Button\" onClick=\"remove(this)\" VALUE=\"Delete Row\">";
-		  row.appendChild(td1);
-		  row.appendChild(td2);
-		  tbody.appendChild(row);
-		  
+		  if(name != "")
+			{
+			  $.post("moderators?addname="+name);
+			  
+			  var tbody = document.getElementById("tblMods").getElementsByTagName("TBODY")[0];
+			  var row = document.createElement("TR");
+			  var td1 = document.createElement("TD");
+			  td1.setAttribute("align", "center");
+			  td1.innerHTML = name;
+			  var td2 = document.createElement("TD");
+			  td2.setAttribute("align", "center");
+			  td2.innerHTML = "<INPUT TYPE=\"Button\" CLASS=\"button1\" onClick=\"remove(this)\" VALUE=\"Remove\">";
+			  row.appendChild(td1);
+			  row.appendChild(td2);
+			  tbody.appendChild(row);
+			}
 	  }
 </SCRIPT>
 
@@ -99,20 +104,38 @@
 
 <body> 
 
-<TABLE ID="tblMods" border="1" STYLE="border width:1 orange dashed;background color:#F0E68C;table-row width:2;">
-	<TR>
-		
-		<TH WIDTH="230">Moderator Name</TH>
-		<TH WIDTH="100"></TH>
-		
-	</TR>
+<div class="page_container">
 	
-</TABLE>
-<form name="modForm"  method="POST">
-  New Moderator Name: <input type="text" name="fname" /><br />
-  <input type="button" value="Submit" onClick="addMod(this.form)"/>
-</form>  
-
+	<div class="page_header">
+		<h2><b>Moderator</b></h2>
+	</div>
+		
+	<div class="page_content" align="center" style="padding-top: 20px;">
+		
+		<div id="add_moderator_div">
+		
+			<form name="modForm"  method="POST">
+				<i><h3>Add New Moderator</h3></i>
+				Moderator Name: <input type="text" name="fname"  style="border: 1px solid black;"/>
+				<br/>
+				<br/>
+				<input type="button" class="button1" value="Add" onClick="addMod(this.form)"/>
+			</form> 
+		</div>
+		 
+		<br/>
+		
+		<TABLE ID="tblMods" border="1">
+			<TR class="header">
+				
+				<TH WIDTH="230">Moderator Name</TH>
+				<TH WIDTH="100"></TH>
+				
+			</TR>
+			
+		</TABLE>
+	</div>
+</div>
 
 </body> 
 

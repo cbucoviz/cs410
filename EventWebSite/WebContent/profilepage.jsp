@@ -88,5 +88,7 @@ $('#username_header').text(sessionData["<%=SessionVariables.USERNAME%>"]);
 	
 </div>
 
+<%@ include file="account_update_dialog.jsp" %>
+
 </body>
 </html>

@@ -816,9 +816,42 @@ table.city_event_table
 #account_info_div
 {
 	background-color: white;
-	border: 2px ridge black;
+	border: 1px ridge green;
 	padding: 20px;
 	padding-top: 0px;
 	height: auto;
 	width: 50%;
+}
+
+#account_info_form
+{
+	height: auto;
+	width: auto;
+}
+
+#add_moderator_div
+{
+	border: 1px ridge green; 
+	padding-bottom: 20px; 
+	width: 350px;
+	background-color: white;
+}
+
+#tblMods
+{
+	background color:#F0E68C;
+	border-collapse: collapse;
+	border-color: green;
+}
+
+#tblMods tr.header
+{
+	background-color: orange;
+	padding: 5px;
+}
+
+#tblMods tr td, th
+{
+	padding: 5px;
+	border-color: green;
 }
