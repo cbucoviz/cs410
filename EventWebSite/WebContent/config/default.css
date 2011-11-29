@@ -116,10 +116,40 @@ ul
   	color: black;
   	text-decoration: none;
   	border-style: inset;
-  	background-color: #0000CD;
+  	background: #0000CD;
   	padding: 2px 3px 0px 5px; /* shift text 1px to the right and down */
   	cursor: pointer;
   	margin: 0px 30px 0px -30px;
+  	font-weight: bold;
+}
+
+.scroll_item 
+{
+	height: 15px; 
+	width: 220px;
+	background:url("../resources/item_gradient.jpg") repeat-x;
+  	border: 1px #ff0000 outset; 
+  	padding: 3px;
+  	padding-bottom: 6px;
+  	text-decoration: none;
+  	margin: 0px 30px 0px -29px;
+}
+
+.scroll_item:visited, .scroll_item:active
+{  	
+  	color: yellow;
+  	text-decoration: none;
+  	margin: 0px 30px 0px -29px;
+}
+
+.scroll_item:hover
+{
+  	color: yellow;
+  	text-decoration: none;
+  	border-style: inset;
+  	background: #0000CD;
+  	cursor: pointer;
+  	margin: 0px 30px 0px -29px;
   	font-weight: bold;
 }
 
@@ -150,6 +180,23 @@ ul
 	padding-top: 0px;
 }
 
+div.event_scroll_list
+{
+	position:relative;
+	width:230px;
+	height:76px;
+	border:1px solid black;
+	overflow:hidden;
+}
+
+div.scroll_list_container
+{
+	position:absolute;
+	width:230px;
+	left:0;
+	top:0;
+	margin-left: 30px;
+}
 
 div.profile_header
 {
@@ -405,6 +452,13 @@ table.city_event_table
 	margin: 10px;
 }
 
+table.scroll_list_btns
+{
+	width:230px; 
+	height:10px;
+	padding: 0px;
+	margin-top: -20px;
+}
 
 #save_login_indent
 {
@@ -785,12 +839,18 @@ table.city_event_table
 #view_profile_btn
 {
 	margin-top: -50px;
+
+}
+
+#my_events_list
+{
+	width: 200px;
 }
 
 #my_events_list > li, #subs_events_list > li, #subs_locale_list > li
 {
 	margin-top: -12px;
-	margin-left: -30px;
+	margin-left: -40px;
 	width: 110%;
 }
 

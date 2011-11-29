@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Database.DatabaseManager.UserType;
-import Models.Registration;
 
 /**
  * Servlet implementation class ReportAbuse
@@ -39,7 +38,7 @@ public class AccountInfoUpdate extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Someone has reported abuse");
+		System.out.println("Attempt to update password 1");
 		
 		String oldPassword = request.getParameter("oldpassword");
 		String newPassword1 = request.getParameter("newpassword1");
@@ -63,22 +62,30 @@ public class AccountInfoUpdate extends HttpServlet {
 
 		updateError = missingParam;
 		
-		String currentPassword = SessionVariables.PASSWORD;
+		HttpSession session = request.getSession();
+		String currentPassword = (String) session.getAttribute(SessionVariables.PASSWORD);
+		System.out.println(currentPassword);
 		
-		if (!currentPassword.equals(oldPassword))
+		System.out.println("Attempt to update password 2");
+		
+		if (!oldPasswordEmpty)
 		{
-			//If input old password is incorrect
-			request.setAttribute("oldPasswordMatch", false);
-			updateError = true;
-		}
-		else
-		{
-			if (!newPassword1.equals(newPassword2))
+			//If the old password field is not empty
+			if (!currentPassword.equals(oldPassword))
 			{
-				//new passwords don't match
-				request.setAttribute("newPasswordMatch", false);
+				//If input old password is incorrect
+				request.setAttribute("oldPasswordMatch", false);
 				updateError = true;
+				System.out.println("Fail to update password 1");
 			}
+		}
+		
+		if (!newPassword1.equals(newPassword2))
+		{
+			//new passwords don't match
+			request.setAttribute("newPasswordMatch", false);
+			updateError = true;
+			System.out.println("Fail to update password 2");
 		}
 		
 		if(!updateError)
@@ -93,16 +100,15 @@ public class AccountInfoUpdate extends HttpServlet {
 			}*/
 		}
 		
-		
 		if(updateError)
 		{
-			dispatcher = request.getRequestDispatcher("profile.jsp");
+			dispatcher = request.getRequestDispatcher("profilepage.jsp");
 			dispatcher.forward(request, response);
 			return;
 		}
 		else
 		{
-			response.sendRedirect("profile.jsp");
+			response.sendRedirect("profilepage.jsp");
 		}
 	}
 

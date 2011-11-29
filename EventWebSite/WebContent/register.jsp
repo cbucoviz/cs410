@@ -16,37 +16,37 @@
 <body>
 
 <% if(request.getAttribute("emailUsed") == Boolean.TRUE) { %>
-		<b>Your e-mail is used by another user</b><br/>
+		<b><font color="red">Your e-mail is used by another user</font></b><br/>
 <% } %>
 <% if(request.getAttribute("badAge") == Boolean.TRUE) { %>
-		<b>You need to put in a number for your age</b><br/>
+		<b><font color="red">You need to put in a number for your age</font></b><br/>
 <% } %>
 <% if(request.getAttribute("passwordMatch") == Boolean.FALSE) { %>
-		<b>Your passwords don't match.</b><br/>
+		<b><font color="red">Your passwords don't match.</font></b><br/>
 <% } %>
 <% if(request.getAttribute("missingUser") == Boolean.TRUE) { %>
-		<b>You need to fill in the username</b><br/>
+		<b><font color="red">You need to fill in the username.</font></b><br/>
 <% } %>
 <% if(request.getAttribute("missingPassword1") == Boolean.TRUE) { %>
-		<b>You need to fill in the first password field</b><br/>
+		<b><font color="red">You need to fill in the first password field.</font></b><br/>
 <% } %>
 <% if(request.getAttribute("missingPassword2") == Boolean.TRUE) { %>
-		<b>You need to fill in the second password field</b><br/>
+		<b><font color="red">You need to fill in the second password field.</font></b><br/>
 <% } %>
 <% if(request.getAttribute("missingEmail") == Boolean.TRUE) { %>
-		<b>You need to fill in the email field</b><br/>
+		<b><font color="red">You need to fill in the email field.</font></b><br/>
 <% } %>
 <% if(request.getAttribute("missingAge") == Boolean.TRUE) { %>
-		<b>You need to fill in the age field</b><br/>
+		<b><font color="red">You need to fill in the age field.</font></b><br/>
 <% } %>
 <% if(request.getAttribute("missingCity") == Boolean.TRUE) { %>
-		<b>You need to fill in the city field</b><br/>
+		<b><font color="red">You need to fill in the city field.</font></b><br/>
 <% } %>
 <% if(request.getAttribute("missingState") == Boolean.TRUE) { %>
-		<b>You need to fill in the state field</b><br/>
+		<b><font color="red">You need to fill in the state field.</font></b><br/>
 <% } %>
 <% if(request.getAttribute("missingCountry") == Boolean.TRUE) { %>
-		<b>You need to fill in the country field</b><br/>
+		<b><font color="red">You need to fill in the country field.</font></b><br/>
 <% } %>
 
 

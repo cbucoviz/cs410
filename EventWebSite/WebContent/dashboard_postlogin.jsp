@@ -16,6 +16,22 @@ $('#username_header').text(sessionData["<%=SessionVariables.USERNAME%>"]);
 
 </script>	
 	
+
+<script type="text/javascript">
+
+function move(id,spd){
+ var obj=document.getElementById(id),max=-obj.offsetHeight+obj.parentNode.offsetHeight,top=parseInt(obj.style.top);
+ if ((spd>0&&top<=0)||(spd<0&&top>=max)){
+  obj.style.top=top+spd+"px";
+  move.to=setTimeout(function(){ move(id,spd); },20);
+ }
+ else {
+  obj.style.top=(spd>0?0:max)+"px";
+ }
+}
+
+</script>
+
 </head>
 <body>
 
@@ -51,42 +67,126 @@ $('#username_header').text(sessionData["<%=SessionVariables.USERNAME%>"]);
 				<br>
 				
 				<div id="my_events_div">
+				
 					<div class="profile_header">
 						<font size="3">My Events</font>
 					</div>
-					<div id="my_events_content">
-						<ul id="my_events_list">
-							<li class="event_item">
-								<a href="EventPage?eventID=10">My Dummy Event</a>
-							</li>
-						</ul>
+					
+					<div class="event_scroll_list">
+						<div id="my_event_list_container" class="scroll_list_container">
+						
+								<!-- INSERT REAL MY EVENTS HERE -->
+								
+								<div class="scroll_item">
+									<a href="EventPage?eventID=10">My Dummy Event 1</a>
+								</div>
+								<div class="scroll_item">
+									<a href="EventPage?eventID=10">My Dummy Event 2</a>
+								</div>
+								<div class="scroll_item">
+									<a href="EventPage?eventID=10">My Dummy Event 3</a>
+								</div>
+								<div class="scroll_item">
+									<a href="EventPage?eventID=10">My Dummy Event 4</a>
+								</div>
+								<div class="scroll_item">
+									<a href="EventPage?eventID=10">My Dummy Event 5</a>
+								</div>
+								<div class="scroll_item">
+									<a href="EventPage?eventID=10">My Dummy Event 6</a>
+								</div>
+								<div class="scroll_item">
+									<a href="EventPage?eventID=10">My Dummy Event 7</a>
+								</div>
+						</div>
 					</div>
+					
+					<table class="scroll_list_btns">
+						<tr>
+						<td>
+							<p align="right">
+								<a href="#" onMouseover="move('my_event_list_container',2)" onMouseout="clearTimeout(move.to)"><img src="resources/up.gif" border=0></a>  
+								<a href="#" onMouseover="move('my_event_list_container',-2)" onMouseout="clearTimeout(move.to)"><img src="resources/down.gif" border=0></a>
+							</p>
+						</td>
+						</tr>
+					</table>
 				</div>
 				
 				<div id="subs_events_div">
 					<div class="profile_header">
 						<font size="3">Subscribed Events</font>
 					</div>
-					<div id="subs_events_content">
-						<ul id="subs_events_list">
-							<li class="event_item">
-								<a href="EventPage?eventID=">Subscribed Dummy Event</a>
-							</li>
-						</ul>
+					
+					<div class="event_scroll_list">
+						<div id="subs_event_list_container" class="scroll_list_container">
+							
+							<!-- INSERT REAL SUBSCRIBED EVENTS HERE -->
+							
+							<div class="scroll_item">
+								<a href="EventPage?eventID=">Subscribed Dummy Event 1</a>
+							</div>
+							<div class="scroll_item">
+								<a href="EventPage?eventID=">Subscribed Dummy Event 2</a>
+							</div>
+							<div class="scroll_item">
+								<a href="EventPage?eventID=">Subscribed Dummy Event 3</a>
+							</div>
+							<div class="scroll_item">
+								<a href="EventPage?eventID=">Subscribed Dummy Event 4</a>
+							</div>
+						</div>
 					</div>
+					
+					<table class="scroll_list_btns">
+						<tr>
+						<td>
+							<p align="right">
+								<a href="#" onMouseover="move('subs_event_list_container',2)" onMouseout="clearTimeout(move.to)"><img src="resources/up.gif" border=0></a>  
+								<a href="#" onMouseover="move('subs_event_list_container',-2)" onMouseout="clearTimeout(move.to)"><img src="resources/down.gif" border=0></a>
+							</p>
+						</td>
+						</tr>
+					</table>
+					
 				</div>
 				
 				<div id="subs_locale_div">
 					<div class="profile_header">
 						<font size="3">Subscribed Locales</font>
 					</div>
-					<div id="subs_locale_content">
-						<ul id="subs_locale_list">
-							<li class="event_item">
-								<a href="EventPage?eventID=">Subscribed Dummy Locale</a>
-							</li>
-						</ul>
+					
+					<div class="event_scroll_list">
+						<div id="subs_locale_list_container" class="scroll_list_container">
+						
+							<!-- INSERT REAL SUBSCRIBED LOCALES HERE -->
+							
+							<div class="scroll_item">
+								<a href="EventPage?eventID=">Subscribed Dummy Locale 1</a>
+							</div>
+							<div class="scroll_item">
+								<a href="EventPage?eventID=">Subscribed Dummy Locale 2</a>
+							</div>
+							<div class="scroll_item">
+								<a href="EventPage?eventID=">Subscribed Dummy Locale 3</a>
+							</div>
+							<div class="scroll_item">
+								<a href="EventPage?eventID=">Subscribed Dummy Locale 4</a>
+							</div>
+						</div>
 					</div>
+					
+					<table class="scroll_list_btns">
+						<tr>
+						<td>
+							<p align="right">
+								<a href="#" onMouseover="move('subs_locale_list_container',2)" onMouseout="clearTimeout(move.to)"><img src="resources/up.gif" border=0></a>  
+								<a href="#" onMouseover="move('subs_locale_list_container',-2)" onMouseout="clearTimeout(move.to)"><img src="resources/down.gif" border=0></a>
+							</p>
+						</td>
+						</tr>
+					</table>
+					
 				</div>
 			</div>
 			<form action='Login' method='POST'>

@@ -39,7 +39,7 @@
 				Old Password: 
 			</td>
 			<td>
-				<input type="password" name='oldpassword' size="25"/>
+				<input type="password" name='oldpassword' id='oldpassword' size="25"/>
 			</td>
 		</tr>
 		<tr>
@@ -47,7 +47,7 @@
 				New Password:
 			</td>
 			<td>
-				<input type="password" name='newpassword1' size="25"/>
+				<input type="password" name='newpassword1' id='newpassword1' size="25"/>
 			</td>
 		</tr>
 		<tr>
@@ -55,7 +55,7 @@
 				Confirm New Password:
 			</td>
 			<td>
-				<input type="password" name='newpassword2' size="25"/>
+				<input type="password" name='newpassword2' id='newpassword2' size="25"/>
 			</td>
 		</tr>
   	</table>
