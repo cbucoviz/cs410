@@ -358,7 +358,7 @@
 								<div class="event_map_dir">
 									<h4><b>Directions to Event Location:</b></h4>
 									<p class="event_map_dir">
-										Insert directions to event location here!!!
+										<%= request.getAttribute("transportDesc") %>
 									</p>
 								</div>
 							</div>
