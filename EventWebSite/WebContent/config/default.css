@@ -158,6 +158,11 @@ div.profile_header
 	border: 2px outset #4236C2;
 }
 
+div.event_list:
+{
+	height: auto;
+}
+
 div.event_popup
 {
 	background-color: red;

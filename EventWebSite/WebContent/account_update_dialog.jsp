@@ -20,7 +20,6 @@
     },
     close: function() {
      //ktam todo: remove stale values
-    	$("#AccountInfoForm").reset();
     }
    });
   });
@@ -35,30 +34,6 @@
   <form action="AccountInfoUpdate" id="AccountInfoForm" method="POST">
   <fieldset>
   	<table>
-  		<tr>
-  			<td align="right">
-  				User Name: 
-  			</td>
-  			<td>
-  				<input 	type="text" name='username' size="25" value="<%= request.getParameter("username") == null ? "" : request.getParameter("username")%>"/>	
-  			</td>
-  		</tr>
-  		<tr>
-  			<td align="right">
-  				Age: 
-  			</td>
-  			<td>
-  				<input type="text" name='age' size="25"/>
-  			</td>
-  		</tr>
-  		<tr>
-  			<td align="right">
-  				Email: 
-  			</td>
-  			<td>
-  				<input type="text" name='useremail' size="25"/>
-  			</td>
-  		</tr>
   		<tr>
 			<td align="right">
 				Old Password: 

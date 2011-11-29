@@ -35,7 +35,29 @@ $('#username_header').text(sessionData["<%=SessionVariables.USERNAME%>"]);
 	</div>
 		
 	<div class="page_content" align="center">
+		
+		<% if(request.getAttribute("oldPasswordMatch") == Boolean.FALSE) { %>
+		<b>Your old password is incorrect.</b><br/>
+		<% } %>
+		
+		<% if(request.getAttribute("newPasswordMatch") == Boolean.FALSE) { %>
+		<b>Your new passwords do not match.</b><br/>
+		<% } %>
+		
+		<% if(request.getAttribute("missingOldPassword") == Boolean.TRUE) { %>
+		<b>You need to type in your old password in the 'Old Password' field</b><br/>
+		<% } %>
+		
+		<% if(request.getAttribute("missingNewPassword1") == Boolean.TRUE) { %>
+		<b>You need to type in a new password in the 'New Password' field</b><br/>
+		<% } %>
+		
+		<% if(request.getAttribute("missingNewPassword2") == Boolean.TRUE) { %>
+		<b>You need to type in your new password again in the 'Confirm New Password' field</b><br/>
+		<% } %>
+		
 		<br/>
+		
 		<div id="account_info_div" align="center">
 			<table>
 				<tr>
