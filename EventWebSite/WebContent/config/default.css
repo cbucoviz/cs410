@@ -400,22 +400,6 @@ div.event_map_dir
 	padding-top: 10px;
 }
 
-div.edit_event_header
-{
-	text-align: center;
-	vertical-align: middle;
-}
-
-div.edit_event_content
-{
-	/* Remove overflow and height back to auto later*/
-	background: #C6BFFF;
-	height: auto;
-	border: 2px groove blue;
-	color: black;
-	padding: 20px;
-}
-
 p.discs_post
 {
 	margin-left: 20px;
@@ -774,41 +758,9 @@ table.scroll_list_btns
 	border: 2px outset green;
 }
 
-#edit_event_container
-{
-	background: green;
-	margin: 30px;
-	margin-left: 100px;
-	border: 4px outset green;
-	height: auto;
-	width: 1060px;
-	font-family: verdana;
-}
-
-#edit_event_div
-{
-	display: none;
-}
-
 #create_event_div
 {
 	display: block;
-}
-
-#register_header
-{
-	text-align: center;
-	vertical-align: middle;
-}
-
-#register_content
-{
-	background: #C6BFFF;
-	height: auto;
-	border: 2px groove blue;
-	color: black;
-	padding: 20px;
-	padding-top: 0px;
 }
 
 #city_buttons
@@ -886,6 +838,27 @@ table.scroll_list_btns
 	padding-top: 0px;
 	height: auto;
 	width: 50%;
+}
+
+#register_content_div
+{
+	background-color: white;
+	border: 1px ridge green;
+	padding-top: 0px;
+	margin-top: 20px;
+	height: auto;
+	width: 50%;
+}
+
+#ed_event_content_div
+{
+	background-color: white;
+	border: 1px ridge green;
+	padding-top: 0px;
+	margin-top: 20px;
+	height: auto;
+	width: 60%;
+	padding: 20px;
 }
 
 #account_info_form

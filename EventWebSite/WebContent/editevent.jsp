@@ -17,15 +17,14 @@
 <body>
 
 
-<div id="edit_event_container">
+<div class="page_container">
 
 	<!--  change the css style {display} of create_event_div and edit_event_div to toggle the two views -->
 	
 	<!-- Use this for CREATING NEW EVENT; set css style {display:none} to hide it and {display:block} to display it -->
 	
-	<div id="create_event_div">
 	
-		<div class="edit_event_header">
+		<div class="page_header">
 			<h2><b>
 			<%
 				if (request.getParameter("eventId") == null) 
@@ -41,7 +40,7 @@
 			</b></h2>
 		</div>
 		
-		<div class="edit_event_content">
+		<div class="page_content" align="center">
 		
 		<%@ page import="java.util.*" %>
 		
@@ -62,9 +61,10 @@
 			}
 				
 		%>
-
+		
+		<div id="ed_event_content_div" align="center">
 			<form action="EditEvent" method="POST">
-				<table style="margin-left: 200px">
+				<table>
 					<tr>
 						<td colspan="2" align="center">
 							<font color="red"><i>(*) = Mandatory/Required Information</i></font> 
@@ -477,7 +477,7 @@
 				</table>	
 			</form>
 		</div>
-	</div>	
+	</div>
 </div>
 </body>
 </html>
