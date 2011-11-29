@@ -100,8 +100,9 @@
 						<!-- Rating, Time, Address of Event -->
 						
 						<!-- Only show "Edit Event" button when the logged-in user is the owner of this event -->
-						<a href="editevent.jsp" class="button1" style="float: right">Edit Event</a> 
-					
+						<% if(session.getAttribute(Servlets.SessionVariables.LOGGED_IN) != null && (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN)){ %>					
+							<a href="editevent.jsp?eventId=<%= request.getAttribute("eventID") %>" class="button1" style="float: right">Edit Event</a> 
+						<% } %>
 						
 						<!-- Only display "Attend Button" before event occur -->
 						<b><div style="display: inline" id="attendeesLabel" numAttendees="<%= request.getAttribute("numAttendees") %>"><%= request.getAttribute("numAttendees") %> people are attending this event!</div></b>

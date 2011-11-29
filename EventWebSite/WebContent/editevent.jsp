@@ -26,12 +26,32 @@
 	<div id="create_event_div">
 	
 		<div class="edit_event_header">
-			<h2><b>Create Event</b></h2>
+			<h2><b>
+			<%
+				if (request.getParameter("eventId") == null) 
+				{
+					out.println("Create Event");
+				}
+				else
+				{
+					out.println("Edit Event");
+				}
+			%>
+								
+			</b></h2>
 		</div>
 		
 		<div class="edit_event_content">
 		
+		<%@ page import="java.util.*" %>
+		
 		<%
+			Map<Models.Event.EventInfo, String> event = null;
+			if(request.getParameter("eventId") != null) 
+			{
+				event = Models.Event.getExistingEvent(Integer.parseInt(request.getParameter("eventId")));
+			}
+			
 			// first things first, let's determine if we're creating an event at a particular locale
 			Models.LocationAddress address = new Models.LocationAddress("","","");			
 			Object locationObj = request.getParameter("locationId");
@@ -40,6 +60,7 @@
 				Integer locationId = Integer.parseInt((String) locationObj);
 				address = Models.Location.getLocationAddress(locationId);
 			}
+				
 		%>
 
 			<form action="EditEvent" method="POST">
@@ -53,10 +74,29 @@
 					</tr>
 					<tr>
 						<td align="right">
+							
 							<font color="red">*</font> Event Title: 
 						</td>
 						<td>
-							<input type="text" name="title" size="25">
+							<% if (request.getParameter("eventId") == null) {%>
+								<input type="text" name="title" size="25">
+							<% } else {
+								out.println("<input type='text' name='title' size='25' value='" + event.get(Models.Event.EventInfo.TITLE) + "'>");
+							} %>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<font color="red">*</font> Category: 
+						</td>
+						<td>
+							<select name="event_category">
+								<option value="Cultural">Cultural</option>
+								<option value="Education">Education</option>
+								<option value="Music">Music</option>
+								<option value="Sports">Sports</option>
+								<option value="Others">Others</option>
+							</select>
 						</td>
 					</tr>
 					<tr>
@@ -64,7 +104,11 @@
 							<font color="red">*</font> City: 
 						</td>
 						<td>
-							<input type="text" name="city" size="25" value="<%= address.city %>">
+							<% if (request.getParameter("eventId") == null) {%>
+								<input type="text" name="city" size="25" value="<%= address.city %>">
+							<% } else {
+								out.println("<input type='text' name='city' size='25' value='" + event.get(Models.Event.EventInfo.CITY) + "'");
+							   } %>
 						</td>
 					</tr>
 					<tr>
@@ -72,7 +116,11 @@
 							<font color="red">*</font> State: 
 						</td>
 						<td>
-							<input type="text" name="state" size="25" value="<%= address.state %>">
+							<% if (request.getParameter("eventId") == null) {%>
+								<input type="text" name="state" size="25" value="<%= address.state %>">
+							<% } else {
+								out.println("<input type='text' name='state' size='25' value='" + event.get(Models.Event.EventInfo.STATE) + "'>");
+							} %>
 						</td>
 					</tr>
 					<tr>
@@ -80,7 +128,11 @@
 							<font color="red">*</font> Country: 
 						</td>
 						<td>
-							<input type="text" name="country" size="25" value="<%= address.country %>">
+							<% if (request.getParameter("eventId") == null) {%>
+								<input type="text" name="country" size="25" value="<%= address.country %>">
+							<% } else {
+								out.println("<input type='text' name='country' size='25' value='" + event.get(Models.Event.EventInfo.COUNTRY) + "'");
+							   } %>
 						</td>
 					</tr>
 					<tr>
@@ -88,7 +140,11 @@
 							Venue: 
 						</td>
 						<td>
-							<input type="text" name="venue" size="25">
+							<% if (request.getParameter("eventId") == null) {%>
+								<input type="text" name="venue" size="25">
+							<% } else {
+								out.println("<input type='text' name='venue' size='25' value='" + event.get(Models.Event.EventInfo.VENUE) + "'");
+							   } %>
 							<i>(e.g. Rogers Arena)</i>
 						</td>
 					</tr>
@@ -97,7 +153,11 @@
 							<font color="red">*</font> Address: 
 						</td>
 						<td>
-							<input type="text" name="address" size="25">
+							<% if (request.getParameter("eventId") == null) {%>
+								<input type="text" name="address" size="25">
+							<% } else {
+								out.println("<input type='text' name='address' size='25' value='" + event.get(Models.Event.EventInfo.ADDRESS) + "'");
+							   } %>
 						</td>
 					</tr>
 					<tr>
@@ -109,10 +169,15 @@
 							<input name="date" id="date" type="text" size="10" maxlength="10" value="" style="margin-top:-10px"/>
 							<img src="resources/calendar.jpg" onclick="javascript: showCalendar('date')">
 						-->
-						
-						<input type="text" name="date" size="25"> dd/mm/yyyy
-							
-						
+							<% if (request.getParameter("eventId") == null) {%>
+								<input type="text" name="date" size="25"> 
+							<% } else {
+								java.text.SimpleDateFormat importer = new java.text.SimpleDateFormat("yyyy-dd-MM");
+								Date eventDate = importer.parse(event.get(Models.Event.EventInfo.EVENT_DATE));
+								java.text.SimpleDateFormat exporter = new java.text.SimpleDateFormat("dd/MM/yyyy");
+								out.println("<input type='text' name='date' size='25' value='" + exporter.format(eventDate) + "'>");
+							   } %>	
+							dd/mm/yyyy
 						</td>
 					</tr>
 					<tr>
@@ -121,37 +186,76 @@
 						</td>
 						<td>
 							<select name="start_hour">
-								<option value="01">01</option>
-								<option value="02">02</option>
-								<option value="03">03</option>
-								<option value="04">04</option>
-								<option value="05">05</option>
-								<option value="06">06</option>
-								<option value="07">07</option>
-								<option value="08">08</option>
-								<option value="09">09</option>
-								<option value="10">10</option>
-								<option value="11">11</option>
-								<option value="12">12</option>
+								<%
+								Date startDate = null;
+							 	if (request.getParameter("eventId") != null) 
+								{
+							 		String startDateString = event.get(Models.Event.EventInfo.START_TIME);
+							 		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("hh:mm:ss");
+							 		startDate = formatter.parse(startDateString);
+								}
+							
+								for(int i = 1; i <= 12; ++i)
+								{
+									String selected = "";
+									if(startDate != null)
+									{
+										if(startDate.getHours() % 12 == i)
+										{
+											selected = "selected='yes'";
+										}
+									}
+									out.println("<option " + selected + " value='" + i + "'>" + i + "</option>");
+								}
+							%>
 							</select>
 							:
 							<select name="start_minute">
-								<option value="00">00</option>
-								<option value="05">05</option>
-								<option value="10">10</option>
-								<option value="15">15</option>
-								<option value="20">20</option>
-								<option value="25">25</option>
-								<option value="30">30</option>
-								<option value="35">35</option>
-								<option value="40">40</option>
-								<option value="45">45</option>
-								<option value="50">50</option>
-								<option value="55">55</option>
+								<%
+								for(int i = 0; i <= 55; i += 5)
+								{
+									String timeString = "" + i;
+									if(i == 0)
+									{
+										timeString = "00";
+									}
+									else if(i == 5)
+									{
+										timeString = "05";
+									}
+									
+									String selected = "";
+									if(startDate != null)
+									{
+										if(startDate.getMinutes() == i)
+										{
+											selected = "selected='yes'";
+										}
+									}
+									
+									out.println("<option value='" + timeString + "'>" + timeString + "</option>");
+								}
+							%>
 							</select>
-							<select name="start_am_pm">
-								<option value="am">AM</option>
-								<option value="pm">PM</option>
+							<select name="start_am_pm">							<%
+									String amSelected = "";
+									String pmSelected = "";
+									
+									if(startDate != null)
+									{
+										if(startDate.getHours() >= 12)
+										{
+											pmSelected = "selected='yes'";
+										}
+										else
+										{
+											amSelected = "selected='yes'";
+										}
+									}
+
+									out.println("<option value='am' " + amSelected + ">AM</option>");
+									out.println("<option value='pm' " + pmSelected + ">PM</option>");
+							%>
 							</select>
 						</td>
 					</tr>
@@ -161,48 +265,77 @@
 						</td>
 						<td>
 							<select name="end_hour">
-								<option value="01">01</option>
-								<option value="02">02</option>
-								<option value="03">03</option>
-								<option value="04">04</option>
-								<option value="05">05</option>
-								<option value="06">06</option>
-								<option value="07">07</option>
-								<option value="08">08</option>
-								<option value="09">09</option>
-								<option value="10">10</option>
-								<option value="11">11</option>
-								<option value="12">12</option>
+							<%
+								Date endDate = null;
+							 	if (request.getParameter("eventId") != null) 
+								{
+							 		String endDateString = event.get(Models.Event.EventInfo.END_TIME);
+							 		java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("hh:mm:ss");
+							 		endDate = formatter.parse(endDateString);
+								}
+							
+								for(int i = 1; i <= 12; ++i)
+								{
+									String selected = "";
+									if(endDate != null)
+									{
+										if(endDate.getHours() % 12 == i)
+										{
+											selected = "selected='yes'";
+										}
+									}
+									out.println("<option " + selected + " value='" + i + "'>" + i + "</option>");
+								}
+							%>
 							</select>
 							:
 							<select name="end_minute">
-								<option value="00">00</option>
-								<option value="05">05</option>
-								<option value="10">10</option>
-								<option value="15">15</option>
-								<option value="20">20</option>
-								<option value="25">25</option>
-								<option value="30">30</option>
-								<option value="35">35</option>
-								<option value="40">40</option>
-								<option value="45">45</option>
-								<option value="50">50</option>
-								<option value="55">55</option>
+								<%
+								for(int i = 0; i <= 55; i += 5)
+								{
+									String timeString = "" + i;
+									if(i == 0)
+									{
+										timeString = "00";
+									}
+									else if(i == 5)
+									{
+										timeString = "05";
+									}
+									
+									String selected = "";
+									if(endDate != null)
+									{
+										if(endDate.getMinutes() == i)
+										{
+											selected = "selected='yes'";
+										}
+									}
+									
+									out.println("<option value='" + timeString + "'>" + timeString + "</option>");
+								}
+							%>
 							</select>
 							<select name="end_am_pm">
-								<option value="am">AM</option>
-								<option value="pm">PM</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td align="right">
-						<font color="red">*</font> Time Zone:
-						</td>
-						<td colspan="2">
-							<select name="time_zone">
-								<option value="PST">PST</option>
-								<option value="EST">EST</option>
+							<%
+									amSelected = "";
+									pmSelected = "";
+									
+									if(endDate != null)
+									{
+										if(endDate.getHours() >= 12)
+										{
+											pmSelected = "selected='yes'";
+										}
+										else
+										{
+											amSelected = "selected='yes'";
+										}
+									}
+
+									out.println("<option value='am' " + amSelected + ">AM</option>");
+									out.println("<option value='pm' " + pmSelected + ">PM</option>");
+							%>
 							</select>
 						</td>
 					</tr>
@@ -218,7 +351,11 @@
 							<font color="red">*</font> Event Description: 
 						</td>
 						<td>
-							<textarea name="event_description" cols="40" rows="5" wrap="soft">Enter Event Description Here</textarea>
+							<% if (request.getParameter("eventId") == null) {%>
+								<textarea name="event_description" cols="40" rows="5" wrap="soft">Enter Event Description Here</textarea>
+							<% } else {
+								out.println("<textarea name='event_description' cols='40' rows='5' wrap='soft'>" + event.get(Models.Event.EventInfo.GEN_INFO) + "</textarea>");
+							   } %>
 							<br/>
 							<br/>
 						</td>
@@ -228,7 +365,11 @@
 							Venue Description: 
 						</td>
 						<td>
-							<textarea name="venue_description" cols="40" rows="5" wrap="soft">Enter Venue Description Here</textarea>
+							<% if (request.getParameter("eventId") == null) {%>
+								<textarea name="venue_description" cols="40" rows="5" wrap="soft">Enter Venue Description Here</textarea>
+							<% } else {
+								out.println("<textarea name='venue_description' cols='40' rows='5' wrap='soft'>" + event.get(Models.Event.EventInfo.VENUE_INFO) + "</textarea>");
+							   } %>
 							<br/>
 							<br/>
 						</td>
@@ -238,7 +379,11 @@
 							Cost & Payment Method: 
 						</td>
 						<td>
-							<textarea name="cost_description" cols="40" rows="5" wrap="soft">Enter Cost & Payment Method Here</textarea>
+							<% if (request.getParameter("eventId") == null) {%>
+								<textarea name="cost_description" cols="40" rows="5" wrap="soft">Enter Cost & Payment Method Here</textarea>
+							<% } else {
+								out.println("<textarea name='cost_description' cols='40' rows='5' wrap='soft'>" + event.get(Models.Event.EventInfo.PRICE_INFO) + "</textarea>");
+							   } %>
 							<br/>
 							<br/>
 						</td>
@@ -248,7 +393,25 @@
 							<font color="red">*</font> Directions: 
 						</td>
 						<td>
-							<textarea name="directions" cols="40" rows="5" wrap="soft">Enter Commute and/or Driving Directions Here</textarea>
+							<% if (request.getParameter("eventId") == null) {%>
+								<textarea name="directions" cols="40" rows="5" wrap="soft">Enter Commute and/or Driving Directions Here</textarea>
+							<% } else {
+								out.println("<textarea name='directions' cols='40' rows='5' wrap='soft'>" + event.get(Models.Event.EventInfo.TRANSPORT_INFO) + "</textarea>");
+							   } %>
+							<br/>
+							<br/>
+						</td>
+					</tr>
+					<tr>
+						<td align="right" valign="top">
+							Things to be Aware Of: 
+						</td>
+						<td>
+							<% if (request.getParameter("eventId") == null) {%>
+								<textarea name="awareness_info" cols="40" rows="5" wrap="soft">Enter Things that Attendees Should be Aware Of Here</textarea>
+							<% } else {
+								out.println("<textarea name='awareness_info' cols='40' rows='5' wrap='soft'>" + event.get(Models.Event.EventInfo.AWARENESS_INFO) + "</textarea>");
+							   } %>
 							<br/>
 							<br/>
 						</td>
@@ -258,7 +421,11 @@
 							Other Info: 
 						</td>
 						<td>
-							<textarea name="other_description" cols="40" rows="5" wrap="soft">Enter Other Info Here</textarea>
+							<% if (request.getParameter("eventId") == null) {%>
+								<textarea name="other_description" cols="40" rows="5" wrap="soft">Enter Other Info Here</textarea>
+							<% } else {
+								out.println("<textarea name='other_description' cols='40' rows='5' wrap='soft'>" + event.get(Models.Event.EventInfo.OTHER_INFO) + "</textarea>");
+							   } %>
 							<br/>
 							<br/>
 						</td>
@@ -268,7 +435,11 @@
 							Video Link(s): 
 						</td>
 						<td>
-							<textarea name="video_links" cols="40" rows="5" wrap="soft">Enter Video Links Here</textarea>
+							<% if (request.getParameter("eventId") == null) {%>
+								<textarea name="video_links" cols="40" rows="5" wrap="soft">Enter Video Links Here</textarea>
+							<% } else {
+								out.println("<textarea name='video_links' cols='40' rows='5' wrap='soft'>" + event.get(Models.Event.EventInfo.VIDEOS) + "</textarea>");
+							   } %>
 							<br/>
 							<i>(Separate with semicolon ;)</i>
 							<br/>
@@ -280,7 +451,11 @@
 							Other Link(s): 
 						</td>
 						<td>
-							<textarea name="other_links" cols="40" rows="5" wrap="soft">Enter Other Description Here</textarea>
+							<% if (request.getParameter("eventId") == null) {%>
+								<textarea name="other_links" cols="40" rows="5" wrap="soft">Enter Other Description Here</textarea>
+							<% } else {
+								out.println("<textarea name='other_links' cols='40' rows='5' wrap='soft'>" + event.get(Models.Event.EventInfo.LINKS) + "</textarea>");
+							   } %>
 							<br/>
 							<i>(Separate with semicolon ;)</i>
 							<br/>
@@ -289,8 +464,14 @@
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-							<input class="button1" type="submit" value="Create Event"/>
-							<button class="button1" type="button" value="Cancel" onclick="location.href='citypage.jsp'">Cancel</button>
+							<% if (request.getParameter("eventId") == null) {%>
+								<input class="button1" type="submit" value="Create Event"/>
+								<a class="button1" href="citypage.jsp?city=<%= request.getParameter("locationId") %>">Cancel</button>
+							<% } else {
+								out.println("<input class='button1' type='submit' value='Update Event'/>");
+								int eventId = Integer.parseInt(request.getParameter("eventId"));
+								out.println("<a class='button1' href='EventPage?eventID=" + eventId + "'>Cancel</button>");
+							   } %>
 						</td>
 					</tr>
 				</table>	
