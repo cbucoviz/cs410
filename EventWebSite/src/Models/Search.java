@@ -396,7 +396,14 @@ public class Search {
 			event.put(EventInfoSearch.CREATOR_ID,	events.getString("U.userID"));
 			event.put(EventInfoSearch.LOCATION_ID,	events.getString("L.locationID"));
 			event.put(EventInfoSearch.CITY,			events.getString("L.city"));
-			event.put(EventInfoSearch.IS_EDITED,	events.getString("Updates"));
+			if(events.getString("Updates")==null)
+			{				
+				event.put(EventInfoSearch.IS_EDITED,"No Updates");
+			}
+			else
+			{
+				event.put(EventInfoSearch.IS_EDITED,"Is Edited");
+			}
 			
 			eventsToReturn.add(event);
 		}
@@ -423,7 +430,14 @@ public class Search {
 			event.put(EventInfoSearch.END_TIME,		events.getString("E.endTime"));		
 			event.put(EventInfoSearch.LOCATION_ID,	events.getString("L.locationID"));
 			event.put(EventInfoSearch.CITY,			events.getString("L.city"));
-			event.put(EventInfoSearch.IS_EDITED,	events.getString("Updates"));
+			if(events.getString("Updates")==null)
+			{				
+				event.put(EventInfoSearch.IS_EDITED,"No Updates");
+			}
+			else
+			{
+				event.put(EventInfoSearch.IS_EDITED,"Is Edited");
+			}
 			
 			eventsToReturn.add(event);
 		}

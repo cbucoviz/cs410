@@ -1380,24 +1380,31 @@ public class DatabaseManager
 	}
 	
 	/**
-	 * Edits the given event's content (Event Description, Venue Description, etc.)
+	 * Edits the event's content (Event Description, Venue Description, etc.)
 	 * @param updatorID - an id of a user who edits the event
 	 * @param eventID - an id of the edited event
 	 * @param content - content of the update
-	 * @param contentType - where the editing takes place (Event Description, 
-	 * Venue Description, etc.)
 	 * @return - result set to be passed to the Controller.
 	 * @throws SQLException - most likely various problems with syntax and/or some problems
 	 *                        with the database (tables changed, etc.)
 	 */
-	public ResultSet editEventContent(int updatorID, int eventID, String content, String contentType) throws SQLException
+	public ResultSet editEventContent(int updatorID, int eventID, String[] content) throws SQLException
 	{				
 		PreparedStatement statement = connection.prepareStatement
 				("UPDATE eventcontent " +
-				"SET "+contentType+" = ? "+ 
+				"SET generalDesc = ?, venueDesc = ?, priceDesc = ?, transportDesc = ?, " +
+				   " awareInfo = ?, videos = ?, links = ?, otherInfo = ? "+ 
 				"WHERE eventID = "+eventID + " ");
-		statement.setString(1, content);		
-		statement.executeUpdate();
+				
+			statement.setString(1, content[0]);
+			statement.setString(2, content[1]);
+			statement.setString(3, content[2]);	
+			statement.setString(4, content[3]);
+			statement.setString(5, content[4]);
+			statement.setString(6, content[5]);
+			statement.setString(7, content[6]);	
+			statement.setString(8, content[7]);
+			statement.executeUpdate();
 		
 		statement = connection.prepareStatement
 				("UPDATE events " +
@@ -1410,6 +1417,16 @@ public class DatabaseManager
 		return result;				
 	}
 	
+	
+	public void changePassword(int userID, String newPassword) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("UPDATE users " +
+				"SET password = ? " +
+				"WHERE userID = "+ userID +" "); 
+		statement.setString(1, newPassword);
+		statement.executeUpdate();
+	}	
 	/**
 	 * Mostly helper function, which is used to get a very small portion of the
 	 * details about a given edited event (to be precise, city, locationID, title and an 
@@ -2053,7 +2070,14 @@ public class DatabaseManager
 			ResultSet result = statement.executeQuery();
 			return result;
 	}
-	
+	public void logoff(int userID) throws SQLException
+	{
+			PreparedStatement statement = connection.prepareStatement
+					("UPDATE users " +
+					"SET lastVisited = NOW() "+ 
+					"WHERE userID = "+userID+ " ");		
+			statement.executeUpdate();
+	}
 	public void testQuery2(String user) throws SQLException
 	{
 		

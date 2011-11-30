@@ -93,10 +93,9 @@ public class Login extends HttpServlet
 				{	
 					UserUpdates.removeFromSessions(
 							userName);
-					dbMan = DatabaseManager.getInstance();		
-					
+					dbMan = DatabaseManager.getInstance();				
 					dbMan.logoff(Integer.parseInt(session.getAttribute(SessionVariables.USER_ID).toString()));
-														
+									
 					session.invalidate();				
 				}
 				response.sendRedirect("index.jsp");
