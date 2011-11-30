@@ -300,7 +300,19 @@ $(document).ready(function()
 					
 					<div id="city_top_users_tab" class="city_tab_page">
 						<ol>
+						<% 	List<Map<Models.Search.UserInfoSearch,String>> topUsers = Models.Search.topUsers(Integer.parseInt(request.getParameter("city")));
 							
+							for(int i = 0; i < topUsers.size(); i++)
+							{
+								Map<Models.Search.UserInfoSearch,String> user = topUsers.get(i);
+								int userId = Integer.parseInt(user.get(Models.Search.UserInfoSearch.USER_ID));
+								String name = user.get(Models.Search.UserInfoSearch.NAME);
+								
+								//out.println("<li class='event_item' popup='" + eventId + "'><a href='EventPage?eventID=" + eventId + "'>" + title + "</a></li>");
+								out.println("<li class='event_item'><a href='#'>" + name + "</a></li>");
+							}
+						
+						%>
 						</ol>
 					</div>
 					
