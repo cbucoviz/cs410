@@ -12,6 +12,7 @@
 <link href="config/default.css" rel="stylesheet" type="text/css" />
 <script src="scripts/ezcalendar_orange.js" type="text/javascript"></script>
 <script src="scripts/forwarder.js" type="text/javascript"></script>
+ <script src="scripts/citymap.js" type="text/javascript"></script>
 <script src="plugins/jquery-qtip.js"></script>
 <!-- END OF INCLUDES -->
 
@@ -291,8 +292,8 @@ $(document).ready(function()
 										
 					</div>
 					
-					<div class="city_map">
-					
+					<div locid='<%=Integer.parseInt(request.getParameter("city")) %>' id="city_map">
+						
 					</div>
 				</div>
 				
@@ -301,6 +302,9 @@ $(document).ready(function()
 	</table>
 
 </div>
-
+<script type="text/javascript">
+	window.onload = initialize();
+	window.onunload = GUnload();
+</script>
 </body>
 </html>

@@ -580,5 +580,33 @@ public class Search {
 		}
 		return modsToReturn;
 	}
+	
+	public static List<Map<EventInfoSearch,String>> filterEvents(int locationID, String keyword, String[] types, Date start )
+			throws ClassNotFoundException, SQLException
+	{
+		DatabaseManager dbMan = DatabaseManager.getInstance();
+		ResultSet events = dbMan.filterEventsByCriteria(locationID, start, keyword, types);
+		List<Map<EventInfoSearch, String>> eventsToReturn = Collections.synchronizedList
+						(new ArrayList<Map<EventInfoSearch,String>>());
+		
+		while(events.next())
+		{		
+			Map<EventInfoSearch, String> event = Collections.synchronizedMap(new HashMap<EventInfoSearch,String>());
+			event.put(EventInfoSearch.EVENT_ID,		events.getString("E.eventID"));
+			event.put(EventInfoSearch.TITLE,		events.getString("E.title"));
+			event.put(EventInfoSearch.VENUE,		events.getString("E.venue"));
+			event.put(EventInfoSearch.EVENT_DATE,	events.getString("E.eventDate"));
+			event.put(EventInfoSearch.START_TIME,	events.getString("E.startTime"));
+			event.put(EventInfoSearch.END_TIME,		events.getString("E.endTime"));	
+			event.put(EventInfoSearch.CREATOR,		events.getString("U.name"));
+			event.put(EventInfoSearch.CREATOR_ID,	events.getString("U.userID"));
+			event.put(EventInfoSearch.LOCATION_ID,	Integer.toString(locationID));
+			event.put(EventInfoSearch.CITY,			events.getString("L.city"));
+			
+			eventsToReturn.add(event);
+		}
+	
+		return eventsToReturn;
+	}
 }
 						
