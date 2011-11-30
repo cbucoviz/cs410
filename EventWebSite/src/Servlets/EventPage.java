@@ -1,9 +1,12 @@
 package Servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -14,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Models.Event;
 import Models.Event.EventInfo;
+import Models.Search;
+import Models.Search.EventInfoSearch;
 
 @WebServlet("/EventPage")
 
@@ -92,17 +97,74 @@ public class EventPage extends HttpServlet
 			request.setAttribute("country", country);
 			request.setAttribute("types", types);
 			
+			setUpTopEvents(request, response, locationID);
+			
 			dispatcher = request.getRequestDispatcher("eventpage.jsp");
 			dispatcher.forward(request, response);
 			return;	
 		
 		} catch (ParseException e) {			
 			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{	
+	}
+	
+	private void setUpTopEvents(HttpServletRequest request, HttpServletResponse response,int locationID) throws ClassNotFoundException, SQLException, ParseException
+	{
+		List<Map<EventInfoSearch,String>> topEvents = Search.topEvents(locationID);
+		
+		ArrayList<ArrayList<String>> events = new ArrayList<ArrayList<String>>();
+		
+		for(int i=0; i<topEvents.size(); i++)
+		{
+			ArrayList<String> result = new ArrayList<String>();
+			
+			String title =  topEvents.get(i).get(EventInfoSearch.TITLE);
+			String venue = topEvents.get(i).get(EventInfoSearch.VENUE);
+			
+			Date eventDate = new SimpleDateFormat("yyyy-MM-dd").parse(topEvents.get(i).get(EventInfoSearch.EVENT_DATE));
+			
+			SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+			Date start = new SimpleDateFormat("HH:mm:ss").parse(topEvents.get(i).get(EventInfoSearch.START_TIME));
+			String startTime = df.format(start);
+			
+			Date end = new SimpleDateFormat("HH:mm:ss").parse(topEvents.get(i).get(EventInfoSearch.END_TIME));
+			String endTime = df.format(end);
+		
+			df = new SimpleDateFormat("MMMMMMMMM dd, yyyy");
+			String date = df.format(eventDate);
+			
+			
+			
+			String creator = topEvents.get(i).get(EventInfoSearch.CREATOR);
+		    String creatorID = topEvents.get(i).get(EventInfoSearch.CREATOR_ID);		  
+		    String city = topEvents.get(i).get(EventInfoSearch.CITY);
+		    String eventID = topEvents.get(i).get(EventInfoSearch.EVENT_ID);
+		    
+		    result.add(title);
+		    result.add(venue);
+		    result.add(date);
+		    result.add(startTime);
+		    result.add(endTime);
+		    result.add(creator);
+		    result.add(creatorID);
+		    result.add(city);
+		    result.add(eventID);
+		
+		    events.add(result);
+		}
+		
+		request.setAttribute("topEvents", events);
+		
 	}
 	
 	

@@ -12,8 +12,7 @@
 <link href="config/default.css" rel="stylesheet" type="text/css" />
 <script src="scripts/ezcalendar_orange.js" type="text/javascript"></script>
 <script src="scripts/forwarder.js" type="text/javascript"></script>
- <script src="scripts/citymap.js" type="text/javascript"></script>
-<script src="plugins/jquery-qtip.js"></script>
+<script src="scripts/citymap.js" type="text/javascript"></script>
 <!-- END OF INCLUDES -->
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -180,35 +179,49 @@ $(document).ready(function()
 								<h4>Cultural</h4>
 							</div>
 							
-							<%@ page import="java.util.*" %>
-							<ul>
-							<%ArrayList<Map<Models.Event.EventInfo, String>> events = Models.Location.getEventsAtLocation(Integer.parseInt(request.getParameter("city")));
-								for(int i = 0; i < events.size(); ++i)
-								{
-								out.println("<li class='event_item' popup='" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'><a href='EventPage?eventID=" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'>" + events.get(i).get(Models.Event.EventInfo.TITLE) + "</a></li>");
-								}
-							%>
-							</ul>
+							<div class="event_list">
+								<%@ page import="java.util.*" %>
+								<ul>
+								<%ArrayList<Map<Models.Event.EventInfo, String>> events = Models.Location.getEventsAtLocation(Integer.parseInt(request.getParameter("city")));
+									for(int i = 0; i < events.size(); ++i)
+									{
+									out.println("<li class='event_item' popup='" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'><a href='EventPage?eventID=" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'>" + events.get(i).get(Models.Event.EventInfo.TITLE) + "</a></li>");
+									}
+								%>
+								</ul>
+							</div>
 							
 						</div>
 						<div id="ed_event_div" class="city_event_categories">
 							<div id="ed_header_div" class="city_event_header">
 								<h4>Education</h4>
 							</div>
+							
+							<div class="event_list">
+							</div>
 						</div>
 						<div id="music_event_div" class="city_event_categories">
 							<div id="music_header_div" class="city_event_header">
 								<h4>Music</h4>
+							</div>
+							
+							<div class="event_list">
 							</div>
 						</div>
 						<div id="sports_event_div" class="city_event_categories">
 							<div id="sports_header_div" class="city_event_header">
 								<h4>Sports</h4>
 							</div>
+							
+							<div class="event_list">
+							</div>
 						</div>
 						<div id="others_event_div" class="city_event_categories">
 							<div id="others_header_div" class="city_event_header">
 								<h4>Others</h4>
+							</div>
+							
+							<div class="event_list">
 							</div>
 						</div>
 					</div>
@@ -216,7 +229,7 @@ $(document).ready(function()
 					<div id="city_filter_tab" class="city_tab_page">
 						<form action="Search" method="POST">
 							<h3>Search For Events</h3>
-							<h5>Enter Keywords (separate with ,) or Location:</h5>
+							<h5>Enter a Keyword or Phrase:</h5>
 							<input id="filter_search_input" type="text" name="keywords" size="55"/>
 							<br>
 							<br>
@@ -226,8 +239,8 @@ $(document).ready(function()
 								<tr>
 									<td>
 										<font size="2"><b>Date:</b></font>
-										<input name="date" id="date" type="text" size="10" disabled="disabled" maxlength="10" value="" style="margin-top:-10px"/>
-										<img src="resources/calendar.jpg" onclick="javascript: showCalendar('date')">
+										<input name="search_date" id="search_date" type="text" size="10" maxlength="10" value="" style="margin-top:-10px"/>(dd/mm/yyyy)
+
 									</td>
 								</tr>
 								<tr>

@@ -116,10 +116,40 @@ ul
   	color: black;
   	text-decoration: none;
   	border-style: inset;
-  	background-color: #0000CD;
+  	background: #0000CD;
   	padding: 2px 3px 0px 5px; /* shift text 1px to the right and down */
   	cursor: pointer;
   	margin: 0px 30px 0px -30px;
+  	font-weight: bold;
+}
+
+.scroll_item 
+{
+	height: 15px; 
+	width: 220px;
+	background:url("../resources/item_gradient.jpg") repeat-x;
+  	border: 1px #ff0000 outset; 
+  	padding: 3px;
+  	padding-bottom: 6px;
+  	text-decoration: none;
+  	margin: 0px 30px 0px -29px;
+}
+
+.scroll_item:visited, .scroll_item:active
+{  	
+  	color: yellow;
+  	text-decoration: none;
+  	margin: 0px 30px 0px -29px;
+}
+
+.scroll_item:hover
+{
+  	color: yellow;
+  	text-decoration: none;
+  	border-style: inset;
+  	background: #0000CD;
+  	cursor: pointer;
+  	margin: 0px 30px 0px -29px;
   	font-weight: bold;
 }
 
@@ -150,12 +180,34 @@ ul
 	padding-top: 0px;
 }
 
+div.event_scroll_list
+{
+	position:relative;
+	width:230px;
+	height:76px;
+	border:1px solid black;
+	overflow:hidden;
+}
+
+div.scroll_list_container
+{
+	position:absolute;
+	width:230px;
+	left:0;
+	top:0;
+	margin-left: 30px;
+}
 
 div.profile_header
 {
 	background-color: #2F23B1;
 	padding: 5px;
 	border: 2px outset #4236C2;
+}
+
+div.event_list:
+{
+	height: auto;
 }
 
 div.event_popup
@@ -348,22 +400,6 @@ div.event_map_dir
 	padding-top: 10px;
 }
 
-div.edit_event_header
-{
-	text-align: center;
-	vertical-align: middle;
-}
-
-div.edit_event_content
-{
-	/* Remove overflow and height back to auto later*/
-	background: #C6BFFF;
-	height: auto;
-	border: 2px groove blue;
-	color: black;
-	padding: 20px;
-}
-
 p.discs_post
 {
 	margin-left: 20px;
@@ -400,6 +436,13 @@ table.city_event_table
 	margin: 10px;
 }
 
+table.scroll_list_btns
+{
+	width:230px; 
+	height:10px;
+	padding: 0px;
+	margin-top: -20px;
+}
 
 #save_login_indent
 {
@@ -715,41 +758,9 @@ table.city_event_table
 	border: 2px outset green;
 }
 
-#edit_event_container
-{
-	background: green;
-	margin: 30px;
-	margin-left: 100px;
-	border: 4px outset green;
-	height: auto;
-	width: 1060px;
-	font-family: verdana;
-}
-
-#edit_event_div
-{
-	display: none;
-}
-
 #create_event_div
 {
 	display: block;
-}
-
-#register_header
-{
-	text-align: center;
-	vertical-align: middle;
-}
-
-#register_content
-{
-	background: #C6BFFF;
-	height: auto;
-	border: 2px groove blue;
-	color: black;
-	padding: 20px;
-	padding-top: 0px;
 }
 
 #city_buttons
@@ -780,12 +791,18 @@ table.city_event_table
 #view_profile_btn
 {
 	margin-top: -50px;
+
+}
+
+#my_events_list
+{
+	width: 200px;
 }
 
 #my_events_list > li, #subs_events_list > li, #subs_locale_list > li
 {
 	margin-top: -12px;
-	margin-left: -30px;
+	margin-left: -40px;
 	width: 110%;
 }
 
@@ -811,4 +828,68 @@ table.city_event_table
 	cursor: pointer;
 	background-color: #222491;
 	color: #B0B1FF;
+}
+
+#account_info_div
+{
+	background-color: white;
+	border: 1px ridge green;
+	padding: 20px;
+	padding-top: 0px;
+	height: auto;
+	width: 50%;
+}
+
+#register_content_div
+{
+	background-color: white;
+	border: 1px ridge green;
+	padding-top: 0px;
+	margin-top: 20px;
+	height: auto;
+	width: 50%;
+}
+
+#ed_event_content_div
+{
+	background-color: white;
+	border: 1px ridge green;
+	padding-top: 0px;
+	margin-top: 20px;
+	height: auto;
+	width: 60%;
+	padding: 20px;
+}
+
+#account_info_form
+{
+	height: auto;
+	width: auto;
+}
+
+#add_moderator_div
+{
+	border: 1px ridge green; 
+	padding-bottom: 20px; 
+	width: 350px;
+	background-color: white;
+}
+
+#tblMods
+{
+	background color:#F0E68C;
+	border-collapse: collapse;
+	border-color: green;
+}
+
+#tblMods tr.header
+{
+	background-color: orange;
+	padding: 5px;
+}
+
+#tblMods tr td, th
+{
+	padding: 5px;
+	border-color: green;
 }

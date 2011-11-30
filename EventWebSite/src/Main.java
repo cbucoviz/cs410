@@ -6,6 +6,7 @@ import java.util.Map;
 
 import Database.DatabaseManager;
 import Models.Event;
+import Models.Search;
 
 //Testing testing....
 //Testing AGAIN....
@@ -14,7 +15,7 @@ public class Main {
 
 	private static DatabaseManager manager;
 	
-	public static void main(String args[])
+	public static void main(String args[]) throws ClassNotFoundException
 	{				
 		try {
 			manager = DatabaseManager.getInstance();
@@ -27,7 +28,14 @@ public class Main {
 		}	
 		
 		try {	
-			
+			Date start = new Date();
+			Calendar cal = Calendar.getInstance();
+			cal.set(2011,9,9);
+			String[] testarr = new String[10];
+			testarr[0]= "Hockey";
+			testarr[1] = "Concert";
+			Search.filterEvents(1, null, testarr, null);
+			manager.filterEventsByCriteria(1, cal.getTime(), null,testarr );
 			manager.testQuery2("Vitali");
 		    manager.testQuery();
 			//Calendar c = Calendar.getInstance();

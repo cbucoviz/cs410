@@ -1,0 +1,61 @@
+@CHARSET "ISO-8859-1";
+
+#agetext
+{
+	text-align:center;
+	margin-left:auto; margin-top:auto;
+}
+
+#citytext
+{
+	text-align:center;
+	margin-left:auto; margin-top:auto;
+}
+
+#ageTable, #cityTable
+{
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	 margin-left:auto; margin-top:auto;
+	border-collapse:collapse;
+}
+#ageTable
+{
+	width: 200px;
+}
+
+#cityTable
+{
+	width: 450px;
+}
+#ageTable td, #ageTable th, #cityTable td, #cityTable th
+{
+	font-size:100%;
+	border:outset black;
+	padding:2px 2px 2px 2px;
+}
+#ageTable th,#cityTable th  
+{
+	font-size:1.1em;
+	text-align:center;
+	padding-top:5px;
+	padding-bottom:5px;
+	background-color:rgb(50,50,50);
+	color:#ffffff;
+}
+#ageTable tr.even td,#cityTable tr.even td 
+{
+	color:#000000;
+	text-align:center;
+	background-color:rgb(230,230,230);
+}
+#ageTable tr.odd td,#cityTable tr.odd td 
+{
+	color:#000000;
+	text-align:center;
+	background-color:rgb(255,255,255);
+}
+
+#statTable
+{
+	width:700px; margin-left:5px; margin-top:5px;
+}

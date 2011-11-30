@@ -34,47 +34,60 @@ public class Login extends HttpServlet
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		String email = request.getParameter(SessionVariables.EMAIL);
-		String password = request.getParameter(SessionVariables.PASSWORD);
+		Boolean isLogin = new Boolean(request.getParameter("isLogin"));
 		
-		try
+		if(isLogin)
 		{
-			// is the requested password valid for this user?
-			DatabaseManager dbManager = DatabaseManager.getInstance();
-			ResultSet user = dbManager.getUser(email);
+			String email = request.getParameter(SessionVariables.EMAIL);
+			String password = request.getParameter(SessionVariables.PASSWORD);
 			
-			if(user.next())
+			try
 			{
-				if(!password.equals(user.getString("password")))
+				// is the requested password valid for this user?
+				DatabaseManager dbManager = DatabaseManager.getInstance();
+				ResultSet user = dbManager.getUser(email);
+				
+				if(user.next())
 				{
-					// passwords don't match
+					if(!password.equals(user.getString("password")))
+					{
+						// passwords don't match
+						return;
+					}
+				}
+				else
+				{
+					// no such user
 					return;
 				}
+				
+				// if you reach this point the user has authenticated correctly
+				HttpSession session = request.getSession();
+				session.setAttribute(SessionVariables.USER_ID, Integer.parseInt(user.getString("userID")));
+				session.setAttribute(SessionVariables.LOGGED_IN, true);
+				session.setAttribute(SessionVariables.EMAIL, email);
+				session.setAttribute(SessionVariables.USERNAME, user.getString("name"));
+				session.setAttribute(SessionVariables.UPDATES, new ArrayList<String>());
+				
+				UserUpdates.addToSessions(
+						session.getAttribute(SessionVariables.USERNAME).toString(),         	
+			        	session);			
+				
 			}
-			else
+			catch(Exception e)
 			{
-				// no such user
-				return;
+				e.printStackTrace();
 			}
-			
-			// if you reach this point the user has authenticated correctly
-			HttpSession session = request.getSession();
-			session.setAttribute(SessionVariables.USER_ID, Integer.parseInt(user.getString("userID")));
-			session.setAttribute(SessionVariables.LOGGED_IN, true);
-			session.setAttribute(SessionVariables.EMAIL, email);
-			session.setAttribute(SessionVariables.USERNAME, user.getString("name"));
-			session.setAttribute(SessionVariables.UPDATES, new ArrayList<String>());
-			
-			UserUpdates.addToSessions(
-					session.getAttribute(SessionVariables.USERNAME).toString(),         	
-		        	session);			
-			
-		}
-		catch(Exception e)
-		{
-			// something went wrong
-		}
 		
+		}
+		else
+		{
+			// this is a logout
+			HttpSession session = request.getSession();
+			session.invalidate();
+			response.sendRedirect("index.jsp");
+		}
+			
 	}
 
 }

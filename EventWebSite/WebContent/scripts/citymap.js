@@ -6,7 +6,7 @@ var gmap;
    { 
 	   	  var title = $("#city_map").attr("locid");
 
-	   	  alert(title);
+	   	 
 		  var latlng = new google.maps.LatLng(-34.397, 150.644); 
 		  var myOptions = {zoom: 8,center: latlng ,mapTypeId: google.maps.MapTypeId.ROADMAP}; 
 	      gmap = new google.maps.Map(document.getElementById('city_map'), myOptions);

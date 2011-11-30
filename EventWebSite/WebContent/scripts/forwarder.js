@@ -24,10 +24,29 @@ $(document).ready(function()
 			var city = form.find("input[name='city']").val();
 			var state = form.find("input[name='state']").val();
 			var country = form.find("input[name='country']").val();
-			var startDate = form.find("input[name='startDate']").val();
-			var endDate = form.find("input[name='endDate']").val();
+			var startDate = form.find("input[name='start_date']").val();
+			var endDate = form.find("input[name='end_date']").val();
 			
-			geSearch(eventKeyword, city, state, country, startDate, endDate);
+			if($("#map3d").html() == null)
+			{
+				// we're not on google earth.. load it
+				var url = "";
+				url += "eventKeyword=" + encodeURIComponent(eventKeyword);
+				url += "&city=" + encodeURIComponent(city);
+				url += "&state=" + encodeURIComponent(state);
+				url += "&country=" + encodeURIComponent(country);
+				url += "&startDate=" + encodeURIComponent(startDate);
+				url += "&endDate=" + encodeURIComponent(endDate);
+				
+				$("#mainContent").load("home.jsp?" + url);
+				
+			}
+			else
+			{
+				// we're on google earth, let the search happen
+				geSearch(eventKeyword, city, state, country, startDate, endDate);
+				
+			}
 		}
 		else
 		{
@@ -37,7 +56,15 @@ $(document).ready(function()
 			if(form.attr("action") == "Login")
 			{
 				// login form is special, we don't want to reload content on login
-				$.post(form.attr("action"), form.serialize());
+				var data = form.serialize();
+				$.post(form.attr("action"), data);
+				
+				var isLogin = form.find("input[name='isLogin']").val();
+				if(isLogin == "false")
+				{
+					// this is a logout, don't prevent default
+					return;
+				}
 			}
 			else
 			{

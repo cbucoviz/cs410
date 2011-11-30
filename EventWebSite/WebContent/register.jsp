@@ -15,109 +15,111 @@
 </head>
 <body>
 
-<% if(request.getAttribute("emailUsed") == Boolean.TRUE) { %>
-		<b>Your e-mail is used by another user</b><br/>
-<% } %>
-<% if(request.getAttribute("badAge") == Boolean.TRUE) { %>
-		<b>You need to put in a number for your age</b><br/>
-<% } %>
-<% if(request.getAttribute("passwordMatch") == Boolean.FALSE) { %>
-		<b>Your passwords don't match.</b><br/>
-<% } %>
-<% if(request.getAttribute("missingUser") == Boolean.TRUE) { %>
-		<b>You need to fill in the username</b><br/>
-<% } %>
-<% if(request.getAttribute("missingPassword1") == Boolean.TRUE) { %>
-		<b>You need to fill in the first password field</b><br/>
-<% } %>
-<% if(request.getAttribute("missingPassword2") == Boolean.TRUE) { %>
-		<b>You need to fill in the second password field</b><br/>
-<% } %>
-<% if(request.getAttribute("missingEmail") == Boolean.TRUE) { %>
-		<b>You need to fill in the email field</b><br/>
-<% } %>
-<% if(request.getAttribute("missingAge") == Boolean.TRUE) { %>
-		<b>You need to fill in the age field</b><br/>
-<% } %>
-<% if(request.getAttribute("missingCity") == Boolean.TRUE) { %>
-		<b>You need to fill in the city field</b><br/>
-<% } %>
-<% if(request.getAttribute("missingState") == Boolean.TRUE) { %>
-		<b>You need to fill in the state field</b><br/>
-<% } %>
-<% if(request.getAttribute("missingCountry") == Boolean.TRUE) { %>
-		<b>You need to fill in the country field</b><br/>
-<% } %>
-
-
 
 <form action="Register" method="POST">
-	<div id="signup_page_div">
+	<div class="page_container">
 	
-		<div id="register_header">
+		<div class="page_header">
 			<h2><b>Join Now!</b></h2>
 		</div>
 		
-		<div id="register_content">
-			<table id="signup_form_table">
-				<tr>
-					<td colspan="2" align="center">
-						<font color="red"><i>(*) = Mandatory/Required Information</i></font> 
-						<br/>
-						<br/>
-					</td>
-				</tr>
-				<tr>
-					<td align="right"><font color="red">*</font> User Name: </td>
-					<td><input 	type="text" 
-								name='username' 
-								size="25" 
-								value="<%= request.getParameter("username") == null ? "" : request.getParameter("username")%>"/>
-					</td>
-				</tr>
-				<tr>
-					<td align="right" valign="top"><font color="red">*</font> Email Address: </td>
-					<td>
-						<input type="text" name='useremail' size="25"/>
-						<br/>
-						<font size="2"><i>(Needed for Account Activation)</i></font>
-					</td>
-				</tr>
-				<tr>
-					<td align="right"><font color="red">*</font> Password: </td>
-					<td><input type="password" name='password1' size="25"/></td>
-				</tr>
-				<tr>
-					<td align="right"><font color="red">*</font> Confirm Password: </td>
-					<td><input type="password" name='password2' size="25"/></td>
-				</tr>
-				<tr>
-					<td align="right">Age: </td>
-					<td><input type="text" name='age' size="25"/></td>
-				</tr>
-				<tr>
-					<td align="right"><font color="red">*</font> City: </td>
-					<td><input type="text" name='city' size="25"/></td>
-				</tr>
-				<tr>
-					<td align="right">State: </td>
-					<td><input type="text" name='state' size="25"/></td>
-				</tr>
-				<tr>
-					<td align="right"><font color="red">*</font> Country: </td>
-					<td><input type="text" name='country' size="25"/></td>
-				</tr>
-				
-				<tr>
-					<td><br></td>
-				</tr>
-				<tr>
-					<td colspan="2" align="center">
-					<input type="submit" class="button1" value="Register"/>
-					<a href="home.jsp" class="button1">Return to Main Page</a></td>
-				</tr>
-			</table>
-			<br>
+		<div class="page_content" align="center">
+		
+			<% if(request.getAttribute("emailUsed") == Boolean.TRUE) { %>
+					<b><font color="red">Your e-mail is used by another user</font></b><br/>
+			<% } %>
+			<% if(request.getAttribute("badAge") == Boolean.TRUE) { %>
+					<b><font color="red">You need to put in a number for your age</font></b><br/>
+			<% } %>
+			<% if(request.getAttribute("passwordMatch") == Boolean.FALSE) { %>
+					<b><font color="red">Your passwords don't match.</font></b><br/>
+			<% } %>
+			<% if(request.getAttribute("missingUser") == Boolean.TRUE) { %>
+					<b><font color="red">You need to fill in the username.</font></b><br/>
+			<% } %>
+			<% if(request.getAttribute("missingPassword1") == Boolean.TRUE) { %>
+					<b><font color="red">You need to fill in the first password field.</font></b><br/>
+			<% } %>
+			<% if(request.getAttribute("missingPassword2") == Boolean.TRUE) { %>
+					<b><font color="red">You need to fill in the second password field.</font></b><br/>
+			<% } %>
+			<% if(request.getAttribute("missingEmail") == Boolean.TRUE) { %>
+					<b><font color="red">You need to fill in the email field.</font></b><br/>
+			<% } %>
+			<% if(request.getAttribute("missingAge") == Boolean.TRUE) { %>
+					<b><font color="red">You need to fill in the age field.</font></b><br/>
+			<% } %>
+			<% if(request.getAttribute("missingCity") == Boolean.TRUE) { %>
+					<b><font color="red">You need to fill in the city field.</font></b><br/>
+			<% } %>
+			<% if(request.getAttribute("missingState") == Boolean.TRUE) { %>
+					<b><font color="red">You need to fill in the state field.</font></b><br/>
+			<% } %>
+			<% if(request.getAttribute("missingCountry") == Boolean.TRUE) { %>
+					<b><font color="red">You need to fill in the country field.</font></b><br/>
+			<% } %>
+			
+			<div id="register_content_div" align="center">
+				<table id="signup_form_table">
+					<tr>
+						<td colspan="2" align="center">
+							<font color="red"><i>(*) = Mandatory/Required Information</i></font> 
+							<br/>
+							<br/>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><font color="red">*</font> User Name: </td>
+						<td><input 	type="text" 
+									name='username' 
+									size="25" 
+									value="<%= request.getParameter("username") == null ? "" : request.getParameter("username")%>"/>
+						</td>
+					</tr>
+					<tr>
+						<td align="right" valign="top"><font color="red">*</font> Email Address: </td>
+						<td>
+							<input type="text" name='useremail' size="25"/>
+							<br/>
+							<font size="2"><i>(Needed for Account Activation)</i></font>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><font color="red">*</font> Password: </td>
+						<td><input type="password" name='password1' size="25"/></td>
+					</tr>
+					<tr>
+						<td align="right"><font color="red">*</font> Confirm Password: </td>
+						<td><input type="password" name='password2' size="25"/></td>
+					</tr>
+					<tr>
+						<td align="right">Age: </td>
+						<td><input type="text" name='age' size="25"/></td>
+					</tr>
+					<tr>
+						<td align="right"><font color="red">*</font> City: </td>
+						<td><input type="text" name='city' size="25"/></td>
+					</tr>
+					<tr>
+						<td align="right">State: </td>
+						<td><input type="text" name='state' size="25"/></td>
+					</tr>
+					<tr>
+						<td align="right"><font color="red">*</font> Country: </td>
+						<td><input type="text" name='country' size="25"/></td>
+					</tr>
+					
+					<tr>
+						<td><br></td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center">
+						<input type="submit" class="button1" value="Register"/>
+						<a href="home.jsp" class="button1">Return to Main Page</a></td>
+					</tr>
+				</table>
+				<br>
+			</div>
 		</div>
 		
 	</div>
