@@ -87,13 +87,6 @@ function move(id,spd){
 											Map<Models.Search.EventInfoSearch,String> currEvent = myEvents.get(i);
 											int eventId = Integer.parseInt(currEvent.get(Models.Search.EventInfoSearch.EVENT_ID));
 											String title = currEvent.get(Models.Search.EventInfoSearch.TITLE);
-											int isEdited = 0;
-											String temp = currEvent.get(Models.Search.EventInfoSearch.IS_EDITED);
-											
-											if (temp != null)
-											{
-												isEdited = Integer.parseInt(temp);
-											}
 											
 											if(title.length() > ITEM_TEXT_SIZE)
 											{
@@ -101,16 +94,7 @@ function move(id,spd){
 											}
 											
 											out.println("<div class='scroll_item'>");
-											
-											if (isEdited > 0)
-											{
-												out.println("<a href='EventPage?eventID=" + eventId + "'><font class='blink'>* </font>" + title + "</a>");
-											}
-											else
-											{
-												out.println("<a href='EventPage?eventID=" + eventId + "'>" + title + "</a>");
-											}
-											
+											out.println("<a href='EventPage?eventID=" + eventId + "'>" + title + "</a>");
 											out.println("</div>");
 										}
 									}
@@ -150,13 +134,7 @@ function move(id,spd){
 										Map<Models.Search.EventInfoSearch,String> currEvent = subsEvents.get(i);
 										int eventId = Integer.parseInt(currEvent.get(Models.Search.EventInfoSearch.EVENT_ID));
 										String title = currEvent.get(Models.Search.EventInfoSearch.TITLE);
-										int isEdited = 0;
-										String temp = currEvent.get(Models.Search.EventInfoSearch.IS_EDITED);
-										
-										if (temp != null)
-										{
-											isEdited = Integer.parseInt(temp);
-										}
+										//int isEdited = (currEvent.get(Models.Search.EventInfoSearch.IS_EDITED));
 										
 										if(title.length() > ITEM_TEXT_SIZE)
 										{
@@ -165,15 +143,7 @@ function move(id,spd){
 										
 										out.println("<div class='scroll_item'>");
 										
-										if (isEdited > 0)
-										{
-											out.println("<a href='EventPage?eventID=" + eventId + "'><font class='blink'>* </font>" + title + "</a>");
-										}
-										else
-										{
-											out.println("<a href='EventPage?eventID=" + eventId + "'>" + title + "</a>");
-										}
-										
+										out.println("<a href='EventPage?eventID=" + eventId + "'>" + title + "</a>");
 										
 										
 										out.println("</div>");

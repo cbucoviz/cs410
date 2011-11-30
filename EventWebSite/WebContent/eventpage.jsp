@@ -294,18 +294,6 @@
 								</div>
 								<br>
 								<br>
-								<div id="event_aware_div" class="event_info_categories">
-									<div class="event_info_header">
-										<h4 style="margin-top: 5px;">Things to be Aware Of:</h4>
-									</div>
-									<div class="event_info_content">
-										<p>
-											<%= request.getAttribute("awareInfo") %>
-										</p>	
-									</div>
-								</div>
-								<br>
-								<br>
 								<div id="event_others_div" class="event_info_categories">
 									<div class="event_info_header">
 										<h4 style="margin-top: 5px;">Other Useful Information:</h4>

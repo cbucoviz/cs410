@@ -93,7 +93,7 @@ public class DiscussionPost
 			int locationID =Integer.parseInt(edittedEventInfo.getString("L.locationID"));
 			
 			UserUpdates.addUpdate(UpdateType.NEW_DISCUSSION, eventTitle, 
-									eventID, updator, userID, location, locationID);
+									eventID, updator, userID, location, locationID, null);
 			
 			return true;
 		} catch (Exception e) {			

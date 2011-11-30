@@ -84,33 +84,9 @@ public class Login extends HttpServlet
 		else
 		{
 			// this is a logout
-			DatabaseManager dbMan;
-			try {
-				HttpSession session = request.getSession();	
-				String userName = session.getAttribute(SessionVariables.USERNAME).toString();
-				
-				if(UserUpdates.exists(userName))
-				{	
-					UserUpdates.removeFromSessions(
-							userName);
-					dbMan = DatabaseManager.getInstance();		
-					
-					dbMan.logoff(Integer.parseInt(session.getAttribute(SessionVariables.USER_ID).toString()));
-														
-					session.invalidate();				
-				}
-				response.sendRedirect("index.jsp");
-				
-			} catch (NumberFormatException e) {
-					
-				e.printStackTrace();
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			HttpSession session = request.getSession();
+			session.invalidate();
+			response.sendRedirect("index.jsp");
 		}
 			
 	}

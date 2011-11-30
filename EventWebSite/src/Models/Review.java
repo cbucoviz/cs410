@@ -74,7 +74,7 @@ public class Review
 			int locationID =Integer.parseInt(edittedEventInfo.getString("L.locationID"));
 			
 			UserUpdates.addUpdate(UpdateType.NEW_REVIEW, eventTitle, 
-									eventID, updator, userID, location, locationID);
+									eventID, updator, userID, location, locationID, null);
 			
 			
 			return e_rating;

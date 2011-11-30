@@ -4,7 +4,7 @@ var gmap;
    //Initializes the map and performs a call to retrieve locations to be placed.
    function initialize()
    { 
-	   	  var title = $("#city_map").attr("locid");
+	   	  var locationId = $("#city_map").attr("locid");
 
 	   	 
 		  var latlng = new google.maps.LatLng(-34.397, 150.644); 
@@ -12,14 +12,14 @@ var gmap;
 	      gmap = new google.maps.Map(document.getElementById('city_map'), myOptions);
 	      gmap.draggable = true;
 	      gmap.panControl = false;
-	      gmap.zoomControl = false;
+	      gmap.zoomControl = true;
 	      gmap.scrollwheel = false;
 	      gmap.disableDoubleClickZoom = true;
 	      markerBounds = new google.maps.LatLngBounds();
 	      
 	      
 		  //TODO: Need to put city as parameter to request
-	      $.getJSON('/EventWebSite/GMEventLoc?'+title, setEventLocations);
+	      $.getJSON('/EventWebSite/GMEventLoc',{loc:locationId}, setEventLocations);
 	    
 	      gmap.fitBounds(markerBounds);
 
