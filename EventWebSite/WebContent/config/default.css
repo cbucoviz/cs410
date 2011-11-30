@@ -186,11 +186,11 @@ ul
 	text-decoration: blink;
 }
 
-div.event_scroll_list
+div.dashboard_scroll_list
 {
 	position:relative;
 	width:230px;
-	height:76px;
+	height:51px;
 	border:1px solid black;
 	overflow:hidden;
 }
