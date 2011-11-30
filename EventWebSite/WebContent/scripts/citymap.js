@@ -71,7 +71,7 @@ var gmap;
 	    	  //TODO: redirect to the event page, Event id is in marker.EventID
 	    	  google.maps.event.addListener(marker, 'click', function() {
 	    		    var mainContent = $("#mainContent"); 
-					mainContent.load("eventpage.jsp?eventID=" + marker.EventID);
+					mainContent.load("EventPage?eventID=" + marker.EventID);
 	    		});
 	    	  
 	       

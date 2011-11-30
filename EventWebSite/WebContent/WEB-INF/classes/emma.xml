@@ -1,0 +1,25 @@
+<project name="MyProject" default="instrument">
+  <!-- CHANGE to directory that contains emma.jar -->
+  <property name="emma.dir" value="C:/Users/Eric/emma-2.0.5312/lib" />
+
+<path id="dir.contents">
+	<!-- CHANGE to directory for your project + '/build/classes' -->
+	<dirset dir="C:/Users/Eric/Desktop/workspace/AccountServer"/>
+</path>
+
+<echo message="${toString:dir.contents}"/>
+
+<target name="instrument" description="runs the profiler" >
+      <java classname="emma">
+       <classpath>
+           <pathelement location="${emma.dir}/emma.jar" />
+    	</classpath>
+        <arg value="instr"/>
+		<arg value="-m"/>
+		<arg value="overwrite"/>
+		<arg value="-ip"/>
+		<arg value="${toString:dir.contents}"/>
+  	   </java>
+</target>
+
+</project>

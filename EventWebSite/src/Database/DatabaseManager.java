@@ -1106,15 +1106,31 @@ public class DatabaseManager
 			return result;
 	}
 	
+	
+	
 	public ResultSet getLocation(int id) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
-				("SELECT L.city, L.state, L.country " +
+				("SELECT L.city, L.state, L.country, L.Latitude, L.Longitude " +
 				"FROM locations AS L " +
 				"WHERE L.locationID  = '" + id + "' ");
 			ResultSet result = statement.executeQuery();
 			
 			return result;
+	}
+	
+	public void addLocation(String city, String state,String country, double lat, double lng) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("INSERT INTO locations (city, country, state, Latitude, Longitude) " +
+						"VALUES (?, ?, ?, ?, ?)");
+				
+		statement.setString(1, city);
+		statement.setString(2, country);
+		statement.setString(3, state);
+		statement.setDouble(4, lat);
+		statement.setDouble(5, lng);
+		statement.executeUpdate();
 	}
 	
 	/**
