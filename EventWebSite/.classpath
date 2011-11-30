@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
@@ -13,5 +14,7 @@
 	<classpathentry kind="lib" path="ExternalLibraries/gson-1.7.1.jar"/>
 	<classpathentry kind="lib" path="ExternalLibraries/mail.jar"/>
 	<classpathentry kind="lib" path="ExternalLibraries/base64coder.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="ExternalLibraries/emma.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -269,7 +269,7 @@ div.city_name_tag
 	padding: 10px 10px 0;
 }
 
-div.city_map
+div#city_map
 {
 	border: 3px groove black;
 	height: 460px;

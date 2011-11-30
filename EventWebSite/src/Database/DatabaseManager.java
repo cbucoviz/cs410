@@ -641,9 +641,9 @@ public class DatabaseManager
 		     for (int i = 0; i < types.length; i++)
 		     {
 		        if (i!=0)
-		           typesSQL = typesSQL + " OR T.eventTypeID = " + types[i];
+		           typesSQL = typesSQL + " OR T.typeID = " + types[i];
 		        else
-		           typesSQL = typesSQL + "T.eventTypeID = " + types[i];	
+		           typesSQL = typesSQL + "T.typeID = " + types[i];	
 		     }
 		     typesSQL = typesSQL + ")";
 	    }
@@ -651,7 +651,7 @@ public class DatabaseManager
 		PreparedStatement statement = connection.prepareStatement
 			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.endTime, U.name " +
 		    "FROM events AS E, users AS U, locations AS L, eventsandtypes AS EaT, eventtypes as T " +
-		    "WHERE L.locationID = locationID " +
+		    "WHERE L.locationID = E.locationID " +
 		    	  "AND E.locationID = L.locationID " +
 		    	  "AND U.userID = E.creatorID " +
 		    	  "AND E.eventID = EaT.eventID " +
@@ -661,6 +661,49 @@ public class DatabaseManager
 		    	  "AND E.title LIKE ?");
 		statement.setString(1, typesSQL);
 		statement.setString(2, "%"+keyword+"%");
+		ResultSet result = statement.executeQuery();
+		
+		return result;
+	}
+	
+	public ResultSet filterEventsByCriteria(int locationID, Date from, String keyword, String[] types) throws SQLException
+	{
+		
+		java.sql.Date sqlFrom = null;
+		if(from != null)
+			sqlFrom= new java.sql.Date(from.getTime());
+		
+		String keyQuery = (keyword == null || keyword == "") ? "" : "AND E.title LIKE ? ";
+		String fromQuery = from == null ? "" : "AND E.eventDate > "+sqlFrom+" ";
+		String typesQuery = (types.length <= 0) || (types[0] == null) ? "" : "AND E.eventID IN (SELECT EAT.eventID FROM " +
+				"eventsandtypes AS EAT, eventtypes AS ET WHERE ET.eventType LIKE '%"+ types[0]+"%' ";
+		for(int i = 1; i < types.length;i++)
+		{
+			if(types[i] != null)
+				typesQuery = typesQuery.concat("OR ET.eventType LIKE '%"+types[i]+"%' ");
+		}
+		if(types.length > 0 && types[0] != null)
+		{
+			typesQuery = typesQuery.concat("AND EAT.eventTypeID = ET.typeID )");
+		}
+		
+		PreparedStatement statement = connection.prepareStatement
+			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.endTime, U.name, U.userID, L.city " +
+					"FROM events AS E, users AS U, locations AS L " +
+					"WHERE L.locationID = E.locationID " +
+					"AND E.locationID = ? " +
+					"AND U.userID = E.creatorID " +
+					keyQuery + fromQuery + typesQuery
+					);
+		if(keyword == null || keyword == "")
+		{
+			statement.setInt(1, locationID);
+		}
+		else
+		{
+			statement.setInt(1, locationID);
+			statement.setString(2, "%"+keyword+"%" );
+		}
 		ResultSet result = statement.executeQuery();
 		
 		return result;
