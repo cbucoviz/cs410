@@ -563,7 +563,7 @@ public class DatabaseManager
 	}
 	
 	/**
-	 * Finds all the id's of events matching a certain location
+	 * Finds all the events matching a certain location
 	 * @param type - event type
 	 * @param location - event location
 	 * @return
@@ -576,6 +576,23 @@ public class DatabaseManager
 			      ("SELECT * FROM events AS E WHERE E.locationID IN " + 
 			    		  "(SELECT locationID FROM locations WHERE city = ?) ");
 			statement.setString(1, location);
+			ResultSet result = statement.executeQuery();
+		return result;
+	}
+	
+	/**
+	 * Finds all the events matching a certain location
+	 * @param type - event type
+	 * @param location - event location
+	 * @return
+	 * @throws SQLException
+	 */
+	public ResultSet findEventsByLocationID(int locationID) throws SQLException
+	{
+		
+		PreparedStatement statement = connection.prepareStatement
+			      ("SELECT * FROM events AS E WHERE E.locationID = ? ");
+			statement.setInt(1, locationID);
 			ResultSet result = statement.executeQuery();
 		return result;
 	}
@@ -670,29 +687,34 @@ public class DatabaseManager
 	{
 		
 		java.sql.Date sqlFrom = null;
+		String typesQuery = "";
 		if(from != null)
 			sqlFrom= new java.sql.Date(from.getTime());
 		
 		String keyQuery = (keyword == null || keyword == "") ? "" : "AND E.title LIKE ? ";
 		String fromQuery = from == null ? "" : "AND E.eventDate > "+sqlFrom+" ";
-		String typesQuery = (types.length <= 0) || (types[0] == null) ? "" : "AND E.eventID IN (SELECT EAT.eventID FROM " +
-				"eventsandtypes AS EAT, eventtypes AS ET WHERE ET.eventType LIKE '%"+ types[0]+"%' ";
-		for(int i = 1; i < types.length;i++)
+		if(types != null)
 		{
-			if(types[i] != null)
-				typesQuery = typesQuery.concat("OR ET.eventType LIKE '%"+types[i]+"%' ");
+			typesQuery = (types.length <= 0) || (types[0] == null) ? "" : "AND E.eventID IN (SELECT EAT.eventID FROM " +
+					"eventsandtypes AS EAT, eventtypes AS ET WHERE ET.eventType LIKE '%"+ types[0]+"%' ";
+			for(int i = 1; i < types.length;i++)
+			{
+				if(types[i] != null)
+					typesQuery = typesQuery.concat("OR ET.eventType LIKE '%"+types[i]+"%' ");
+			}
+			if(types.length > 0 && types[0] != null)
+			{
+				typesQuery = typesQuery.concat("AND EAT.eventTypeID = ET.typeID )");
+			}
 		}
-		if(types.length > 0 && types[0] != null)
-		{
-			typesQuery = typesQuery.concat("AND EAT.eventTypeID = ET.typeID )");
-		}
-		
 		PreparedStatement statement = connection.prepareStatement
-			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.endTime, U.name, U.userID, L.city " +
-					"FROM events AS E, users AS U, locations AS L " +
+			("SELECT E.eventID, E.title, E.venue, E.eventDate, E.startTime, E.endTime, E.Latitude,E.Longitude, U.name, U.userID, L.city, ETY.eventType " +
+					"FROM events AS E, users AS U, locations AS L, eventsandtypes AS EVT, eventtypes AS ETY " +
 					"WHERE L.locationID = E.locationID " +
 					"AND E.locationID = ? " +
 					"AND U.userID = E.creatorID " +
+					"AND E.eventID = EVT.eventID "+
+					"AND EVT.eventTypeID = ETY.typeID "+
 					keyQuery + fromQuery + typesQuery
 					);
 		if(keyword == null || keyword == "")
@@ -1358,31 +1380,24 @@ public class DatabaseManager
 	}
 	
 	/**
-	 * Edits the event's content (Event Description, Venue Description, etc.)
+	 * Edits the given event's content (Event Description, Venue Description, etc.)
 	 * @param updatorID - an id of a user who edits the event
 	 * @param eventID - an id of the edited event
 	 * @param content - content of the update
+	 * @param contentType - where the editing takes place (Event Description, 
+	 * Venue Description, etc.)
 	 * @return - result set to be passed to the Controller.
 	 * @throws SQLException - most likely various problems with syntax and/or some problems
 	 *                        with the database (tables changed, etc.)
 	 */
-	public ResultSet editEventContent(int updatorID, int eventID, String[] content) throws SQLException
+	public ResultSet editEventContent(int updatorID, int eventID, String content, String contentType) throws SQLException
 	{				
 		PreparedStatement statement = connection.prepareStatement
 				("UPDATE eventcontent " +
-				"SET generalDesc = ?, venueDesc = ?, priceDesc = ?, transportDesc = ?, " +
-				   " awareInfo = ?, videos = ?, links = ?, otherInfo = ? "+ 
+				"SET "+contentType+" = ? "+ 
 				"WHERE eventID = "+eventID + " ");
-				
-			statement.setString(1, content[0]);
-			statement.setString(2, content[1]);
-			statement.setString(3, content[2]);	
-			statement.setString(4, content[3]);
-			statement.setString(5, content[4]);
-			statement.setString(6, content[5]);
-			statement.setString(7, content[6]);	
-			statement.setString(8, content[7]);
-			statement.executeUpdate();
+		statement.setString(1, content);		
+		statement.executeUpdate();
 		
 		statement = connection.prepareStatement
 				("UPDATE events " +
@@ -1395,16 +1410,6 @@ public class DatabaseManager
 		return result;				
 	}
 	
-	
-	public void changePassword(int userID, String newPassword) throws SQLException
-	{
-		PreparedStatement statement = connection.prepareStatement
-				("UPDATE users " +
-				"SET password = ? " +
-				"WHERE userID = "+ userID +" "); 
-		statement.setString(1, newPassword);
-		statement.executeUpdate();
-	}	
 	/**
 	 * Mostly helper function, which is used to get a very small portion of the
 	 * details about a given edited event (to be precise, city, locationID, title and an 
@@ -2047,15 +2052,6 @@ public class DatabaseManager
 					("SELECT * FROM users WHERE type = 1");				
 			ResultSet result = statement.executeQuery();
 			return result;
-	}
-	
-	public void logoff(int userID) throws SQLException
-	{
-			PreparedStatement statement = connection.prepareStatement
-					("UPDATE users " +
-					"SET lastVisited = NOW() "+ 
-					"WHERE userID = "+userID+ " ");		
-			statement.executeUpdate();
 	}
 	
 	public void testQuery2(String user) throws SQLException
