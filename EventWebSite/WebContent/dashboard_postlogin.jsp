@@ -79,13 +79,11 @@ function move(id,spd){
 								<% 
 									if(loggedIn != null && loggedIn == true)
 									{
-										System.out.println("got here");
 										Integer userId = (Integer) session.getAttribute(Servlets.SessionVariables.USER_ID);
 										List<Map<Models.Search.EventInfoSearch,String>> myEvents = Models.Search.findMyEvents(userId);
 										
 										for(int i = 0; i < myEvents.size(); i++)
 										{
-											System.out.println(i);
 											Map<Models.Search.EventInfoSearch,String> currEvent = myEvents.get(i);
 											int eventId = Integer.parseInt(currEvent.get(Models.Search.EventInfoSearch.EVENT_ID));
 											String title = currEvent.get(Models.Search.EventInfoSearch.TITLE);
@@ -128,13 +126,11 @@ function move(id,spd){
 							<% 
 								if(loggedIn != null && loggedIn == true)
 								{
-									System.out.println("got here");
 									Integer userId = (Integer) session.getAttribute(Servlets.SessionVariables.USER_ID);
 									List<Map<Models.Search.EventInfoSearch,String>> subsEvents = Models.Search.findMySubscribedEvents(userId);
 									
 									for(int i = 0; i < subsEvents.size(); i++)
 									{
-										System.out.println(i);
 										Map<Models.Search.EventInfoSearch,String> currEvent = subsEvents.get(i);
 										int eventId = Integer.parseInt(currEvent.get(Models.Search.EventInfoSearch.EVENT_ID));
 										String title = currEvent.get(Models.Search.EventInfoSearch.TITLE);
@@ -182,13 +178,11 @@ function move(id,spd){
 							<% 
 								if(loggedIn != null && loggedIn == true)
 								{
-									System.out.println("got here");
 									Integer userId = (Integer) session.getAttribute(Servlets.SessionVariables.USER_ID);
 									List<Map<Models.Search.SubscribedLocaleInfo,String>> locales = Models.Search.findSubscribedLocales(userId);
 									
 									for(int i = 0; i < locales.size(); i++)
 									{
-										System.out.println(i);
 										Map<Models.Search.SubscribedLocaleInfo,String> currEvent = locales.get(i);
 										int locId = Integer.parseInt(currEvent.get(Models.Search.SubscribedLocaleInfo.LOCALE_ID));
 										String city = currEvent.get(Models.Search.SubscribedLocaleInfo.CITY);
