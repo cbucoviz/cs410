@@ -43,7 +43,6 @@ function move(id,spd){
 		<td id="dashboard_main_cell">
 		
 			<a class="button1" style="float: right" href="home.jsp"><- Return to Main</a>
-			<br>
 			
 			<div id="dashboard_main">
 				<b><i><h1 id="username_header"></h1></i></b>
@@ -65,7 +64,6 @@ function move(id,spd){
 				%>
 				<br>
 				<br>
-				<br>
 				
 				<div id="my_events_div">
 				
@@ -73,7 +71,7 @@ function move(id,spd){
 						<font size="3">My Events</font>
 					</div>
 					
-					<div class="event_scroll_list">
+					<div class="dashboard_scroll_list">
 						<div id="my_event_list_container" class="scroll_list_container">
 						
 								<% 
@@ -87,6 +85,7 @@ function move(id,spd){
 											Map<Models.Search.EventInfoSearch,String> currEvent = myEvents.get(i);
 											int eventId = Integer.parseInt(currEvent.get(Models.Search.EventInfoSearch.EVENT_ID));
 											String title = currEvent.get(Models.Search.EventInfoSearch.TITLE);
+											String isEdited = currEvent.get(Models.Search.EventInfoSearch.IS_EDITED);
 											
 											if(title.length() > ITEM_TEXT_SIZE)
 											{
@@ -94,7 +93,16 @@ function move(id,spd){
 											}
 											
 											out.println("<div class='scroll_item'>");
-											out.println("<a href='EventPage?eventID=" + eventId + "'>" + title + "</a>");
+											
+											if (isEdited.equals("Is Edited"))
+											{
+												out.println("<a href='EventPage?eventID=" + eventId + "'><font class='blink'>* </font>" + title + "</a>");
+											}
+											else
+											{
+												out.println("<a href='EventPage?eventID=" + eventId + "'>" + title + "</a>");
+											}
+											
 											out.println("</div>");
 										}
 									}
@@ -120,7 +128,7 @@ function move(id,spd){
 						<font size="3">Subscribed Events</font>
 					</div>
 					
-					<div class="event_scroll_list">
+					<div class="dashboard_scroll_list">
 						<div id="subs_event_list_container" class="scroll_list_container">
 							
 							<% 
@@ -134,7 +142,7 @@ function move(id,spd){
 										Map<Models.Search.EventInfoSearch,String> currEvent = subsEvents.get(i);
 										int eventId = Integer.parseInt(currEvent.get(Models.Search.EventInfoSearch.EVENT_ID));
 										String title = currEvent.get(Models.Search.EventInfoSearch.TITLE);
-										//int isEdited = (currEvent.get(Models.Search.EventInfoSearch.IS_EDITED));
+										String isEdited = currEvent.get(Models.Search.EventInfoSearch.IS_EDITED);
 										
 										if(title.length() > ITEM_TEXT_SIZE)
 										{
@@ -143,7 +151,15 @@ function move(id,spd){
 										
 										out.println("<div class='scroll_item'>");
 										
-										out.println("<a href='EventPage?eventID=" + eventId + "'>" + title + "</a>");
+										if (isEdited.equals("Is Edited"))
+										{
+											out.println("<a href='EventPage?eventID=" + eventId + "'><font class='blink'>* </font>" + title + "</a>");
+										}
+										else
+										{
+											out.println("<a href='EventPage?eventID=" + eventId + "'>" + title + "</a>");
+										}
+										
 										
 										
 										out.println("</div>");
@@ -167,12 +183,77 @@ function move(id,spd){
 					
 				</div>
 				
+				<div id="subs_users_div">
+					<div class="profile_header">
+						<font size="3">Subscribed Users</font>
+					</div>
+					
+					<div class="dashboard_scroll_list">
+						<div id="subs_user_list_container" class="scroll_list_container">
+							
+							<% 
+								if(loggedIn != null && loggedIn == true)
+								{
+									Integer userId = (Integer) session.getAttribute(Servlets.SessionVariables.USER_ID);
+									List<Map<Models.Search.UserInfoSearch,String>> subsUsers = Models.Search.findSubscribedUsers(userId);
+									
+									for(int i = 0; i < subsUsers.size(); i++)
+									{
+										Map<Models.Search.UserInfoSearch,String> user = subsUsers.get(i);
+										String name = user.get(Models.Search.UserInfoSearch.NAME);
+										int numNewEvents = 0;
+										String temp = user.get(Models.Search.UserInfoSearch.NUM_NEW_EVENTS);
+										numNewEvents = Integer.parseInt(temp);
+										/*if (temp != null)
+										{
+											isEdited = Integer.parseInt(temp);
+										}*/
+										
+										if(name.length() > ITEM_TEXT_SIZE)
+										{
+											name = name.substring(0, ITEM_TEXT_SIZE);
+										}
+										
+										out.println("<div class='scroll_item'>");
+										
+										if (numNewEvents > 0)
+										{
+											out.println("<a href='#'><font class='blink'>* </font><font color='yellow'>(" + numNewEvents + ") </font>" + name + "</a>");
+										}
+										else
+										{
+											out.println("<a href='#'>" + name + "</a>");
+										}
+										
+										
+										
+										out.println("</div>");
+									}
+								}
+							%>
+							
+						</div>
+					</div>
+					
+					<table class="scroll_list_btns">
+						<tr>
+						<td>
+							<p align="right">
+								<a href="#" onMouseover="move('subs_user_list_container',2)" onMouseout="clearTimeout(move.to)"><img src="resources/up.gif" border=0></a>  
+								<a href="#" onMouseover="move('subs_user_list_container',-2)" onMouseout="clearTimeout(move.to)"><img src="resources/down.gif" border=0></a>
+							</p>
+						</td>
+						</tr>
+					</table>
+					
+				</div>
+				
 				<div id="subs_locale_div">
 					<div class="profile_header">
 						<font size="3">Subscribed Locales</font>
 					</div>
 					
-					<div class="event_scroll_list">
+					<div class="dashboard_scroll_list">
 						<div id="subs_locale_list_container" class="scroll_list_container">
 						
 							<% 

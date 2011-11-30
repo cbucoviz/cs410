@@ -71,6 +71,12 @@ public class UserUpdates
     	sessions.remove(key);
     }
     
+    public static boolean exists(String key)
+    {
+    	return sessions.containsKey(key);
+    }    
+    
+    
     
     /**
      * The main function for updating live updates. It provides all necessary information
@@ -92,7 +98,7 @@ public class UserUpdates
      */
     public static void addUpdate(UpdateType type, String eventTitle, int eventID, 
     							String updator, int updatorID, String location, 
-    							int locationID, String editType)
+    							int locationID)
     							throws SQLException, ClassNotFoundException
     {   
     	String update ="";    	
@@ -108,27 +114,14 @@ public class UserUpdates
 		   		for(int h=0; h<onlineUsers.size(); h++)
 		   		{
 		   			String username = onlineUsers.get(h);
-			   		if(editType!=null)
-			   		{
+			   		
 			   			update = "User "+updator+" (" +
 						   		"<a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
 						   		"sub="+username+"&usid="+updatorID+"\">Subscribe</a>) " +
-						   		"has editted <b>" +editType+"</b> section of the event " +
-						   		"<a href=\"http://localhost/EventWebSite/eventPage.jsp?id="+eventID+"\">" +
-								""+eventTitle+"</a> (in <a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
-						   		"id="+locationID+"\">"+location+"</a>)";			   			
-			   		}
-			   		else
-			   		{
-			   			update = "User "+updator+" (" +
-						   		"<a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
-						   		"sub="+username+"&usid="+updatorID+"\">Subscribe</a>) " +
-						   		"has editted the main section of the event " +
+						   		"has just editted the event " +
 						   		"<a href=\"http://localhost/EventWebSite/eventPage.jsp?id="+eventID+"\">" +
 								""+eventTitle+"</a> (in <a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
 						   		"id="+locationID+"\">"+location+"</a>)";
-			   		
-			   		}
 		   			
 		   			updateSession(username, update);
 		   			update = "";
@@ -184,6 +177,10 @@ public class UserUpdates
 		   	{
 		   		DatabaseManager dbMan = DatabaseManager.getInstance();
 		   		ResultSet relevantUsers = dbMan.findUserSubsribers(updatorID); 
+		   		
+		   		
+		   		
+		   		
 		   		ArrayList<String> onlineUsers = filterUsers(relevantUsers);		
 		   		
 		   		for(int h=0; h<onlineUsers.size(); h++)
@@ -207,25 +204,39 @@ public class UserUpdates
 		   		DatabaseManager dbMan = DatabaseManager.getInstance();
 		   		ResultSet relevantUsers = dbMan.findLocaleSubsribers(locationID); 
 		   		ArrayList<String> onlineUsers = filterUsers(relevantUsers);		
+		   		ArrayList<Integer> onlineUsersIDs = getUsersIDs(relevantUsers);	
 		   		
 		   		for(int h=0; h<onlineUsers.size(); h++)
-		   		{
-		   			String username = onlineUsers.get(h);			   		
-			   		update = "User "+updator+" (" +
-						   		"<a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
-						   		"sub="+username+"&usid="+updatorID+"\">Subscribe</a>) " +
-						   		"has just created a new event " +
-						   		"<a href=\"http://localhost/EventWebSite/eventPage.jsp?id="+eventID+"\">" +
-								""+eventTitle+"</a> for <a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
-						   		"id="+locationID+"\">"+location+"</a>";
-		   			updateSession(username, update);
-		   			update = "";
+		   		{		   			
+		   			if(!isSubscribedToBoth(onlineUsersIDs.get(h),locationID,updatorID))
+		   			{		   				
+			   			String username = onlineUsers.get(h);			   		
+				   		update = "User "+updator+" (" +
+							   		"<a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
+							   		"sub="+username+"&usid="+updatorID+"\">Subscribe</a>) " +
+							   		"has just created a new event " +
+							   		"<a href=\"http://localhost/EventWebSite/eventPage.jsp?id="+eventID+"\">" +
+									""+eventTitle+"</a> for <a href=\"http://localhost/EventWebSite/subscribeToUser.jsp?" +
+							   		"id="+locationID+"\">"+location+"</a>";
+			   			updateSession(username, update);
+			   			update = "";
+		   			}
 		   		}		   	
 		   	}
 		   	break;
 	   	} 
 	   
     }
+    
+    private static boolean isSubscribedToBoth(int userID, int subLocID, int subUserID)
+    {
+    	if(User.isSubscribed(userID, subUserID) && Location.isSubscribed(userID, subLocID))
+    	{
+    		return true;
+    	}
+    	return false;
+    }
+    
     
     /**
      * Filter users. Given users who may require to receive an update, it selects only
@@ -244,6 +255,21 @@ public class UserUpdates
     		if(sessions.containsKey(username))
     		{
     			listOfUsers.add(username);
+    		}
+    	}
+    	return listOfUsers;
+    }
+    
+    private static ArrayList<Integer> getUsersIDs(ResultSet users) throws SQLException
+    {
+    	ArrayList<Integer> listOfUsers = new ArrayList<Integer>();
+    	while(users.next())
+    	{
+    		int userID = Integer.parseInt(users.getString("U.userID"));
+    		String user = users.getString("U.name");
+    		if(sessions.containsKey(user))
+    		{
+    			listOfUsers.add(userID);
     		}
     	}
     	return listOfUsers;
