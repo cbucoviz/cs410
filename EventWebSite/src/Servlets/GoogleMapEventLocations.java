@@ -26,10 +26,11 @@ public class GoogleMapEventLocations extends HttpServlet {
      
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
-			
+			String locId = request.getParameter("loc");
+			int id = Integer.parseInt(locId);
 			Search srch = new Search();
 			JsonObject result = new JsonObject();
-			JsonArray locations = srch.getGoogleMapEvents("Vancouver");
+			JsonArray locations = srch.getGoogleMapEvents(id,request.getParameter("keyword"),null,request.getParameter("startDate"));
 			result.add("locations", locations);
 			PrintWriter out = response.getWriter();
 			out.write(result.toString());
