@@ -167,7 +167,8 @@ $(document).ready(function()
 					<ul>
 						<li class="selected"><a onmousedown="expandcontent('city_event_tab', this)">Event</a></li>
 						<li><a onmousedown="expandcontent('city_filter_tab', this)">Filter</a></li>
-						<li><a onmousedown="expandcontent('city_others_tab', this)">Others</a></li>
+						<li><a onmousedown="expandcontent('city_top_events_tab', this)">Top Events</a></li>
+						<li><a onmousedown="expandcontent('city_top_users_tab', this)">Top Users</a></li>
 					</ul>
 				</div>
 				
@@ -185,7 +186,11 @@ $(document).ready(function()
 								<%ArrayList<Map<Models.Event.EventInfo, String>> events = Models.Location.getEventsAtLocation(Integer.parseInt(request.getParameter("city")));
 									for(int i = 0; i < events.size(); ++i)
 									{
-									out.println("<li class='event_item' popup='" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'><a href='EventPage?eventID=" + events.get(i).get(Models.Event.EventInfo.EVENT_ID) + "'>" + events.get(i).get(Models.Event.EventInfo.TITLE) + "</a></li>");
+										Map<Models.Event.EventInfo, String> event = events.get(i);
+										int eventId = Integer.parseInt(event.get(Models.Event.EventInfo.EVENT_ID));
+										String title = event.get(Models.Event.EventInfo.TITLE);
+										
+										out.println("<li class='event_item' popup='" + eventId + "'><a href='EventPage?eventID=" + eventId + "'>" + title + "</a></li>");
 									}
 								%>
 								</ul>
@@ -276,8 +281,27 @@ $(document).ready(function()
 						</form>
 					</div>
 					
-					<div id="city_others_tab" class="city_tab_page">
-						Additional content goes here...
+					<div id="city_top_events_tab" class="city_tab_page">
+						<ol>
+						<% 	List<Map<Models.Search.EventInfoSearch,String>> topEvents = Models.Search.topEvents(Integer.parseInt(request.getParameter("city")));
+							
+							for(int i = 0; i < topEvents.size(); i++)
+							{
+								Map<Models.Search.EventInfoSearch,String> event = topEvents.get(i);
+								int eventId = Integer.parseInt(event.get(Models.Search.EventInfoSearch.EVENT_ID));
+								String title = event.get(Models.Search.EventInfoSearch.TITLE);
+								
+								out.println("<li class='event_item' popup='" + eventId + "'><a href='EventPage?eventID=" + eventId + "'>" + title + "</a></li>");
+							}
+						
+						%>
+						</ol>
+					</div>
+					
+					<div id="city_top_users_tab" class="city_tab_page">
+						<ol>
+							
+						</ol>
 					</div>
 					
 				</div>

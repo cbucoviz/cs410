@@ -563,11 +563,21 @@ table.scroll_list_btns
 #city_filter_tab
 {
 	display: none;
+	height: 430px;	
 }
 
-#city_others_tab
+#city_top_events_tab
 {
 	display: none;
+	overflow: auto;
+	height: 430px;
+}
+
+#city_top_users_tab
+{
+	display: none;
+	overflow: auto;
+	height: 430px;
 }
 
 #city_tab_td
