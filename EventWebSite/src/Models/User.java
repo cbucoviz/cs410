@@ -122,4 +122,18 @@ public class User
 		return true;
 	}
 	
+	public static boolean changePassword(int userID, String newPassword)
+	{
+		try 
+		{
+			DatabaseManager dbManager = DatabaseManager.getInstance();
+			dbManager.changePassword(userID, newPassword);
+		}
+		catch(Exception ex)
+		{
+			return false;
+		}
+		return true;
+	}
+	
 }
