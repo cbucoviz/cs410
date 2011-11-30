@@ -5,6 +5,7 @@ package Models;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,7 +59,8 @@ public class Search {
 		CREATOR_ID,
 		LOCATION_ID,
 		CITY,
-		IS_EDITED;	
+		IS_EDITED,
+		EVENT_TYPE;
 	}
 	
 	public enum ModeratorInfo
@@ -310,14 +312,22 @@ public class Search {
 	 * Used to get the name, latitude, longitude and id of an event to be displayed
 	 * on Google Earth.
 	 * @return returns a Json Array with the Event Location information
+	 * @throws ParseException 
 	 */
-	public JsonArray getGoogleMapEvents(String city)
+	public JsonArray getGoogleMapEvents(int cityId,String keyword, String[] types, String start) 
 	{
 		JsonArray returnValue = new JsonArray();
+		java.sql.Date startDate = null;
+		DateFormat formater = new SimpleDateFormat("dd/MM/yyyy"); 
 		try
 		{
+			if(start != null && start.trim() != "")
+			{
+				java.util.Date parsedUtilDate = formater.parse(start);  
+				startDate= new java.sql.Date(parsedUtilDate.getTime()); 
+			}
 			DatabaseManager dbMan = DatabaseManager.getInstance();
-			ResultSet locations = dbMan.findEventsByLocation(city);
+			ResultSet locations = dbMan.filterEventsByCriteria(cityId, startDate, keyword, types);
 			while (locations.next()) 
 			{
 		        returnValue.add(
@@ -335,6 +345,10 @@ public class Search {
 		catch (ClassNotFoundException e) 
 		{
 			e.printStackTrace();
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
 		}
 		
 		return returnValue;
@@ -382,7 +396,14 @@ public class Search {
 			event.put(EventInfoSearch.CREATOR_ID,	events.getString("U.userID"));
 			event.put(EventInfoSearch.LOCATION_ID,	events.getString("L.locationID"));
 			event.put(EventInfoSearch.CITY,			events.getString("L.city"));
-			event.put(EventInfoSearch.IS_EDITED,	events.getString("Updates"));
+			if(events.getString("Updates")==null)
+			{				
+				event.put(EventInfoSearch.IS_EDITED,"No Updates");
+			}
+			else
+			{
+				event.put(EventInfoSearch.IS_EDITED,"Is Edited");
+			}
 			
 			eventsToReturn.add(event);
 		}
@@ -409,7 +430,14 @@ public class Search {
 			event.put(EventInfoSearch.END_TIME,		events.getString("E.endTime"));		
 			event.put(EventInfoSearch.LOCATION_ID,	events.getString("L.locationID"));
 			event.put(EventInfoSearch.CITY,			events.getString("L.city"));
-			event.put(EventInfoSearch.IS_EDITED,	events.getString("Updates"));
+			if(events.getString("Updates")==null)
+			{				
+				event.put(EventInfoSearch.IS_EDITED,"No Updates");
+			}
+			else
+			{
+				event.put(EventInfoSearch.IS_EDITED,"Is Edited");
+			}
 			
 			eventsToReturn.add(event);
 		}
@@ -602,7 +630,7 @@ public class Search {
 			event.put(EventInfoSearch.CREATOR_ID,	events.getString("U.userID"));
 			event.put(EventInfoSearch.LOCATION_ID,	Integer.toString(locationID));
 			event.put(EventInfoSearch.CITY,			events.getString("L.city"));
-			
+			event.put(EventInfoSearch.EVENT_TYPE, 	events.getString("ETY.eventType"));
 			eventsToReturn.add(event);
 		}
 	
