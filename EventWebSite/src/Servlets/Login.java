@@ -65,6 +65,7 @@ public class Login extends HttpServlet
 				HttpSession session = request.getSession();
 				session.setAttribute(SessionVariables.USER_ID, Integer.parseInt(user.getString("userID")));
 				session.setAttribute(SessionVariables.LOGGED_IN, true);
+				session.setAttribute(SessionVariables.PASSWORD, password);
 				session.setAttribute(SessionVariables.EMAIL, email);
 				session.setAttribute(SessionVariables.USERNAME, user.getString("name"));
 				session.setAttribute(SessionVariables.UPDATES, new ArrayList<String>());

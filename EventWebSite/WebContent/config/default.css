@@ -126,7 +126,6 @@ ul
 .scroll_item 
 {
 	height: 15px; 
-	width: 220px;
 	background:url("../resources/item_gradient.jpg") repeat-x;
   	border: 1px #ff0000 outset; 
   	padding: 3px;
@@ -178,6 +177,13 @@ ul
 	color: black;
 	padding: 20px;
 	padding-top: 0px;
+}
+
+.blink
+{
+	color: yellow;
+	font-weight: bold;
+	text-decoration: blink;
 }
 
 div.event_scroll_list

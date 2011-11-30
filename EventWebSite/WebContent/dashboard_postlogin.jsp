@@ -35,7 +35,8 @@ function move(id,spd){
 </head>
 <body>
 
-
+<%@ page import="java.util.*" %>
+<% int ITEM_TEXT_SIZE = 25;%>
 
 <table id="dashboard_frame">
 	<tr>
@@ -75,29 +76,32 @@ function move(id,spd){
 					<div class="event_scroll_list">
 						<div id="my_event_list_container" class="scroll_list_container">
 						
-								<!-- INSERT REAL MY EVENTS HERE -->
+								<% 
+									if(loggedIn != null && loggedIn == true)
+									{
+										System.out.println("got here");
+										Integer userId = (Integer) session.getAttribute(Servlets.SessionVariables.USER_ID);
+										List<Map<Models.Search.EventInfoSearch,String>> myEvents = Models.Search.findMyEvents(userId);
+										
+										for(int i = 0; i < myEvents.size(); i++)
+										{
+											System.out.println(i);
+											Map<Models.Search.EventInfoSearch,String> currEvent = myEvents.get(i);
+											int eventId = Integer.parseInt(currEvent.get(Models.Search.EventInfoSearch.EVENT_ID));
+											String title = currEvent.get(Models.Search.EventInfoSearch.TITLE);
+											
+											if(title.length() > ITEM_TEXT_SIZE)
+											{
+												title = title.substring(0, ITEM_TEXT_SIZE);
+											}
+											
+											out.println("<div class='scroll_item'>");
+											out.println("<a href='EventPage?eventID=" + eventId + "'>" + title + "</a>");
+											out.println("</div>");
+										}
+									}
+								%>
 								
-								<div class="scroll_item">
-									<a href="EventPage?eventID=10">My Dummy Event 1</a>
-								</div>
-								<div class="scroll_item">
-									<a href="EventPage?eventID=10">My Dummy Event 2</a>
-								</div>
-								<div class="scroll_item">
-									<a href="EventPage?eventID=10">My Dummy Event 3</a>
-								</div>
-								<div class="scroll_item">
-									<a href="EventPage?eventID=10">My Dummy Event 4</a>
-								</div>
-								<div class="scroll_item">
-									<a href="EventPage?eventID=10">My Dummy Event 5</a>
-								</div>
-								<div class="scroll_item">
-									<a href="EventPage?eventID=10">My Dummy Event 6</a>
-								</div>
-								<div class="scroll_item">
-									<a href="EventPage?eventID=10">My Dummy Event 7</a>
-								</div>
 						</div>
 					</div>
 					
@@ -121,20 +125,36 @@ function move(id,spd){
 					<div class="event_scroll_list">
 						<div id="subs_event_list_container" class="scroll_list_container">
 							
-							<!-- INSERT REAL SUBSCRIBED EVENTS HERE -->
+							<% 
+								if(loggedIn != null && loggedIn == true)
+								{
+									System.out.println("got here");
+									Integer userId = (Integer) session.getAttribute(Servlets.SessionVariables.USER_ID);
+									List<Map<Models.Search.EventInfoSearch,String>> subsEvents = Models.Search.findMySubscribedEvents(userId);
+									
+									for(int i = 0; i < subsEvents.size(); i++)
+									{
+										System.out.println(i);
+										Map<Models.Search.EventInfoSearch,String> currEvent = subsEvents.get(i);
+										int eventId = Integer.parseInt(currEvent.get(Models.Search.EventInfoSearch.EVENT_ID));
+										String title = currEvent.get(Models.Search.EventInfoSearch.TITLE);
+										//int isEdited = (currEvent.get(Models.Search.EventInfoSearch.IS_EDITED));
+										
+										if(title.length() > ITEM_TEXT_SIZE)
+										{
+											title = title.substring(0, ITEM_TEXT_SIZE);
+										}
+										
+										out.println("<div class='scroll_item'>");
+										
+										out.println("<a href='EventPage?eventID=" + eventId + "'>" + title + "</a>");
+										
+										
+										out.println("</div>");
+									}
+								}
+							%>
 							
-							<div class="scroll_item">
-								<a href="EventPage?eventID=">Subscribed Dummy Event 1</a>
-							</div>
-							<div class="scroll_item">
-								<a href="EventPage?eventID=">Subscribed Dummy Event 2</a>
-							</div>
-							<div class="scroll_item">
-								<a href="EventPage?eventID=">Subscribed Dummy Event 3</a>
-							</div>
-							<div class="scroll_item">
-								<a href="EventPage?eventID=">Subscribed Dummy Event 4</a>
-							</div>
 						</div>
 					</div>
 					
@@ -159,20 +179,42 @@ function move(id,spd){
 					<div class="event_scroll_list">
 						<div id="subs_locale_list_container" class="scroll_list_container">
 						
-							<!-- INSERT REAL SUBSCRIBED LOCALES HERE -->
+							<% 
+								if(loggedIn != null && loggedIn == true)
+								{
+									System.out.println("got here");
+									Integer userId = (Integer) session.getAttribute(Servlets.SessionVariables.USER_ID);
+									List<Map<Models.Search.SubscribedLocaleInfo,String>> locales = Models.Search.findSubscribedLocales(userId);
+									
+									for(int i = 0; i < locales.size(); i++)
+									{
+										System.out.println(i);
+										Map<Models.Search.SubscribedLocaleInfo,String> currEvent = locales.get(i);
+										int locId = Integer.parseInt(currEvent.get(Models.Search.SubscribedLocaleInfo.LOCALE_ID));
+										String city = currEvent.get(Models.Search.SubscribedLocaleInfo.CITY);
+										int numNewEvents = Integer.parseInt(currEvent.get(Models.Search.SubscribedLocaleInfo.NUM_NEW_EVENTS));
+										
+										if(city.length() > ITEM_TEXT_SIZE)
+										{
+											city = city.substring(0, ITEM_TEXT_SIZE);
+										}
+										
+										out.println("<div class='scroll_item'>");
+										
+										if (numNewEvents > 0)
+										{
+											out.println("<a href='citypage.jsp?city=" + locId + "'><font class='blink'>*</font><font color='yellow'>(" + numNewEvents +")</font> "+ city + "</a>");
+										}
+										else
+										{
+											out.println("<a href='citypage.jsp?city=" + locId + "'>" + city + "</a>");
+										}
+										
+										out.println("</div>");
+									}
+								}
+							%>
 							
-							<div class="scroll_item">
-								<a href="EventPage?eventID=">Subscribed Dummy Locale 1</a>
-							</div>
-							<div class="scroll_item">
-								<a href="EventPage?eventID=">Subscribed Dummy Locale 2</a>
-							</div>
-							<div class="scroll_item">
-								<a href="EventPage?eventID=">Subscribed Dummy Locale 3</a>
-							</div>
-							<div class="scroll_item">
-								<a href="EventPage?eventID=">Subscribed Dummy Locale 4</a>
-							</div>
 						</div>
 					</div>
 					
