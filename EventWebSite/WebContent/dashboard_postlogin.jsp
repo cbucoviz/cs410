@@ -1,3 +1,4 @@
+<%@page import="Models.Search"%>
 <%@page import="Models.Security"%>
 <html>
 <head>
@@ -235,6 +236,7 @@ $(document).ready(function()
 										Map<Models.Search.UserInfoSearch,String> user = subsUsers.get(i);
 										String name = user.get(Models.Search.UserInfoSearch.NAME);
 										int numNewEvents = 0;
+										int creatorId = Integer.parseInt(user.get(Models.Search.UserInfoSearch.USER_ID));
 										String temp = user.get(Models.Search.UserInfoSearch.NUM_NEW_EVENTS);
 										numNewEvents = Integer.parseInt(temp);
 										/*if (temp != null)
@@ -251,11 +253,12 @@ $(document).ready(function()
 										
 										if (numNewEvents > 0)
 										{
-											out.println("<a href='#'><font class='blink'>* </font><font color='yellow'>(" + numNewEvents + ") </font>" + name + "</a>");
+											out.println("<a href='#'><font class='blink'>* </font><font color='yellow'>(" + numNewEvents + ") </font>" + name + "<button type='button' class='button1' style='float: right;' subscribe='user' subscribeId='" + creatorId + "'>Unsubscribe</button></a>");
+										
 										}
 										else
 										{
-											out.println("<a href='#'>" + name + "</a>");
+											out.println("<a href='#'>" + name + "<button type='button' class='button1' style='float: right;' subscribe='user' subscribeId='" + creatorId + "'>Unsubscribe</button></a>");
 										}
 										
 										
@@ -311,11 +314,11 @@ $(document).ready(function()
 										
 										if (numNewEvents > 0)
 										{
-											out.println("<a href='citypage.jsp?city=" + locId + "'><font class='blink'>*</font><font color='yellow'>(" + numNewEvents +")</font> "+ city + "</a>");
+											out.println("<a href='citypage.jsp?city=" + locId + "'><font class='blink'>*</font><font color='yellow'>(" + numNewEvents +")</font> "+ city + "<button type='button' class='button1' style='float: right;' subscribe='locale' subscribeId='" + locId + "'>Unsubscribe</button></a>");
 										}
 										else
 										{
-											out.println("<a href='citypage.jsp?city=" + locId + "'>" + city + "</a>");
+											out.println("<a href='citypage.jsp?city=" + locId + "'>" + city + "<button type='button' class='button1' style='float: right;' subscribe='locale' subscribeId='" + locId + "'>Unsubscribe</button></a>");
 										}
 										
 										out.println("</div>");
