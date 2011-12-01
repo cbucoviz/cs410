@@ -7,7 +7,24 @@ import Database.DatabaseManager;
 
 public class Security 
 {
-
+	public static boolean hasReview(int userID, int eventID)
+	{
+		DatabaseManager dbMan;
+		try {
+			dbMan = DatabaseManager.getInstance();
+			ResultSet result = dbMan.hasReview(userID, eventID);
+			if(result.next())
+			{
+				return true;
+			}		
+			return false;
+		} catch (ClassNotFoundException e) {			
+			e.printStackTrace();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
 	public static boolean isAdmin(int userID)
 	{

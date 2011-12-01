@@ -20,7 +20,8 @@ public class Comment
 		USER_ID,
 		USER_NAME,
 		CONTENT,
-		DATE_TIME;
+		DATE_TIME,
+		COMMENT_ID;
 	}
 	
 	public static List<Map<CommentInfo,String>> getComments(int postID)
@@ -38,6 +39,7 @@ public class Comment
 			comment.put(CommentInfo.USER_NAME,reviews.getString("U.name"));
 			comment.put(CommentInfo.CONTENT,reviews.getString("C.commentBody"));
 			comment.put(CommentInfo.DATE_TIME,reviews.getString("C.dateTime"));			
+			comment.put(CommentInfo.COMMENT_ID,reviews.getString("C.commentID"));	
 			
 			commentsToReturn.add(comment);
 		}

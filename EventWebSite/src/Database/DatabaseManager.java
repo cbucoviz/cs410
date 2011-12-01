@@ -297,7 +297,7 @@ public class DatabaseManager
 	public ResultSet revealComments(int postID) throws SQLException
 	{		
 		PreparedStatement statement = connection.prepareStatement
-				("SELECT C.commentBody, C.dateTime, C.userID, U.name " +
+				("SELECT C.commentID, C.commentBody, C.dateTime, C.userID, U.name " +
 				"FROM comments AS C, users AS U, discussionpost AS P " +
 				"WHERE C.postID = " + postID + " " +
 					  "AND C.postID = P.postID " +
@@ -2093,6 +2093,18 @@ public class DatabaseManager
 					"SET lastVisited = NOW() "+ 
 					"WHERE userID = "+userID+ " ");		
 			statement.executeUpdate();
+	}
+	
+	public ResultSet hasReview(int userID,int eventID) throws SQLException
+	{
+			PreparedStatement statement = connection.prepareStatement
+					("SELECT U.name " +
+					"FROM users AS U, reviews AS R "+ 
+					"WHERE R.userID = "+userID+" " +
+						  "AND R.eventID = "+eventID+" " +
+						  "AND U.userID = R.userID");		
+			ResultSet result = statement.executeQuery();
+			return result;
 	}
 	public void testQuery2(String user) throws SQLException
 	{
