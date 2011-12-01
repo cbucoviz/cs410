@@ -1,6 +1,7 @@
 $(document).ready(function()
 {
 	// handler for links
+	$("a").unbind("click");
 	$("a").click(function(event)
 	{
 		// get the original target and redirect them via the main content window
@@ -12,6 +13,7 @@ $(document).ready(function()
 	});
 	
 	// handler for submits
+	$("form").unbind("submit");
 	$("form").submit(function(event)
 	{
 		// is this the search form?
