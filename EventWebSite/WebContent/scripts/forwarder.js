@@ -12,8 +12,6 @@ $(document).ready(function()
 		// destroy all open qtips
 		$('div.qtip:visible').qtip('hide');
 		
-		// since they're moving to another page, unbind this handler
-		
 		// stop them from proceeding normally
 		event.preventDefault();
 	}
