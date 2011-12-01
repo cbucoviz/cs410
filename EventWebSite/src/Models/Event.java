@@ -547,24 +547,23 @@ public class Event
 			String modName = "";
 			String modEmail = "";
 			
-			sqlInfo.last();
-			int numOfRows = sqlInfo.getRow();			
-			int random = new Random().nextInt(numOfRows);
-			random++;
-			sqlInfo.absolute(random);
+			String link = "http://localhost/EventWebSite/EventPage?eventID=" + eventID;
 			
+			while(sqlInfo.next())
+			{
 				title = sqlInfo.getString("E.title");
 				modName = sqlInfo.getString("U.name");
 				modEmail = sqlInfo.getString("U.email");
+				
+				String completeMessage = "Dear "+modName+"\n\n" +
+						"  Please see below a message sent by a user about a violation he/she has "+
+						"noticed on the main page of "+title+" event: "+link+"\n\n\n\nREPORT:\n\n";
+				
+				completeMessage = completeMessage + "\"" + message + "\"";
+				
+				emailModerator(modEmail, completeMessage);
+			}	
 			
-			String link = "http://localhost/EventWebSite/EventPage?eventID="+eventID+"";
-			String completeMessage = "Dear "+modName+"\n\n" +
-					"  Please see below a message sent by a user about a violation he/she has "+
-					"noticed on the main page of "+title+" event: "+link+"\n\n\n\nREPORT:\n\n";
-			
-			completeMessage = completeMessage + "\"" + message + "\"";
-			
-			emailModerator(modEmail, completeMessage);
 		} catch (ClassNotFoundException e1) {			
 			e1.printStackTrace();
 		} catch (SQLException e1) {			
