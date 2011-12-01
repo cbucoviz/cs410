@@ -31,6 +31,9 @@ public class EditEvent extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		String eventIdString = request.getParameter("eventId");
+		Integer eventId = eventIdString != null ? Integer.parseInt(eventIdString) : null;
+	
 		String title = request.getParameter("title");
 
 		String city = request.getParameter("city");
@@ -63,6 +66,7 @@ public class EditEvent extends HttpServlet {
 		String venueDesc = request.getParameter("venue_description");
 		String costDesc = request.getParameter("cost_description");
 		String directions = request.getParameter("directions");
+		String awareness = request.getParameter("awareness_info");
 		String otherDesc = request.getParameter("other_description");
 		String videos = request.getParameter("video_links");
 		String links = request.getParameter("other_links");
@@ -71,12 +75,18 @@ public class EditEvent extends HttpServlet {
 		String[] types = {"Hockey"};
 		
 		HttpSession session = request.getSession();
-		Integer creatorID = (Integer) session.getAttribute(SessionVariables.USER_ID);
+		Integer userID = (Integer) session.getAttribute(SessionVariables.USER_ID);
 		
+		if(eventId == null)
+		{
+			eventId = Event.createNewEvent(title, userID, locationId, address, venue, startTime, endTime, types);	
+		}
+		else
+		{
+			Event.editEventInfo(userID, eventId, title, venue, startTime, endTime, address);	
+		}
 		
-		int eventId = Event.createNewEvent(title, creatorID, locationId, address, venue, startTime, endTime, types);
-		Event.setContent(eventId, eventDesc, venueDesc, costDesc, directions, null, videos, links, otherDesc);
-		
+		Event.setContent(eventId, eventDesc, venueDesc, costDesc, directions, awareness, videos, links, otherDesc);		
 		response.sendRedirect("EventPage?eventID=" + eventId);
 	}
 }
