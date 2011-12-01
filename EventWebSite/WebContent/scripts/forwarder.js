@@ -1,17 +1,29 @@
 $(document).ready(function()
 {
 	// handler for links
-	$("a").click(function(event)
+
+	function linkHandler(event)
 	{
 		// get the original target and redirect them via the main content window
 		var originalTarget = $(this).attr("href");
 		var mainContent = $("#mainContent"); 
 		mainContent.load(originalTarget);
+		
+		// destroy all open qtips
+		$('div.qtip:visible').qtip('hide');
+		
+		// destroy any dialogs
+  		$("#report_abuse_form").dialog('destroy').remove()
+		
 		// stop them from proceeding normally
 		event.preventDefault();
-	});
+	}
+	
+	$("a").unbind('click.ForwarderEvents');
+	$("a").bind('click.ForwarderEvents', linkHandler);
 	
 	// handler for submits
+	$("form").unbind("submit");
 	$("form").submit(function(event)
 	{
 		// is this the search form?
@@ -47,6 +59,11 @@ $(document).ready(function()
 				geSearch(eventKeyword, city, state, country, startDate, endDate);
 				
 			}
+		}
+		else if(form.attr("id") == "ReportAbuseForm")
+		{
+			var data = form.serialize();
+			$.post(form.attr("action"), data);
 		}
 		else
 		{

@@ -388,7 +388,7 @@ div.review_post_header
 	font-size: 13px;
 }
 
-div.event_map
+div#event_map
 {
 	height: 400px;
 	width: 500px;
@@ -563,21 +563,11 @@ table.scroll_list_btns
 #city_filter_tab
 {
 	display: none;
-	height: 430px;	
 }
 
-#city_top_events_tab
+#city_others_tab
 {
 	display: none;
-	overflow: auto;
-	height: 430px;
-}
-
-#city_top_users_tab
-{
-	display: none;
-	overflow: auto;
-	height: 430px;
 }
 
 #city_tab_td

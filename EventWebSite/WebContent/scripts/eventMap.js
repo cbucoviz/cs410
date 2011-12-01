@@ -1,35 +1,37 @@
-var gmap;
-   var markerBounds;
+var gEMap;
+var markerBoundsEvent;
    
    //Initializes the map and performs a call to retrieve locations to be placed.
-   function initialize()
+  
+   
+   function initializeEMap()
    { 
-	   	  var locationId = $("#city_map").attr("locid");
-	   	  //alert("test");
+	   	  var locationId = $("#event_map").attr("locid");
+	   	  var keyword = $("#event_map").attr("title");
+	   	 // alert("test");
 	   	 
 		  var latlng = new google.maps.LatLng(-34.397, 150.644); 
-		  var myOptions = {zoom: 8,center: latlng ,mapTypeId: google.maps.MapTypeId.ROADMAP}; 
-	      gmap = new google.maps.Map(document.getElementById('city_map'), myOptions);
-	      gmap.draggable = true;
-	      gmap.panControl = false;
-	      gmap.zoomControl = true;
-	      gmap.scrollwheel = false;
-	      gmap.disableDoubleClickZoom = true;
-	      markerBounds = new google.maps.LatLngBounds();
+		  var myOptions = {zoom: 8,center: latlng ,mapTypeId: google.maps.MapTypeId.ROADMAP};
+		  
+		  gEMap = new google.maps.Map(document.getElementById('event_map'), myOptions);
+		  gEMap.draggable = true;
+		  gEMap.panControl = false;
+		  gEMap.zoomControl = true;
+		  gEMap.scrollwheel = false;
+		  gEMap.disableDoubleClickZoom = true;
+		  markerBoundsEvent = new google.maps.LatLngBounds();
 	      
 	      
 		  //TODO: Need to put city as parameter to request
-	      $.getJSON('/EventWebSite/GMEventLoc',{loc:locationId}, setEventLocations);
+	      $.getJSON('/EventWebSite/GMEventLoc',{loc:locationId,keyword:keyword}, setEventMapLocations);
 	    
-	      gmap.fitBounds(markerBounds);
+	      gEMap.fitBounds(markerBoundsEvent);
 
 	   
    }
    
- 
-   
    //Callback for event location search, iterates through locations to produce markers.
-   function setEventLocations(data)
+   function setEventMapLocations(data)
 	{
 		for(var i=0; i < data.locations.length; i++)
 		{
@@ -42,32 +44,32 @@ var gmap;
 			//get id of location
 			var id = loc.id + '';
 			//add location to Google Maps
-			addPlaces(name, lat, lng, id);
+			addEventPlaces(name, lat, lng, id);
 		}
 		
 	}
    
    //Adds event locations to the map by creating markers.
-   function addPlaces(name,lat,lng,id)
+   function addEventPlaces(name,lat,lng,id)
    {
 	   	  var infowindow = new google.maps.InfoWindow(); 
 	   	  infowindow.setContent(name); 
 	      var marker;      
 	      
-	    	  marker = new google.maps.Marker({ position: new google.maps.LatLng(lat,lng),map: gmap});
+	    	  marker = new google.maps.Marker({ position: new google.maps.LatLng(lat,lng),map: gEMap});
 	    	  marker.EventID = id;
-	    	  markerBounds.extend(new google.maps.LatLng(lat, lng));
+	    	  markerBoundsEvent.extend(new google.maps.LatLng(lat, lng));
 	    	  
 	    	  google.maps.event.addListener(marker, 'mouseover', (function(marker, id) {         
 	    		  return function() {           
 	    			      
-	    			  infowindow.open(gmap, marker);         
+	    			  infowindow.open(gEMap, marker);         
 	    			  };   
 	    		  })(marker, id));
 	    	  
 	    	  google.maps.event.addListener(marker, 'mouseout', function() {
 	    		    //setTimeout(function() { infowindow.close(); }, 3000);
-	    		    infowindow.close(gmap, marker);
+	    		    infowindow.close(gEMap, marker);
 	    		});
 	    	  
 	    	  //TODO: redirect to the event page, Event id is in marker.EventID

@@ -297,7 +297,7 @@ public class DatabaseManager
 	public ResultSet revealComments(int postID) throws SQLException
 	{		
 		PreparedStatement statement = connection.prepareStatement
-				("SELECT C.commentBody, C.dateTime, C.userID, U.name " +
+				("SELECT C.commentID, C.commentBody, C.dateTime, C.userID, U.name " +
 				"FROM comments AS C, users AS U, discussionpost AS P " +
 				"WHERE C.postID = " + postID + " " +
 					  "AND C.postID = P.postID " +
@@ -1106,15 +1106,31 @@ public class DatabaseManager
 			return result;
 	}
 	
+	
+	
 	public ResultSet getLocation(int id) throws SQLException
 	{
 		PreparedStatement statement = connection.prepareStatement
-				("SELECT L.city, L.state, L.country " +
+				("SELECT L.city, L.state, L.country, L.Latitude, L.Longitude " +
 				"FROM locations AS L " +
 				"WHERE L.locationID  = '" + id + "' ");
 			ResultSet result = statement.executeQuery();
 			
 			return result;
+	}
+	
+	public void addLocation(String city, String state,String country, double lat, double lng) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+				("INSERT INTO locations (city, country, state, Latitude, Longitude) " +
+						"VALUES (?, ?, ?, ?, ?)");
+				
+		statement.setString(1, city);
+		statement.setString(2, country);
+		statement.setString(3, state);
+		statement.setDouble(4, lat);
+		statement.setDouble(5, lng);
+		statement.executeUpdate();
 	}
 	
 	/**
@@ -2077,6 +2093,18 @@ public class DatabaseManager
 					"SET lastVisited = NOW() "+ 
 					"WHERE userID = "+userID+ " ");		
 			statement.executeUpdate();
+	}
+	
+	public ResultSet hasReview(int userID,int eventID) throws SQLException
+	{
+			PreparedStatement statement = connection.prepareStatement
+					("SELECT U.name " +
+					"FROM users AS U, reviews AS R "+ 
+					"WHERE R.userID = "+userID+" " +
+						  "AND R.eventID = "+eventID+" " +
+						  "AND U.userID = R.userID");		
+			ResultSet result = statement.executeQuery();
+			return result;
 	}
 	public void testQuery2(String user) throws SQLException
 	{

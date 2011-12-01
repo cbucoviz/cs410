@@ -13,6 +13,29 @@
 <link href="config/statistics.css" rel="stylesheet" type="text/css"/>
 <!-- END OF INCLUDES -->
 
+<script src="scripts/forwarder.js" type="text/javascript"></script>
+<script src="scripts/animatedcollapse.js" type="text/javascript"></script>
+<script src="scripts/eventPageTags.js" type="text/javascript"></script>
+<script src="scripts/eventStats.js" type="text/javascript"></script>
+<script src="scripts/showHideCom.js" type="text/javascript"></script>
+<script src="scripts/eventMap.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+		// hook in the abuse dialog
+		$("button[name=report_post_button]").click(function()
+			{
+				$('#report_abuse_form').dialog('open');
+			}
+		);
+		
+		$("button[name=report_event_button]").click(function()
+				{
+					$('#report_abuse_form').dialog('open');
+				}
+		);
+</script>
+
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%= WEBSITE_TITLE %></title>
@@ -237,7 +260,7 @@
 								<li class="selected"><a onmousedown="expandcontent('event_info_tab', this)">Event Information</a></li>
 								<li><a onmousedown="revealPosts(<%=request.getAttribute("eventID")%>, 'rating'); expandcontent('event_discs_tab', this)">Discussions</a></li> <!-- user 'style="display:none"' to hide tab -->
 								<li><a onmousedown="revealReviews(<%=request.getAttribute("eventID")%>, 'event_rating'); expandcontent('event_reviews_tab', this)">Reviews</a></li>
-								<li><a onmousedown="expandcontent('event_map_tab', this)">Map</a></li>
+								<li><a ondblclick="initializeEMap(); expandcontent('event_map_tab', this)">Map</a></li>
 								<li><a onmousedown="revealStats(<%=request.getAttribute("eventID")%>); expandcontent('event_stat_tab', this)">Statistics</a></li>
 							</ul>
 						</div>
@@ -289,18 +312,6 @@
 									<div class="event_info_content">
 										<p>
 											<%= request.getAttribute("transportDesc") %>
-										</p>	
-									</div>
-								</div>
-								<br>
-								<br>
-								<div id="event_aware_div" class="event_info_categories">
-									<div class="event_info_header">
-										<h4 style="margin-top: 5px;">Things to be Aware Of:</h4>
-									</div>
-									<div class="event_info_content">
-										<p>
-											<%= request.getAttribute("awareInfo") %>
 										</p>	
 									</div>
 								</div>
@@ -365,8 +376,8 @@
 							</div>
 							
 							<div id="event_map_tab" class="event_tab_page">
-								<div class="event_map">
-									Insert Google Map Here!!!
+								<div  locid='<%=request.getAttribute("locationID") %>' title='<%=request.getAttribute("title") %>'id="event_map">
+									
 								</div>
 								<div class="event_map_dir">
 									<h4><b>Directions to Event Location:</b></h4>
@@ -394,32 +405,6 @@
 <!--  include the report_abuse_dialog, we need to do it down here, this page loads too slow 
 and jquery can't hide it fast enough -->
 <%@ include file="report_abuse_dialog.jsp" %>
-
-<script src="scripts/forwarder.js" type="text/javascript"></script>
-<script src="scripts/animatedcollapse.js" type="text/javascript"></script>
-<script src="scripts/eventPageTags.js" type="text/javascript"></script>
-<script src="scripts/eventStats.js" type="text/javascript"></script>
-<script src="scripts/showHideCom.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-
-		// hook in the abuse dialog
-		$("button[name=report_post_button]").click(function()
-			{
-				$('#report_abuse_form').dialog('open');
-			}
-		);
-		
-		$("button[name=report_event_button]").click(function()
-				{
-					$('#report_abuse_form').dialog('open');
-				}
-		);
-</script>
-
-
-
-
 
 
 </body>

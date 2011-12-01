@@ -184,7 +184,7 @@ $(document).ready(function()
 										
 										out.println("<div class='scroll_item' class='event_item' popup='" + eventId + "'>");
 										
-										if (isEdited.equals("Is Edited"))
+										if (isEdited != null && isEdited.equals("Is Edited"))
 										{
 											out.println("<a href='EventPage?eventID=" + eventId + "'><font class='blink'>* </font>" + title + "</a>");
 										}

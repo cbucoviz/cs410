@@ -9,17 +9,23 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Models.Comment.CommentInfo;
 import Models.DiscussionPost;
+import Models.Security;
 import Models.DiscussionPost.PostInfo;
 import Models.DiscussionPost.SortPosts;
 import Models.Event;
 import Models.Review.ReviewInfo;
 import Models.Review.SortReviews;
+
+
+@WebServlet("/PostsComments")
 
 public class PostsComments extends HttpServlet {
 
@@ -63,6 +69,9 @@ public class PostsComments extends HttpServlet {
 		
 		String allPosts="";
 		
+		HttpSession session = request.getSession();
+		Boolean loggedIn = (Boolean)session.getAttribute(SessionVariables.LOGGED_IN);
+		
 		for(int i=0; i< posts.size(); i++)
 		{
 			String dateTime = posts.get(i).get(PostInfo.DATE_TIME);
@@ -92,11 +101,18 @@ public class PostsComments extends HttpServlet {
 				"<table>"+
 					"<tr>"+
 						"<td>"+
-							posts.get(i).get(PostInfo.USER_NAME)+
-						"</td>"+
-						"<td>"+
-							"(<a class='postLink' href='http://localhost/EventWebSite/subscribeToUser.jsp?sub="+posts.get(i).get(PostInfo.USER_NAME)+"&usid="+posts.get(i).get(PostInfo.USER_ID)+"'>Subscribe</a>)"+						
-						"</td>"+
+							"<b>"+posts.get(i).get(PostInfo.USER_NAME)+"</b>"+
+						"</td>";
+						
+						if(loggedIn != null && loggedIn == true)
+						{
+							finalPost=finalPost+
+							"<td>"+
+								"(<a class='postLink' href='http://localhost/EventWebSite/subscribeToUser.jsp?sub="+posts.get(i).get(PostInfo.USER_NAME)+"&usid="+posts.get(i).get(PostInfo.USER_ID)+"'>Subscribe</a>)"+						
+							"</td>";
+						}
+						
+						finalPost=finalPost+
 						"<td>"+
 							date +" at " + time +
 						"</td>"+
@@ -105,32 +121,81 @@ public class PostsComments extends HttpServlet {
 						"</td>"+
 						"<td>"+
 							"Like: "+posts.get(i).get(PostInfo.GOOD_RATING)+
-						"</td>"+
-						"<td>"+
-							"<button type='button' name='like_post_button' class='button1' value='like_post'>Like</button>"+
-						"</td>"+
+						"</td>";
+						
+						if(loggedIn != null && loggedIn == true)
+						{
+							finalPost=finalPost+
+							"<td>"+
+								"<button onclick=\"ratePost(" +
+										""+eventID+",'rating',"+posts.get(i).get(PostInfo.POST_ID)+",'post','up');\" "+
+								"type='button' name='like_post_button' class='button1' value='like_post'>Like</button>"+
+							"</td>";
+						}
+						finalPost=finalPost+
 						"<td>"+
 							"Dislike: "+posts.get(i).get(PostInfo.BAD_RATING)+
-						"</td>"+
-						"<td>"+
-							"<button type='button' name='dislike_post_button' class='button1' value='dislike_post'>Dislike</button>"+
-						"</td>"+
+						"</td>";
+							
+						if(loggedIn != null && loggedIn == true)
+						{
+							finalPost=finalPost+
+							"<td>"+
+								"<button onclick=\"ratePost(" +
+										""+eventID+",'rating',"+posts.get(i).get(PostInfo.POST_ID)+",'post','down');\" "+
+								"type='button' name='dislike_post_button' class='button1' value='dislike_post'>Dislike</button>"+
+							"</td>";
+						}
+						
+						finalPost=finalPost+
 						"<td>"+
 							"&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp"+
 						"</td>"+
 						"<td>"+
 							"<button type='button' name='report_post_button' class='button1' value='report_post'>Report</button>"+
-						"</td>"+
-					"</tr>"+
-				"</table>"+
+						"</td>";
+						
+						if(loggedIn != null && loggedIn == true && (Security.isAdmin((Integer) session.getAttribute(SessionVariables.USER_ID))
+																	|| Security.isModerator((Integer) session.getAttribute(SessionVariables.USER_ID))
+																	|| Security.isPostOwner((Integer) session.getAttribute(SessionVariables.USER_ID), postID)))
+						{
+							finalPost = finalPost+
+							"<td>"+
+								"<button onclick=\"deletePost("+eventID+","+postID+"," +
+								"'post','rating');\" " +
+								"type='button' name='delete_post_button' class='button1' value='delete_post'>Delete</button>"+
+							"</td>";
+						}
+							
+						finalPost = finalPost+	
+					"</tr>";
+					
+					
+			if(loggedIn != null && loggedIn == true)
+			{
+				Integer creatorID = (Integer) session.getAttribute(SessionVariables.USER_ID);
+				finalPost = finalPost +
+					"<tr  >"+
+					"<td colspan='5'>"+					
+					
+							"<div id='comment_box' style='float: right'>"+
+							"<button onclick=\"addComment("+eventID+","+postID+","+creatorID+",'rating');\" type='button' name='comment_post_button' class='button1' value='comment_post'>Comment Post</button>"+				
+							"<br/>"+
+							"<input id='comTextArea"+postID+"' wrap='soft' width='70px' style='border: 1px inset black;'></input>"+
+									
+							//	"<button onclick=\"addPost(" +
+							//	""+eventID+","+creatorID+",'rating');\" type='button' class='button1'>Post Discussion</button>"+
+							"</div> "+	"</td> </tr>";
+			}
+			finalPost = finalPost + "</table>"+				
+				
 				"<hr style='width: 100%; background-color: purple; size: 1px;'/>"+
 				"<p class='discs_post'>"+
 					posts.get(i).get(PostInfo.CONTENT)+
-				"</p>"+				
-				"<button type='button' name='comment_post_button' class='button1' value='comment_post' style='float: right'>Comment Post</button>"+
-				
-				"<br/>";				
-				
+				"</p>";					
+			
+			
+			
 			if(comments.size()!=0)
 			{
 				finalPost = finalPost+" " +
@@ -161,40 +226,54 @@ public class PostsComments extends HttpServlet {
 					"<div>"+
 					"<p class='post_comment'>"+
 						"<b>"+comments.get(j).get(CommentInfo.USER_NAME)+":</b>"+
-						" (" + dateC +" at " + timeC + ")"+
+						" (" + dateC +" at " + timeC + ")  " +
 					"</p>"+
-					"<p class='comment_content'>"+comments.get(j).get(CommentInfo.CONTENT)+"</p>"+
-					"</div>";
+					"<p class='comment_content'>"+comments.get(j).get(CommentInfo.CONTENT)+" ";
+					
+					if(loggedIn != null && loggedIn == true && (Security.isAdmin((Integer) session.getAttribute(SessionVariables.USER_ID))
+							|| Security.isModerator((Integer) session.getAttribute(SessionVariables.USER_ID))
+							|| Security.isCommentOwner((Integer) session.getAttribute(SessionVariables.USER_ID), Integer.parseInt(comments.get(j).get(CommentInfo.COMMENT_ID)))))
+					{
+						finalPost = finalPost+					
+						"<button onclick=\"deleteComment("+eventID+","+postID+"," +
+							""+comments.get(j).get(CommentInfo.COMMENT_ID)+",'comment','rating');\" " +
+									"type='button' name='delete_com_button' class='button1' value='delete_com' style='float: right'>Delete</button></p>";
+					
+					}				
+					finalPost = finalPost+ "</div>";
 				}	
 				finalPost = finalPost+"</div>";
 			}
 			
+			
+			
+			
+			
 			finalPost = finalPost +
+					
+					
+					
 			"</div>	</div>	<br/> <br/>";
 			allPosts = allPosts + finalPost;
 		}
 		
-		String areaForAddingReviews = 
-		"<hr style='width: 100%; background-color: black; size: 20px;'/>"+
 		
-		"<!-- Area for writing and posting discussion posts. -->"+
-		"<div id='post_discs_box'>"+
-			"<form action='Post_Discussion' method='POST'>"+
-				"<h3>Post Discussion:</h3>"+
-				"<textarea rows='5' cols='80' wrap='soft' style='border: 1px inset black;'></textarea>"+
-				"<br/>	<br/>"+
-				"<input type='submit' class='button1' value='Post' style='margin-left: 300px'/>"+
-			"</form></div>";
+		if(loggedIn != null && loggedIn == true)
+		{
+			Integer creatorID = (Integer) session.getAttribute(SessionVariables.USER_ID);
+			String areaForAddingPosts = 
 					
-					
-					
-					
-					
-					
-					
-					
+					"<div id='post_review_box'>"+
+							"<h3>Write Discussion Post:</h3>"+
+							"<textarea id='postTextArea' rows='5' cols='80' wrap='soft' style='border: 1px inset black;'></textarea>"+
+							"<br/>	<br/>"+	
+							"<button onclick=\"addPost(" +
+							""+eventID+","+creatorID+",'rating');\" type='button' class='button1'>Post Discussion</button>"+
+					"</div> ";
+			
+			allPosts = allPosts + areaForAddingPosts;
+		}
 		
-		allPosts = allPosts + areaForAddingReviews;
 		PrintWriter out = response.getWriter();
 		 out.print(allPosts);
 		 out.flush();

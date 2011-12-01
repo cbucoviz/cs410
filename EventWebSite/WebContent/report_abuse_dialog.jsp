@@ -3,23 +3,35 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <script type="text/javascript">
   $(function(){
-   $("#report_abuse_form").dialog({
+
+  	$("#report_abuse_form").dialog({
     autoOpen: false,
     height: 400,
     width: 500,
     modal: true,
-    buttons: {
-     'Report Abuse': function() {
-    	$("#ReportAbuseForm").submit();
-   		$(this).dialog('close');
-      
-     },
-     Cancel: function() {
-      $(this).dialog('close');
-     }
+    draggable: false,
+    resizable: false,
+    closeOnEscape: false,
+    open: function(event, ui) 
+    { 
+    	$(".ui-dialog-titlebar-close").hide(); 
     },
-    close: function() {
-     //ktam todo: remove stale values
+    buttons: 
+    {
+     	'Report Abuse': function() 
+     	{
+    		$("#ReportAbuseForm").submit();
+   			$(this).dialog('close');
+      
+		},
+    	Cancel: function() 
+    	{
+      		$(this).dialog('close');
+    	}
+    },
+    close: function() 
+    {
+    	allFields.val( "");
     }
    });
   });
@@ -32,6 +44,7 @@
  <div id="report_abuse_form" title="Report Abuse">
 
   <form action="ReportAbuse" id="ReportAbuseForm" method="POST">
+  <input type='hidden' name='id' value='<%= request.getAttribute("eventID") %>'/>
   <fieldset>
    <label for="comment">Provide a comment:</label>
    <textarea cols="50" rows="7" name="comment" id="comment"></textarea>

@@ -34,8 +34,8 @@ public class Main {
 			String[] testarr = new String[10];
 			testarr[0]= "Hockey";
 			testarr[1] = "Concert";
-			Search.filterEvents(1, null, testarr, null);
-			manager.filterEventsByCriteria(1, cal.getTime(), null,testarr );
+			Search.filterEvents(2, null, testarr, null);
+			manager.filterEventsByCriteria(2, cal.getTime(), "Radio",null );
 			manager.testQuery2("Vitali");
 		    manager.testQuery();
 			//Calendar c = Calendar.getInstance();

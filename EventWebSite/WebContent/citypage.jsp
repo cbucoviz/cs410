@@ -358,7 +358,7 @@ $(document).ready(function()
 										
 					</div>
 					
-					<div locid='<%=Integer.parseInt(request.getParameter("city")) %>' id="city_map">
+					<div locid='<%=Integer.parseInt(request.getParameter("city")) %>' id="city_map" style="color:#000000">
 						
 					</div>
 				</div>

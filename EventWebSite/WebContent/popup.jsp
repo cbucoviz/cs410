@@ -11,8 +11,6 @@
 
 		Map<Models.Event.EventInfo, String> event = Models.Event.getExistingEvent(Integer.parseInt(request.getParameter("eventId")));
 		
-		out.println("<b>Rating: </b><i>" + event.get(Models.Event.EventInfo.RATING) + "</i>");
-		out.println("<br>");
 		out.println("<b>Date: </b><i>" + event.get(Models.Event.EventInfo.EVENT_DATE) + "</i>");
 		out.println("<br>");
 		out.println("<b>Start Time: </b><i>" + event.get(Models.Event.EventInfo.START_TIME) + "</i>");

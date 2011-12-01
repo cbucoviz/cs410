@@ -10,14 +10,20 @@ import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Models.Event;
+import Models.Security;
+import Models.DiscussionPost.PostInfo;
 import Models.Review.ReviewInfo;
 import Models.Review.SortReviews;
 import Models.Search.EventInfoSearch;
+
+@WebServlet("/Reviews")
 
 public class Reviews  extends HttpServlet {
 
@@ -53,6 +59,9 @@ public class Reviews  extends HttpServlet {
 			reviews = Event.displayReviews(eventID, SortReviews.UPLOAD_TIME);
 		}
 		
+		HttpSession session = request.getSession();
+		Boolean loggedIn = (Boolean)session.getAttribute(SessionVariables.LOGGED_IN);
+		
 		String allReviews="";
 		for(int i=0; i< reviews.size(); i++)
 		{
@@ -79,24 +88,54 @@ public class Reviews  extends HttpServlet {
 									"<div class='review_post_header'> "+
 										"<table> <tr> <td> <b>Posted By:</b> </td>"+
 											"<td>"+
-												reviews.get(i).get(ReviewInfo.USER_NAME)+
-											"</td>"+
-											"<td>"+
-												"(<a class='reviewLink' href='http://localhost/EventWebSite/subscribeToUser.jsp?sub="+reviews.get(i).get(ReviewInfo.USER_NAME)+"&usid="+reviews.get(i).get(ReviewInfo.USER_ID)+"'>Subscribe</a>)"+ 
-											"</td>"+
+												"<b>"+reviews.get(i).get(ReviewInfo.USER_NAME)+"</b>"+
+											"</td>";
+											
+											if(loggedIn != null && loggedIn == true)
+											{
+												finalReview=finalReview+
+											
+												"<td>"+
+													"(<a class='reviewLink' href='http://localhost/EventWebSite/subscribeToUser.jsp?sub="+reviews.get(i).get(ReviewInfo.USER_NAME)+"&usid="+reviews.get(i).get(ReviewInfo.USER_ID)+"'>Subscribe</a>)"+ 
+												"</td>";
+											}
+											finalReview=finalReview+
 											"<td>"+
 												date +" at " + time +
-											"</td>"+
-											
-											"<td>"+
-												"<button type='button' name='like_rev_button' class='button1' value='like_like'>Useful</button>"+
-											"</td>"+
-											"<td>"+
-												"<button type='button' name='dislike_rev_button' class='button1' value='dislike_like'>Not Useful</button>"+
-											"</td>"+
-											"<td rowspan='2'>"+
+											"</td>";
+												
+											if(loggedIn != null && loggedIn == true)
+											{
+												finalReview=finalReview+
+												"<td>"+
+													"<button onclick=\"rateReview(" +
+														""+eventID+",'event_rating',"+reviews.get(i).get(ReviewInfo.REVIEW_ID)+",'review','up');\" "+												
+													"type='button' name='like_rev_button' class='button1' value='like_like'>Useful</button>"+
+												"</td>"+
+												"<td>"+
+													"<button onclick=\"rateReview(" +
+														""+eventID+",'event_rating',"+reviews.get(i).get(ReviewInfo.REVIEW_ID)+",'review','down');\" "+
+													"type='button' name='dislike_rev_button' class='button1' value='dislike_like'>Not Useful</button>"+
+												"</td>";
+											}
+											finalReview=finalReview+
+											"<td rowspan='1'>"+
 												"<b> RATING: </b>"+reviews.get(i).get(ReviewInfo.EVENT_RATING)+" "+
-											"</td>"+
+											"</td>";
+											
+											if(loggedIn != null && loggedIn == true && (Security.isAdmin((Integer) session.getAttribute(SessionVariables.USER_ID))
+																						|| Security.isModerator((Integer) session.getAttribute(SessionVariables.USER_ID))
+																						|| Security.isReviewOwner((Integer) session.getAttribute(SessionVariables.USER_ID), Integer.parseInt(reviews.get(i).get(ReviewInfo.REVIEW_ID)))))
+											{
+												finalReview = finalReview+
+											"<td>"+
+												"<button onclick=\"deleteReview("+eventID+","+reviews.get(i).get(ReviewInfo.REVIEW_ID)+"," +
+													"'review','event_rating');\" " +
+												"type='button' name='delete_review_button' class='button1' value='delete_review'>Delete</button>"+
+											"</td>";
+											}
+											
+									finalReview = finalReview+
 										"</tr> <tr> "+
 				
 										"<td colspan='4' style='text-align: center'>"+
@@ -114,17 +153,31 @@ public class Reviews  extends HttpServlet {
 		}
 		
 		
-		String areaForAddingReviews = 
-				"+<div id='post_review_box'>"+
-					"<form action='Post_Review' method='POST'>"+
-						"<h3>Write Reviews:</h3>"+
-						"<textarea rows='5' cols='80' wrap='soft' style='border: 1px inset black;'></textarea>"+
-						"<br/>	<br/>"+
-						"<input type='submit' class='button1' value='Post' style='margin-left: 300px'/>"+
-					"</form>"+
-				"</div> ";
-		
-		allReviews = allReviews + areaForAddingReviews;
+		if(loggedIn != null && loggedIn == true && !Security.hasReview((Integer) session.getAttribute(SessionVariables.USER_ID), eventID))
+		{
+			Integer creatorID = (Integer) session.getAttribute(SessionVariables.USER_ID);
+			String areaForAddingReviews = 
+										
+					"<div id='post_review_box'>"+
+							"<h3>Write Review:</h3>"+
+							
+							"<select id='event_rating_menu'>"+
+								"<option value='5'>Amazing (5 stars)</option>"+
+								"<option value='4'>Good (4 stars)</option>"+
+								"<option value='3'>Average (3 stars)</option>"+
+								"<option value='2'>Bad (2 stars)</option>"+
+								"<option value='1'>Awful (1 star)</option>"+
+							"</select> "+
+								
+							"<textarea id='reviewTextArea' rows='5' cols='80' wrap='soft' style='border: 1px inset black;'></textarea>"+
+							"<br/>	<br/>"+	
+							"<button onclick=\"addReview(" +
+							""+eventID+","+creatorID+",'event_rating');\" type='button' class='button1'>Post Review</button>"+
+					"</div> ";
+			
+			allReviews = allReviews + areaForAddingReviews;
+		}
+	
 		PrintWriter out = response.getWriter();
 		 out.print(allReviews);
 		 out.flush();

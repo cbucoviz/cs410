@@ -7,34 +7,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class ReportAbuse
- */
+import Models.Event;
+
 @WebServlet("/ReportAbuse")
 public class ReportAbuse extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ReportAbuse() {
+    public ReportAbuse() 
+    {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO ktam:  need to hook this up
-		System.out.println("Someone has reported abuse");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		Event.reportEventAbuse(Integer.parseInt(request.getParameter("id")), request.getParameter("comment"));
 	}
 
 }

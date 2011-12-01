@@ -83,14 +83,14 @@ public class Login extends HttpServlet
 		}
 		else
 		{
-			// this is a logout
 			DatabaseManager dbMan;
 			try {
 				HttpSession session = request.getSession();	
-				String userName = session.getAttribute(SessionVariables.USERNAME).toString();
+				Object userN = session.getAttribute(SessionVariables.USERNAME);
 				
-				if(UserUpdates.exists(userName))
+				if(userN != null && UserUpdates.exists(userN.toString()))
 				{	
+					String userName = userN.toString();
 					UserUpdates.removeFromSessions(
 							userName);
 					dbMan = DatabaseManager.getInstance();				

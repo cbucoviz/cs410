@@ -5,12 +5,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.google.gson.JsonObject;
+
 import Database.DatabaseManager;
 import Models.Event.EventInfo;
 
 
 public class Location 
 {
+	
+	private static final String LOCATION = "city";
+	private static final String LATITUDE = "Latitude";
+	private static final String LONGITUDE = "Longitude";
+	private static final String ID = "locationID";
+	private static final String TITLE = "title";
+	private static final String EVENTID = "eventID";
 	
 	public static LocationAddress getLocationAddress(int id)
 	{
@@ -119,6 +128,51 @@ public class Location
 		}
 		
 		return false;
+	}
+	
+	public static JsonObject addLocation(LocationAddress addr, double latitude, double longitude)
+	{
+		DatabaseManager dbManager;
+		JsonObject jObj = null;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			ResultSet rSet = dbManager.getLocationID(addr.city, addr.state, addr.country);
+			if(rSet.next())
+			{
+				ResultSet lSet = dbManager.getLocation(rSet.getInt("L.locationID"));
+				if(lSet.next())
+				{
+			        jObj = 	Models.Search.createLocJson(lSet.getString(LOCATION),
+			        						lSet.getDouble(LATITUDE),
+			        						lSet.getDouble(LONGITUDE),
+			        						rSet.getInt("L.locationID")
+			        );
+				}
+			}
+			else
+			{
+				 dbManager.addLocation(addr.city, addr.state, addr.country, latitude, longitude);
+				 ResultSet newSet = dbManager.getLocationID(addr.city, addr.state, addr.country);
+					if(newSet.next())
+					{
+						ResultSet lSet = dbManager.getLocation(newSet.getInt("locationID"));
+						if(lSet.next())
+						{
+					        jObj = 	Models.Search.createLocJson(lSet.getString(LOCATION),
+					        						lSet.getDouble(LATITUDE),
+					        						lSet.getDouble(LONGITUDE),
+					        						newSet.getInt("locationID")
+					        );
+						}
+					}
+				 
+			}
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		}
+		return jObj;
 	}
 }
 

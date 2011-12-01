@@ -161,7 +161,7 @@ public class Search {
 	 * @param id - id 
 	 * @return JsonObject with the name, latitude and longitude
 	 */
-	private JsonObject createLocJson(String name, double latitude, double longitude, int id)
+	public static JsonObject createLocJson(String name, double latitude, double longitude, int id)
 	{
 		JsonObject json = new JsonObject();
 		json.addProperty("name", name);
@@ -170,6 +170,7 @@ public class Search {
 		json.addProperty("id", id);
 		return json;
 	}
+	
 	
 	
 	/**
