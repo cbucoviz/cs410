@@ -151,7 +151,7 @@ function move(id,spd){
 										
 										out.println("<div class='scroll_item'>");
 										
-										if (isEdited.equals("Is Edited"))
+										if (isEdited != null && isEdited.equals("Is Edited"))
 										{
 											out.println("<a href='EventPage?eventID=" + eventId + "'><font class='blink'>* </font>" + title + "</a>");
 										}
