@@ -30,6 +30,39 @@ function move(id,spd){
  }
 }
 
+
+$(document).ready(function()
+		{
+			// any <div> with the popup attribute will have a qtip associated with it
+			$('div[popup]').each(function() 
+			{
+				$(this).qtip(
+				{
+					 content: {
+					      url: "popup.jsp?eventId=" + $(this).attr('popup')
+					 },
+					 position: {
+					     corner: {
+					          target: 'rightTop',
+					          tooltip: 'topLeft'    
+					     }
+					 },
+					 hide: {
+					      when: 'mouseout',
+					      fixed: true,
+					      delay: 100,
+					      effect: {
+					    		type: 'fade',
+					    		length: 700
+					      }
+					 },
+					 style: {
+						 name: 'green',
+						 tip: 'leftTop'
+					 }
+				});
+			});
+		});
 </script>
 
 </head>
@@ -92,7 +125,7 @@ function move(id,spd){
 												title = title.substring(0, ITEM_TEXT_SIZE);
 											}
 											
-											out.println("<div class='scroll_item'>");
+											out.println("<div class='scroll_item' class='event_item' popup='" + eventId + "'>");
 											
 											if (isEdited.equals("Is Edited"))
 											{
@@ -149,7 +182,7 @@ function move(id,spd){
 											title = title.substring(0, ITEM_TEXT_SIZE);
 										}
 										
-										out.println("<div class='scroll_item'>");
+										out.println("<div class='scroll_item' class='event_item' popup='" + eventId + "'>");
 										
 										if (isEdited.equals("Is Edited"))
 										{
