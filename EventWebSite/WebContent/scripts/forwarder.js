@@ -12,6 +12,9 @@ $(document).ready(function()
 		// destroy all open qtips
 		$('div.qtip:visible').qtip('hide');
 		
+		// destroy any dialogs
+  		$("#report_abuse_form").dialog('destroy').remove()
+		
 		// stop them from proceeding normally
 		event.preventDefault();
 	}
@@ -56,6 +59,11 @@ $(document).ready(function()
 				geSearch(eventKeyword, city, state, country, startDate, endDate);
 				
 			}
+		}
+		else if(form.attr("id") == "ReportAbuseForm")
+		{
+			var data = form.serialize();
+			$.post(form.attr("action"), data);
 		}
 		else
 		{
