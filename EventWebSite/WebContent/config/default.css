@@ -388,7 +388,7 @@ div.review_post_header
 	font-size: 13px;
 }
 
-div.event_map
+div#event_map
 {
 	height: 400px;
 	width: 500px;
