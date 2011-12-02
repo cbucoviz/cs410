@@ -2,6 +2,7 @@ package Servlets;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -71,16 +72,28 @@ public class EditEvent extends HttpServlet {
 		String otherDesc = request.getParameter("other_description");
 		String videos = request.getParameter("video_links");
 		String links = request.getParameter("other_links");
+
+		String cultural = request.getParameter("cultural_type");
+		String education = request.getParameter("education_type");
+		String music = request.getParameter("music_type");
+		String sports = request.getParameter("sports_type");
+		String other = request.getParameter("other_type");
+		ArrayList<String> types = new ArrayList<String>();
 		
-		// TODO ktam:  need to hook this up to a dropdown
-		String[] types = {"Sports"};
+		if(cultural != null) { types.add(cultural); }
+		if(education != null) { types.add(education); }
+		if(music != null) { types.add(music); }
+		if(sports != null) { types.add(sports); }
+		if(other != null) { types.add(other); }
+		
+		String[] formedTypes = types.toArray(new String[0]);
 		
 		HttpSession session = request.getSession();
 		Integer userID = (Integer) session.getAttribute(SessionVariables.USER_ID);
 		
 		if(eventId == null)
 		{
-			eventId = Event.createNewEvent(title, userID, locationId, latitude, longitude, address, venue, startTime, endTime, types);	
+			eventId = Event.createNewEvent(title, userID, locationId, latitude, longitude, address, venue, startTime, endTime, formedTypes);	
 			Event.setContent(eventId, eventDesc, venueDesc, costDesc, directions, awareness, videos, links, otherDesc);		
 		}
 		else
