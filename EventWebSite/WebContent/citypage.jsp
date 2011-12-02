@@ -184,22 +184,8 @@ $(document).ready(function()
 							
 							<div class="event_list">
 								<%@ page import="java.util.*" %>
-								<ul>
-								<%ArrayList<Map<Models.Event.EventInfo, String>> events = Models.Location.getEventsAtLocation(Integer.parseInt(request.getParameter("city")));
-									for(int i = 0; i < events.size(); ++i)
-									{
-										Map<Models.Event.EventInfo, String> event = events.get(i);
-										int eventId = Integer.parseInt(event.get(Models.Event.EventInfo.EVENT_ID));
-										String title = event.get(Models.Event.EventInfo.TITLE);
-										
-										if(title.length() > ITEM_TEXT_SIZE)
-										{
-											title = title.substring(0, ITEM_TEXT_SIZE);
-										}
-										
-										out.println("<li class='event_item' popup='" + eventId + "'><a href='EventPage?eventID=" + eventId + "'>" + title + "</a></li>");
-									}
-								%>
+								<ul id="cultural_event_list">
+								
 								</ul>
 							</div>
 							

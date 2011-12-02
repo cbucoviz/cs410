@@ -34,11 +34,12 @@ public class FilterSearch extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		
+		System.out.println("blah");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		System.out.println("hello");
 		int locId = Integer.parseInt(request.getParameter("search_locId"));
 		String keyword = request.getParameter("search_keyword");
 		String dateString = request.getParameter("search_date");
