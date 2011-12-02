@@ -71,7 +71,15 @@
 						</button>
 						<% } %>
 <br>
-						<i><b>Category: <font class="sports">Sports</font></b></i>
+						<i><b>Category: 
+						<%
+							String[] types = (String[])request.getAttribute("types");
+							for(int i = 0; i < types.length; ++i)
+							{
+								out.println("<br/>" + types[i]);
+							}
+						%>
+						</b></i>
 						<br>
 						<br>
 					</td>
