@@ -1,10 +1,24 @@
 <html> 
 <head>    
     <title>Event Search</title>    
+    <script src="scripts/forwarder.js" type="text/javascript"></script>
 </head> 
 <body>
 
-	<button class="button1" name="attend_button" value="attend_event" style="float: right">Attend</button>
+    <% if(session.getAttribute(Servlets.SessionVariables.LOGGED_IN) != null && (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN)) { %>					
+						<button type="button" name="attend_button" class="button1" value="attend_event" style="float: right" attend="<%= request.getParameter("eventId") %>">
+						<%
+							if(Models.Event.isAttending(Integer.parseInt(request.getParameter("eventId")), (Integer) session.getAttribute(Servlets.SessionVariables.USER_ID)))
+							{
+								out.println("Unattend this Event");
+							}
+							else
+							{
+								out.println("Attend this Event");
+							}
+						%>
+						</button>
+    <% } %>
     <%@ page import="java.util.*" %>
     
 	<%

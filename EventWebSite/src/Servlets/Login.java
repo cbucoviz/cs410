@@ -94,21 +94,18 @@ public class Login extends HttpServlet
 					UserUpdates.removeFromSessions(
 							userName);
 					dbMan = DatabaseManager.getInstance();				
-					dbMan.logoff(Integer.parseInt(session.getAttribute(SessionVariables.USER_ID).toString()));
-									
-					session.invalidate();				
+					dbMan.logoff(Integer.parseInt(session.getAttribute(SessionVariables.USER_ID).toString()));					
 				}
+			} 
+			catch (Exception e) 
+			{		
+				e.printStackTrace();
+			} 
+			finally
+			{
+				HttpSession session = request.getSession();	
+				session.invalidate();
 				response.sendRedirect("index.jsp");
-				
-			} catch (NumberFormatException e) {
-					
-				e.printStackTrace();
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 			
