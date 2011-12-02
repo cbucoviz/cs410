@@ -142,6 +142,8 @@ $(document).ready(function()
 </head>
 <body>
 
+<% int ITEM_TEXT_SIZE = 25;%>
+
 <div class="city_page_background">
 	<table class="city_event_table">
 		<tr>
@@ -190,6 +192,11 @@ $(document).ready(function()
 										int eventId = Integer.parseInt(event.get(Models.Event.EventInfo.EVENT_ID));
 										String title = event.get(Models.Event.EventInfo.TITLE);
 										
+										if(title.length() > ITEM_TEXT_SIZE)
+										{
+											title = title.substring(0, ITEM_TEXT_SIZE);
+										}
+										
 										out.println("<li class='event_item' popup='" + eventId + "'><a href='EventPage?eventID=" + eventId + "'>" + title + "</a></li>");
 									}
 								%>
@@ -232,10 +239,11 @@ $(document).ready(function()
 					</div>
 					
 					<div id="city_filter_tab" class="city_tab_page">
-						<form action="Search" method="POST">
+						<form action="FilterSearch" id="filter_search_form" method="POST">
+							<input type="hidden" name="search_locId" id="search_locId" value="<%= request.getParameter("city") %>"/>
 							<h3>Search For Events</h3>
 							<h5>Enter a Keyword or Phrase:</h5>
-							<input id="filter_search_input" type="text" name="keywords" size="55"/>
+							<input id="search_keyword" type="text" name="search_keyword" size="55"/>
 							<br>
 							<br>
 							<hr style="margin-left:30px">
@@ -244,8 +252,7 @@ $(document).ready(function()
 								<tr>
 									<td>
 										<font size="2"><b>Date:</b></font>
-										<input name="search_date" id="search_date" type="text" size="10" maxlength="10" value="" style="margin-top:-10px"/>(dd/mm/yyyy)
-
+										<input type="text" name="search_date" id="search_date" size="10" maxlength="10" style="margin-top:-10px"/>(dd/mm/yyyy)
 									</td>
 								</tr>
 								<tr>
@@ -259,15 +266,15 @@ $(document).ready(function()
 								<tr>
 									<td>
 									<!-- Add more categories here in this cell if needed -->
-										<input type="checkbox" name="event_categories" value="cultural"/><font size="1">Cultural</font>
+										<input type="checkbox" name="event_category" id="cul_chkbx" value="cultural"/><font size="1">Cultural</font>
 										<br>
-										<input type="checkbox" name="event_categories" value="education"/><font size="1">Education</font>
+										<input type="checkbox" name="event_category" id="ed_chkbx" value="education"/><font size="1">Education</font>
 										<br>
-										<input type="checkbox" name="event_categories" value="music"/><font size="1">Music</font>
+										<input type="checkbox" name="event_category" id="music_chkbx" value="music"/><font size="1">Music</font>
 										<br>
-										<input type="checkbox" name="event_categories" value="sports"/><font size="1">Sports</font>
+										<input type="checkbox" name="event_category" id="sports_chkbx" value="sports"/><font size="1">Sports</font>
 										<br>
-										<input type="checkbox" name="event_categories" value="others"/><font size="1">Others</font>
+										<input type="checkbox" name="event_category" id="others_chkbx" value="others"/><font size="1">Others</font>
 										<br>
 										<br>
 									</td>
@@ -291,6 +298,11 @@ $(document).ready(function()
 								int eventId = Integer.parseInt(event.get(Models.Search.EventInfoSearch.EVENT_ID));
 								String title = event.get(Models.Search.EventInfoSearch.TITLE);
 								
+								if(title.length() > ITEM_TEXT_SIZE)
+								{
+									title = title.substring(0, ITEM_TEXT_SIZE);
+								}
+								
 								out.println("<li class='event_item' popup='" + eventId + "'><a href='EventPage?eventID=" + eventId + "'>" + title + "</a></li>");
 							}
 						
@@ -307,6 +319,11 @@ $(document).ready(function()
 								Map<Models.Search.UserInfoSearch,String> user = topUsers.get(i);
 								int userId = Integer.parseInt(user.get(Models.Search.UserInfoSearch.USER_ID));
 								String name = user.get(Models.Search.UserInfoSearch.NAME);
+								
+								if(name.length() > ITEM_TEXT_SIZE)
+								{
+									name = name.substring(0, ITEM_TEXT_SIZE);
+								}
 								
 								//out.println("<li class='event_item' popup='" + eventId + "'><a href='EventPage?eventID=" + eventId + "'>" + title + "</a></li>");
 								out.println("<li class='event_item'><a href='#'>" + name + "</a></li>");

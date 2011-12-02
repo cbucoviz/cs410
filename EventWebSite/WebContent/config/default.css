@@ -229,7 +229,7 @@ div.event_popup
 
 div.city_tab_page
 {
-	width: 400px;
+	height: 400px;
 	height: 470px;
 	background-color: #CDDADA;
 	border: 3px groove black;
@@ -563,11 +563,25 @@ table.scroll_list_btns
 #city_filter_tab
 {
 	display: none;
+	height: 430px;
+}
+
+#city_top_events_tab
+{
+	display: none;
+	height: 430px;
+}
+
+#city_top_users_tab
+{
+	display: none;
+	height: 430px;
 }
 
 #city_others_tab
 {
 	display: none;
+	height: 430px;
 }
 
 #city_tab_td
