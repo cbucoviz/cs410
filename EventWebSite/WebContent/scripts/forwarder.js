@@ -69,6 +69,28 @@ $(document).ready(function()
 			// this function will do the posting to the form
 			codeAddressForEventCreation(form);	
 		}
+		else if(form.attr("id") == "filter_search_form")
+		{
+		   // get the values they used in the filter page, look up a couple lines in the forwarder.js, I have example of me doing it
+			var keyword = form.find("input[name='search_keyword']").val();
+			var city = form.find("input[name='search_locId']").val();
+			var date = form.find("input[name='search_date']").val();
+			var types = form.find("input[name='event_category']").val();
+
+		  // setup the parameters, map the values with the keywords the servlet is expecting
+		   var params = {"search_keyword" : keyword, "search_date" : date, "search_locId" : city, "event_category" : types};
+		   alert(params.search_keyword);
+
+		  $.getJSON('FilterSearch', params, function(data)   {
+			  $.each(data, function(key, val)      
+					  {      // show a popup containing each title's event       
+				  			alert(val.title);
+				  			$("#cultural_event_list").add("<li class='event_item' popup='" + val.eventId + "'><a href='EventPage?eventID=" + val.eventId + "'>" + val.title + "</a></li>");
+				  			
+				  		
+					  })
+					  }   );
+		}
 		else
 		{
 			// get the original target and redirect them via the main content window

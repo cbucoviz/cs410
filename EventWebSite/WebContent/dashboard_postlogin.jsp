@@ -1,3 +1,4 @@
+<%@page import="Models.Search"%>
 <%@page import="Models.Security"%>
 <html>
 <head>
@@ -79,9 +80,11 @@ $(document).ready(function()
 			
 			<div id="dashboard_main">
 				<b><i><h1 id="username_header"></h1></i></b>
-				<a id="create_event_btn" class="button1" href="editevent.jsp">Create an Event</a><br/>
+				
 				<a id="view_profile_btn" class="button1" href="profilepage.jsp">View Profile</a>
-				<a id="view_calendar_btn" class="button1" href="calendar.jsp">View Calendar</a><br/><br/>
+				<a id="view_calendar_btn" class="button1" href="calendar.jsp">View Calendar</a>
+				<br/><br/>
+				
 				<% 
 					Boolean loggedIn = (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN);
 					if(loggedIn != null && loggedIn == true)
@@ -103,6 +106,7 @@ $(document).ready(function()
 				
 					<div class="profile_header">
 						<font size="3">My Events</font>
+						<a id="create_event_btn" class="button1" href="editevent.jsp" style="float: right;">Create Event</a>
 					</div>
 					
 					<div class="dashboard_scroll_list">
@@ -236,6 +240,7 @@ $(document).ready(function()
 										Map<Models.Search.UserInfoSearch,String> user = subsUsers.get(i);
 										String name = user.get(Models.Search.UserInfoSearch.NAME);
 										int numNewEvents = 0;
+										int creatorId = Integer.parseInt(user.get(Models.Search.UserInfoSearch.USER_ID));
 										String temp = user.get(Models.Search.UserInfoSearch.NUM_NEW_EVENTS);
 										numNewEvents = Integer.parseInt(temp);
 										/*if (temp != null)
@@ -252,11 +257,12 @@ $(document).ready(function()
 										
 										if (numNewEvents > 0)
 										{
-											out.println("<a href='#'><font class='blink'>* </font><font color='yellow'>(" + numNewEvents + ") </font>" + name + "</a>");
+											out.println("<a href='#'><font class='blink'>* </font><font color='yellow'>(" + numNewEvents + ") </font>" + name + "<button type='button' class='button1' style='float: right;' subscribe='user' subscribeId='" + creatorId + "'>Unsubscribe</button></a>");
+										
 										}
 										else
 										{
-											out.println("<a href='#'>" + name + "</a>");
+											out.println("<a href='#'>" + name + "<button type='button' class='button1' style='float: right;' subscribe='user' subscribeId='" + creatorId + "'>Unsubscribe</button></a>");
 										}
 										
 										
@@ -312,11 +318,11 @@ $(document).ready(function()
 										
 										if (numNewEvents > 0)
 										{
-											out.println("<a href='citypage.jsp?city=" + locId + "'><font class='blink'>*</font><font color='yellow'>(" + numNewEvents +")</font> "+ city + "</a>");
+											out.println("<a href='citypage.jsp?city=" + locId + "'><font class='blink'>*</font><font color='yellow'>(" + numNewEvents +")</font> "+ city + "<button type='button' class='button1' style='float: right;' subscribe='locale' subscribeId='" + locId + "'>Unsubscribe</button></a>");
 										}
 										else
 										{
-											out.println("<a href='citypage.jsp?city=" + locId + "'>" + city + "</a>");
+											out.println("<a href='citypage.jsp?city=" + locId + "'>" + city + "<button type='button' class='button1' style='float: right;' subscribe='locale' subscribeId='" + locId + "'>Unsubscribe</button></a>");
 										}
 										
 										out.println("</div>");
