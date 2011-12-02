@@ -7,6 +7,7 @@ function revealStats(id) {
 function revealReviews(id, sortType) {    
 	$.post("Reviews", {eventID:id, sort:sortType}, function(data) {	    	
 	    	$("#event_reviews_tab").html(data);			
+	    	registerForwarderListeners();
 		});	
 }
 
@@ -14,6 +15,7 @@ function revealPosts(id, sortType) {
 	$.post("PostsComments", {eventID:id, sort:sortType}, function(data) {	    	
 	    	$("#event_discs_tab").html(data);	
 	    	$(".comments").hide();
+	    	registerForwarderListeners();
 		});	
 }
 

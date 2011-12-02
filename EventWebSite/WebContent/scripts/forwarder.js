@@ -1,7 +1,8 @@
-$(document).ready(function()
+$(document).ready(registerForwarderListeners);
+
+function registerForwarderListeners()
 {
 	// handler for links
-
 	function linkHandler(event)
 	{
 		// get the original target and redirect them via the main content window
@@ -204,4 +205,4 @@ $(document).ready(function()
 		
 	});
 
-});
+}

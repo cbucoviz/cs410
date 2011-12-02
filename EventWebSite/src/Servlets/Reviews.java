@@ -93,10 +93,16 @@ public class Reviews  extends HttpServlet {
 											
 											if(loggedIn != null && loggedIn == true)
 											{
+												String subscribedString = "Subscribe to User";
+												if(Models.User.isSubscribed((Integer) session.getAttribute(Servlets.SessionVariables.USER_ID), Integer.parseInt(reviews.get(i).get(ReviewInfo.USER_ID))))
+												{
+													subscribedString = "Unubscribe from User";
+												}
 												finalReview=finalReview+
-											
-												"<td>"+
-													"(<a class='reviewLink' href='http://localhost/EventWebSite/subscribeToUser.jsp?sub="+reviews.get(i).get(ReviewInfo.USER_NAME)+"&usid="+reviews.get(i).get(ReviewInfo.USER_ID)+"'>Subscribe</a>)"+ 
+												"<td>" +
+												"<button type='button' name='subs_event_button' class='button1' value='subscribe_event' subscribe='user' subscribeId='" + reviews.get(i).get(ReviewInfo.USER_ID) + "'>" +
+												subscribedString +
+												"</button>" + 						
 												"</td>";
 											}
 											finalReview=finalReview+
