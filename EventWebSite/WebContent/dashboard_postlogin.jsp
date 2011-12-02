@@ -46,6 +46,7 @@ function move(id,spd){
 			
 			<div id="dashboard_main">
 				<b><i><h1 id="username_header"></h1></i></b>
+				<a id="create_event_btn" class="button1" href="editevent.jsp">Create an Event</a><br/>
 				<a id="view_profile_btn" class="button1" href="profilepage.jsp">View Profile</a>
 				<a id="view_calendar_btn" class="button1" href="calendar.jsp">View Calendar</a><br/><br/>
 				<% 

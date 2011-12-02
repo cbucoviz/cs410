@@ -158,12 +158,12 @@ public class Event
 	    return event;
 	}
 	
-	public static int createNewEvent(String title, int creatorID, int locationID, 
+	public static int createNewEvent(String title, int creatorID, int locationID, float latitude, float longitude,
 			 String address, String venue, Date startDateTime, 
 			 Date endTime, String[] types)  
 	{  	   
 		   try {			   
-			  return createEvent(title,creatorID,locationID, 
+			  return createEvent(title,creatorID,locationID, latitude, longitude,
 							 address, venue, startDateTime, 
 							 endTime, types);			  
 			 
@@ -175,7 +175,7 @@ public class Event
 		   return 0;
 	}
 	
-	private static int createEvent(String title, int creatorID, int locationID, 
+	private static int createEvent(String title, int creatorID, int locationID, float latitude, float longitude,
 			 String address, String venue, Date startDateTime, 
 			 Date endTime, String[] types) throws SQLException, ClassNotFoundException 
 	{		
@@ -187,7 +187,7 @@ public class Event
 	        String startTimeForSQL =  dateFormatGmt.format(startDateTime);
 	        String endTimeForSQL =  dateFormatGmt.format(endTime);
 				        	        
-			int eventID = dbMan.newEvent(title, creatorID, locationID, address, venue,
+			int eventID = dbMan.newEvent(title, creatorID, locationID, latitude, longitude, address, venue,
 					startDateForSQL,startTimeForSQL, endTimeForSQL, types);
 			
 			

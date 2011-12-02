@@ -56,14 +56,18 @@ $(document).ready(function()
 			else
 			{
 				// we're on google earth, let the search happen
-				geSearch(eventKeyword, city, state, country, startDate, endDate);
-				
+				geSearch(eventKeyword, city, state, country, startDate, endDate);	
 			}
 		}
 		else if(form.attr("id") == "ReportAbuseForm")
 		{
 			var data = form.serialize();
 			$.post(form.attr("action"), data);
+		}
+		else if(form.attr("id") == "EditEventForm")
+		{
+			// this function will do the posting to the form
+			codeAddressForEventCreation(form);	
 		}
 		else
 		{

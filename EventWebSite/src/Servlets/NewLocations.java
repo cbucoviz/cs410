@@ -41,7 +41,7 @@ public class NewLocations extends HttpServlet {
 			double lng =  Double.parseDouble(request.getParameter("newLong"));
 			result = Models.Location.addLocation(locAddr, lat, lng);
 			PrintWriter out = response.getWriter();
-			out.write(result.getAsString());
+			out.write(result.toString());
 		}
 		catch(Exception ex)
 		{

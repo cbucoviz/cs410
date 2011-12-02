@@ -8,6 +8,7 @@
 <!-- BEGINNING OF INCLUDES  -->
 <%@ page import="Servlets.SessionVariables" %>
 <%@ include file="config/constants.jsp" %>
+<%@ include file="geocoder.jsp" %>
 <link href="config/default.css" rel="stylesheet" type="text/css" />
 <link href="config/jquery-ui.css" rel="stylesheet" type="text/css" />
 <link href="config/ticker.css" rel="stylesheet" type="text/css" />

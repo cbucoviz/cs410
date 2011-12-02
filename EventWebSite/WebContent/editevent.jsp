@@ -63,7 +63,7 @@
 		%>
 		
 		<div id="ed_event_content_div" align="center">
-			<form action="EditEvent" method="POST">
+			<form action="EditEvent" id="EditEventForm" method="POST">
 				
 				<% if (request.getParameter("eventId") != null) {%>
 					<input type='hidden' name='eventId' value='<%=request.getParameter("eventId")%>'/>
