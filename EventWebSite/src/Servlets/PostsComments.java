@@ -106,9 +106,16 @@ public class PostsComments extends HttpServlet {
 						
 						if(loggedIn != null && loggedIn == true)
 						{
+							String subscribedString = "Subscribe to User";
+							if(Models.User.isSubscribed((Integer) session.getAttribute(Servlets.SessionVariables.USER_ID), Integer.parseInt(posts.get(i).get(PostInfo.USER_ID))))
+							{
+								subscribedString = "Unubscribe from User";
+							}
 							finalPost=finalPost+
-							"<td>"+
-								"(<a class='postLink' href='http://localhost/EventWebSite/subscribeToUser.jsp?sub="+posts.get(i).get(PostInfo.USER_NAME)+"&usid="+posts.get(i).get(PostInfo.USER_ID)+"'>Subscribe</a>)"+						
+							"<td>" +
+							"<button type='button' name='subs_event_button' class='button1' value='subscribe_event' subscribe='user' subscribeId='" + posts.get(i).get(PostInfo.USER_ID) + "'>" +
+							subscribedString +
+							"</button>" + 						
 							"</td>";
 						}
 						
@@ -152,7 +159,7 @@ public class PostsComments extends HttpServlet {
 							"&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp"+
 						"</td>"+
 						"<td>"+
-							"<button type='button' name='report_post_button' class='button1' value='report_post'>Report</button>"+
+							"<button type='button' name='report_event_button' class='button1' value='report_event'>Report This Event</button>"+
 						"</td>";
 						
 						if(loggedIn != null && loggedIn == true && (Security.isAdmin((Integer) session.getAttribute(SessionVariables.USER_ID))

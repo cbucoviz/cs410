@@ -92,20 +92,6 @@
 					</tr>
 					<tr>
 						<td align="right">
-							<font color="red">*</font> Category: 
-						</td>
-						<td>
-							<select name="event_category">
-								<option value="Cultural">Cultural</option>
-								<option value="Education">Education</option>
-								<option value="Music">Music</option>
-								<option value="Sports">Sports</option>
-								<option value="Others">Others</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td align="right">
 							<font color="red">*</font> City: 
 						</td>
 						<td>
@@ -342,6 +328,56 @@
 									out.println("<option value='pm' " + pmSelected + ">PM</option>");
 							%>
 							</select>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">
+							<font color="red">*</font> Category: 
+						</td>
+						<td>
+						<%	
+							String cultureVal = "Cultural";
+							String educationVal = "Educational";
+							String musicVal = "Music";
+							String sportsVal = "Sports";
+							String otherVal = "Others";
+							
+							String cultureSuffix = "";
+							String educationSuffix = "";
+							String musicSuffix = "";
+							String sportsSuffix = "";
+							String otherSuffix = "";
+							
+							cultureSuffix += "value='" + cultureVal + "' ";
+							educationSuffix += "value='" + educationVal + "' ";
+							musicSuffix += "value='" + musicVal + "' ";
+							sportsSuffix += "value='" + sportsVal + "' ";
+							otherSuffix += "value='" + otherVal + "' ";
+							
+							
+							if (request.getParameter("eventId") != null) 
+							{
+								String typeString = event.get(Models.Event.EventInfo.EVENT_TYPES);
+								
+								if(typeString.contains(cultureVal)) 	{ cultureSuffix += "checked "; }
+								if(typeString.contains(educationVal))	{ educationSuffix += "checked "; }
+								if(typeString.contains(musicVal))	{ musicSuffix += "checked "; }
+								if(typeString.contains(sportsVal))	{ sportsSuffix += "checked "; }
+								if(typeString.contains(otherVal))	{ otherSuffix += "checked "; }
+
+								cultureSuffix += " disabled ";
+								educationSuffix += " disabled ";
+								musicSuffix += " disabled ";
+								sportsSuffix += " disabled ";
+								otherSuffix += " disabled ";
+							}
+						%>
+							<input type="checkbox" name="cultural_type" <%=cultureSuffix%>/><font size="1">Cultural</font>
+							<input type="checkbox" name="education_type" <%=educationSuffix%>/><font size="1">Education</font>
+							<input type="checkbox" name="music_type" <%=musicSuffix%>/><font size="1">Music</font>
+							<br>
+							<input type="checkbox" name="sports_type" <%=sportsSuffix%>/><font size="1">Sports</font>
+							<input type="checkbox" name="other_type" <%=otherSuffix%>/><font size="1">Others</font>
 						</td>
 					</tr>
 					<tr>
