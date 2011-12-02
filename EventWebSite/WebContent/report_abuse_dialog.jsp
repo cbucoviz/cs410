@@ -20,8 +20,17 @@
     {
      	'Report Abuse': function() 
      	{
-    		$("#ReportAbuseForm").submit();
-   			$(this).dialog('close');
+     		// get the type of abuse and associated id
+     		var button = $(this).data('button');
+			var type = button.attr("abuseType");
+			var id = button.attr("abuseId");
+			
+			var form = $("#ReportAbuseForm");
+			var comment = form.serialize();
+			var data = comment + "&abuseType=" + type + "&abuseId=" + id;
+
+			$.post(form.attr("action"), data);
+     		$(this).dialog('close');
       
 		},
     	Cancel: function() 
@@ -44,7 +53,6 @@
  <div id="report_abuse_form" title="Report Abuse">
 
   <form action="ReportAbuse" id="ReportAbuseForm" method="POST">
-  <input type='hidden' name='id' value='<%= request.getAttribute("eventID") %>'/>
   <fieldset>
    <label for="comment">Provide a comment:</label>
    <textarea cols="50" rows="7" name="comment" id="comment"></textarea>

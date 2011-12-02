@@ -587,12 +587,8 @@ public class Event
 			String modEmail = "";
 			int eventID = 0;
 			
-			sqlInfo.last();
-			int numOfRows = sqlInfo.getRow();
-			int random = new Random().nextInt(numOfRows);
-			random++;
-			sqlInfo.absolute(random);
-			
+			while(sqlInfo.next())
+			{
 				title = sqlInfo.getString("E.title");
 				modName = sqlInfo.getString("U.name");
 				modEmail = sqlInfo.getString("U.email");
@@ -603,16 +599,17 @@ public class Event
 				eventID = Integer.parseInt(sqlInfo.getString("P.eventID"));
 			
 			
-			String link = "http://localhost/EventWebSite/EventPage?eventID="+eventID+"";
-			String completeMessage = "Dear "+modName+"\n\n" +
-					"  Please see below a message sent by a user about a violation he/she has "+
-					"noticed on one of the posts of the "+title+" event: "+link+"\n\n"+
-					"The post is created by "+postUser+" on "+postDate+" and its content is:\n\n" +
-					""+postContent+"\n\nREPORT:\n\n";
+				String link = "http://localhost/EventWebSite/EventPage?eventID="+eventID+"";
+				String completeMessage = "Dear "+modName+"\n\n" +
+						"  Please see below a message sent by a user about a violation he/she has "+
+						"noticed on one of the posts of the "+title+" event: "+link+"\n\n"+
+						"The post is created by "+postUser+" on "+postDate+" and its content is:\n\n" +
+						""+postContent+"\n\nREPORT:\n\n";
+				
+				completeMessage = completeMessage + "\"" + message + "\"";
 			
-			completeMessage = completeMessage + "\"" + message + "\"";
-			
-			emailModerator(modEmail, completeMessage);
+				emailModerator(modEmail, completeMessage);
+			}
 		} catch (ClassNotFoundException e1) {			
 			e1.printStackTrace();
 		} catch (SQLException e1) {			
@@ -636,12 +633,8 @@ public class Event
 			String modEmail = "";
 			int eventID = 0;
 			
-			sqlInfo.last();
-			int numOfRows = sqlInfo.getRow();
-			int random = new Random().nextInt(numOfRows);
-			random++;
-			sqlInfo.absolute(random);
-			
+			while(sqlInfo.next())
+			{
 				title = sqlInfo.getString("E.title");
 				modName = sqlInfo.getString("U.name");
 				modEmail = sqlInfo.getString("U.email");
@@ -652,15 +645,16 @@ public class Event
 				eventID = Integer.parseInt(sqlInfo.getString("R.eventID"));
 		
 			
-			String link = "http://localhost/EventWebSite/EventPage?eventID="+eventID+"";
-			String completeMessage = "Dear "+modName+"\n\n" +
-					"  Please note that one of the reviews of the "+title+" event has just "+
-					"received an unusually bad disapproval of users. Please investigate as " +
-					"soon as possible. The link to the events is: "+link+"\n\n"	+				
-					"The review is created by "+reviewUser+" on "+reviewDate+" and its content is:\n\n" +
-					""+reviewContent+" ";
-			
-			emailModerator(modEmail, completeMessage);
+				String link = "http://localhost/EventWebSite/EventPage?eventID="+eventID+"";
+				String completeMessage = "Dear "+modName+"\n\n" +
+						"  Please note that one of the reviews of the "+title+" event has just "+
+						"received an unusually bad disapproval of users. Please investigate as " +
+						"soon as possible. The link to the events is: "+link+"\n\n"	+				
+						"The review is created by "+reviewUser+" on "+reviewDate+" and its content is:\n\n" +
+						""+reviewContent+" ";
+				
+				emailModerator(modEmail, completeMessage);
+			}
 		} catch (ClassNotFoundException e1) {			
 			e1.printStackTrace();
 		} catch (SQLException e1) {			

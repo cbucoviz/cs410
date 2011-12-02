@@ -159,7 +159,7 @@ public class PostsComments extends HttpServlet {
 							"&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp"+
 						"</td>"+
 						"<td>"+
-							"<button type='button' name='report_event_button' class='button1' value='report_event'>Report This Event</button>"+
+							"<button type='button' name='report_button' abuseType='post' abuseId='" + postID + "' class='button1' value='report_event'>Report</button>"+
 						"</td>";
 						
 						if(loggedIn != null && loggedIn == true && (Security.isAdmin((Integer) session.getAttribute(SessionVariables.USER_ID))

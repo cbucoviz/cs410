@@ -20,23 +20,6 @@
 <script src="scripts/showHideCom.js" type="text/javascript"></script>
 <script src="scripts/eventMap.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-
-		// hook in the abuse dialog
-		$("button[name=report_post_button]").click(function()
-			{
-				$('#report_abuse_form').dialog('open');
-			}
-		);
-		
-		$("button[name=report_event_button]").click(function()
-				{
-					$('#report_abuse_form').dialog('open');
-				}
-		);
-</script>
-
-
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><%= WEBSITE_TITLE %></title>
 
@@ -47,7 +30,7 @@
 		<div class="event_name_header">
 		
 			<a  class="button1"  href="citypage.jsp?city=<%= request.getAttribute("locationID") %>" style="margin-left: 10px;">Return to <%= request.getAttribute("city") %></a>
-			<button type="button" name="report_event_button"class="button1"  value="report_event" style="float: right; margin-right: 20px;">Report This Event</button>
+			<button type="button" name="report_button"class="button1"  value="report_event" style="float: right; margin-right: 20px;" abuseType="event" abuseId="<%= request.getAttribute("eventID")%>">Report This Event</button>
 			<br>
 			<br>
 			

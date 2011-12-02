@@ -62,8 +62,7 @@ function registerForwarderListeners()
 		}
 		else if(form.attr("id") == "ReportAbuseForm")
 		{
-			var data = form.serialize();
-			$.post(form.attr("action"), data);
+			// do nothing, we post in the form dialog
 		}
 		else if(form.attr("id") == "EditEventForm")
 		{
@@ -204,5 +203,9 @@ function registerForwarderListeners()
 		}
 		
 	});
-
+	
+	$("button[name=report_button]").click(function()
+	{
+		$('#report_abuse_form').data('button', $(this)).dialog('open');
+	});
 }

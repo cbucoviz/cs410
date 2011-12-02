@@ -24,7 +24,18 @@ public class ReportAbuse extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		Event.reportEventAbuse(Integer.parseInt(request.getParameter("id")), request.getParameter("comment"));
+		String abuseType = request.getParameter("abuseType");
+		Integer abuseId = Integer.parseInt(request.getParameter("abuseId"));
+		String comment = request.getParameter("comment");
+		
+		if(abuseType.equals("event"))
+		{
+			Event.reportEventAbuse(abuseId, comment);
+		}
+		else if(abuseType.equals("post"))
+		{
+			Event.reportPostAbuse(abuseId, comment);
+		}
 	}
 
 }
