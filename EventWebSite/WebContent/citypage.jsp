@@ -142,6 +142,7 @@ $(document).ready(function()
 </head>
 <body>
 
+<%@ page import="java.util.*" %>
 <% int ITEM_TEXT_SIZE = 25;%>
 
 <div class="city_page_background">
@@ -183,9 +184,7 @@ $(document).ready(function()
 							</div>
 							
 							<div class="event_list">
-								<%@ page import="java.util.*" %>
-								<ul id="cultural_event_list">
-								
+								<ul id="cul_event_list">
 								</ul>
 							</div>
 							
@@ -196,6 +195,8 @@ $(document).ready(function()
 							</div>
 							
 							<div class="event_list">
+								<ul id="ed_event_list">
+								</ul>
 							</div>
 						</div>
 						<div id="music_event_div" class="city_event_categories">
@@ -204,6 +205,8 @@ $(document).ready(function()
 							</div>
 							
 							<div class="event_list">
+								<ul id="music_event_list">
+								</ul>
 							</div>
 						</div>
 						<div id="sports_event_div" class="city_event_categories">
@@ -212,6 +215,8 @@ $(document).ready(function()
 							</div>
 							
 							<div class="event_list">
+								<ul id="sports_event_list">
+								</ul>
 							</div>
 						</div>
 						<div id="others_event_div" class="city_event_categories">
@@ -220,6 +225,8 @@ $(document).ready(function()
 							</div>
 							
 							<div class="event_list">
+								<ul id="others_event_list">
+								</ul>
 							</div>
 						</div>
 					</div>

@@ -44,7 +44,8 @@ public class FilterSearch extends HttpServlet {
 		String keyword = request.getParameter("search_keyword");
 		String dateString = request.getParameter("search_date");
 		Date date = null;
-		String[] eventTypes = request.getParameterValues("event_category");
+		String tempTypes = request.getParameter("event_category");
+		String [] eventTypes = tempTypes.split(",");
 		
 		System.out.println(keyword);
 		
@@ -86,6 +87,7 @@ public class FilterSearch extends HttpServlet {
 				List<Map<EventInfoSearch,String>> events = Search.filterEvents(locId, keyword, eventTypes, date);
 				Gson gson = new GsonBuilder().serializeNulls().create();
 				String myEventsInJson = gson.toJson(events);
+				response.setContentType( "application/json");
 				response.getWriter().write(myEventsInJson);
 				System.out.println(events.size());
 				
@@ -106,10 +108,6 @@ public class FilterSearch extends HttpServlet {
 			dispatcher = request.getRequestDispatcher("citypage.jsp?city=" + locId);
 			dispatcher.forward(request, response);
 			return;
-		}
-		else
-		{
-			response.sendRedirect("citypage.jsp?city=" + locId);
 		}
 		
 	}

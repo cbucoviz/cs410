@@ -472,8 +472,7 @@ table.scroll_list_btns
 	font: bold 12px Verdana;
 	line-height: 20px;
 	height: 100%;
-	
-	z-index: 10;
+	z-index: 999;
 }
 
 #signup_page_div
@@ -521,6 +520,7 @@ table.scroll_list_btns
 .halfmoon li
 {
 	display: inline;
+	color: black;
 	margin: 0;
 }
 
