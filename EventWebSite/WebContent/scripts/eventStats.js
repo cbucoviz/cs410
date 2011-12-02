@@ -45,7 +45,7 @@ function addComment(eventID, postID, userID,sortType) {
 }
 
 
-function rateReview(eventID, sortType,id, review) {  
+function rateReview(eventID, sortType,id, review,rating) {  
 	
 	
 	$.post("RevDisRating", {reviewID:id, feature:review, rating:rating}, function(data) {	    	
