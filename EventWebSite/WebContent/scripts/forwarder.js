@@ -65,6 +65,22 @@ $(document).ready(function()
 			var data = form.serialize();
 			$.post(form.attr("action"), data);
 		}
+		/*else if(form.attr("id") == "SearchFilterForm")
+		{
+		   // get the values they used in the filter page, look up a couple lines in the forwarder.js, I have example of me doing it
+			var keyword = form.find("input[name='search_keyword']").val();
+			var city = form.find("input[name='search_locId']").val();
+			var date = form.find("input[name='search_date']").val();
+			var types = form.find("input[name='event_category']").val();
+
+		  // setup the parameters, map the values with the keywords the servlet is expecting
+		   var params = ["keyword" : keyword, "date" : date];
+
+		  $.getJSON('FilterSearch', params, function(data)   {
+
+		     $.each(data, function(key, val)      {      // show a popup containing each title's event       alert(val.title);
+		     }   );
+		}*/
 		else
 		{
 			// get the original target and redirect them via the main content window
