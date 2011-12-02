@@ -114,17 +114,17 @@ themenu=document.layers.slidemenubar
 function pull(){
 if (window.drawit)
 clearInterval(drawit)
-pullit=setInterval("pullengine()",10)
+pullit=setInterval("pullengine()",1)
 }
 function draw(){
 clearInterval(pullit)
-drawit=setInterval("drawengine()",10)
+drawit=setInterval("drawengine()",1)
 }
 function pullengine(){
 if ((ie4||ns6)&&parseInt(themenu.left)<rightboundary)
-themenu.left=parseInt(themenu.left)+10+"px"
+themenu.left=parseInt(themenu.left)+20+"px"
 else if(ns4&&themenu.left<rightboundary)
-themenu.left+=10
+themenu.left+=20
 else if (window.pullit){
 themenu.left=0
 clearInterval(pullit)
@@ -133,9 +133,9 @@ clearInterval(pullit)
 
 function drawengine(){
 if ((ie4||ns6)&&parseInt(themenu.left)>leftboundary)
-themenu.left=parseInt(themenu.left)-10+"px"
+themenu.left=parseInt(themenu.left)-20+"px"
 else if(ns4&&themenu.left>leftboundary)
-themenu.left-=10
+themenu.left-=20
 else if (window.drawit){
 themenu.left=leftboundary
 clearInterval(drawit)

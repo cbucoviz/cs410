@@ -75,21 +75,89 @@ function registerForwarderListeners()
 			var keyword = form.find("input[name='search_keyword']").val();
 			var city = form.find("input[name='search_locId']").val();
 			var date = form.find("input[name='search_date']").val();
-			var types = form.find("input[name='event_category']").val();
+			var eventTypes = "";
+			var types = new Array();
+			var indexCounter = 0;
+			
+			if($("#cul_chkbx").is(':checked'))
+			{
+				types[indexCounter] = $("#cul_chkbx").val();
+				indexCounter++;
+			}
+			if($("#ed_chkbx").is(':checked'))
+			{
+				types[indexCounter] = $("#ed_chkbx").val();
+				indexCounter++;
+			}
+			if($("#music_chkbx").is(':checked'))
+			{
+				types[indexCounter] = $("#music_chkbx").val();
+				indexCounter++;
+			}
+			if($("#sports_chkbx").is(':checked'))
+			{
+				types[indexCounter] = $("#sports_chkbx").val();
+				indexCounter++;
+			}
+			if($("#others_chkbx").is(':checked'))
+			{
+				types[indexCounter] = $("#others_chkbx").val();
+				indexCounter++;
+			}
+			
+			for (var i = 0; i < types.length; i++)
+			{
+				if ((i > 0) && (eventTypes != ""))
+				{
+					eventTypes = eventTypes + "," + types[i];
+				}
+				else
+				{
+					eventTypes = types[i];
+				}
+			}
+			
+			
 
 		  // setup the parameters, map the values with the keywords the servlet is expecting
-		   var params = {"search_keyword" : keyword, "search_date" : date, "search_locId" : city, "event_category" : types};
-		   alert(params.search_keyword);
+		   var params = {
+				   "search_keyword" : keyword, 
+				   "search_date" : date, 
+				   "search_locId" : city, 
+				   "event_category" : eventTypes};
 
-		  $.getJSON('FilterSearch', params, function(data)   {
-			  $.each(data, function(key, val)      
-					  {      // show a popup containing each title's event       
-				  			alert(val.title);
-				  			$("#cultural_event_list").add("<li class='event_item' popup='" + val.eventId + "'><a href='EventPage?eventID=" + val.eventId + "'>" + val.title + "</a></li>");
-				  			
-				  		
-					  })
-					  }   );
+		  $.post('FilterSearch', params, function(data)   {
+			  
+	  			$("#cul_event_list").empty();
+	  			$("#ed_event_list").empty();
+	  			$("#music_event_list").empty();
+	  			$("#sports_event_list").empty();
+	  			$("#others_event_list").empty();
+	  			
+	  			$.each(data, function(key, val)      
+				{      
+		  			if (val.EVENT_TYPE == "Cultural")
+		  			{
+		  				$("#cul_event_list").append("<li class='event_item' popup='" + val.EVENT_ID + "'><a href='EventPage?eventID=" + val.EVENT_ID + "'>" + val.TITLE + "</a></li>");
+		  			}
+		  			if (val.EVENT_TYPE == "Educational")
+		  			{
+		  				$("#ed_event_list").append("<li class='event_item' popup='" + val.EVENT_ID + "'><a href='EventPage?eventID=" + val.EVENT_ID + "'>" + val.TITLE + "</a></li>");
+		  			}
+		  			if (val.EVENT_TYPE == "Music")
+		  			{
+		  				$("#music_event_list").append("<li class='event_item' popup='" + val.EVENT_ID + "'><a href='EventPage?eventID=" + val.EVENT_ID + "'>" + val.TITLE + "</a></li>");
+		  			}
+		  			if (val.EVENT_TYPE == "Sports")
+		  			{
+		  				$("#sports_event_list").append("<li class='event_item' popup='" + val.EVENT_ID + "'><a href='EventPage?eventID=" + val.EVENT_ID + "'>" + val.TITLE + "</a></li>");
+		  			}
+		  			if (val.EVENT_TYPE == "Others")
+		  			{
+		  				$("#others_event_list").append("<li class='event_item' popup='" + val.EVENT_ID + "'><a href='EventPage?eventID=" + val.EVENT_ID + "'>" + val.TITLE + "</a></li>");
+		  			}
+				})
+				});
 		}
 		else
 		{
