@@ -40,8 +40,9 @@ public class EditEvent extends HttpServlet {
 		String state = request.getParameter("state");
 		String country = request.getParameter("country");
 		
-		LocationAddress location = new LocationAddress(city, state, country);
-		int locationId = Location.getLocationId(location);
+		int locationId = Integer.parseInt(request.getParameter("id"));
+		float latitude = Float.parseFloat(request.getParameter("lat"));
+		float longitude = Float.parseFloat(request.getParameter("lng"));
 		
 		String venue = request.getParameter("venue");
 		String address = request.getParameter("address");
@@ -72,21 +73,23 @@ public class EditEvent extends HttpServlet {
 		String links = request.getParameter("other_links");
 		
 		// TODO ktam:  need to hook this up to a dropdown
-		String[] types = {"Hockey"};
+		String[] types = {"Sports"};
 		
 		HttpSession session = request.getSession();
 		Integer userID = (Integer) session.getAttribute(SessionVariables.USER_ID);
 		
 		if(eventId == null)
 		{
-			eventId = Event.createNewEvent(title, userID, locationId, address, venue, startTime, endTime, types);	
+			eventId = Event.createNewEvent(title, userID, locationId, latitude, longitude, address, venue, startTime, endTime, types);	
+			Event.setContent(eventId, eventDesc, venueDesc, costDesc, directions, awareness, videos, links, otherDesc);		
 		}
 		else
 		{
+			// VITALI TODO
 			Event.editEventInfo(userID, eventId, title, venue, startTime, endTime, address);	
 		}
 		
-		Event.setContent(eventId, eventDesc, venueDesc, costDesc, directions, awareness, videos, links, otherDesc);		
+
 		response.sendRedirect("EventPage?eventID=" + eventId);
 	}
 }

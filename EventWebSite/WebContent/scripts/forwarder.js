@@ -56,14 +56,18 @@ $(document).ready(function()
 			else
 			{
 				// we're on google earth, let the search happen
-				geSearch(eventKeyword, city, state, country, startDate, endDate);
-				
+				geSearch(eventKeyword, city, state, country, startDate, endDate);	
 			}
 		}
 		else if(form.attr("id") == "ReportAbuseForm")
 		{
 			var data = form.serialize();
 			$.post(form.attr("action"), data);
+		}
+		else if(form.attr("id") == "EditEventForm")
+		{
+			// this function will do the posting to the form
+			codeAddressForEventCreation(form);	
 		}
 		/*else if(form.attr("id") == "SearchFilterForm")
 		{
@@ -111,26 +115,31 @@ $(document).ready(function()
 	$("button[subscribe]").click(function(event) 
 	{
 		var button = $(this);
+		var subscribeTypeInput = button.attr("subscribe");
+		var subscribeToInput = button.attr("subscribeId");
 		
 		var buttonLabel = button.html();
 		var indexOfSubscribe = buttonLabel.toLowerCase().indexOf("subscribe to");
 		var isSubscribe = indexOfSubscribe >= 0;
 		
-		if(isSubscribe)
-		{
-			// replace subscribe with unsubscribe
-			buttonLabel = buttonLabel.replace("Subscribe to", "Unsubscribe from");
-		}
-		else
-		{
-			// replace unsubscribe with subscribe
-			buttonLabel = buttonLabel.replace("Unsubscribe from", "Subscribe to");
-		}
+		// find all buttons of this subscribe type and subscribe id and change them accordingly
+		$("button[subscribe='" + subscribeTypeInput + "'][subscribeId='" + subscribeToInput+"']").each(function ()
+				{
+					if(isSubscribe)
+					{
+						// replace subscribe with unsubscribe
+						buttonLabel = buttonLabel.replace("Subscribe to", "Unsubscribe from");
+					}
+					else
+					{
+						// replace unsubscribe with subscribe
+						buttonLabel = buttonLabel.replace("Unsubscribe from", "Subscribe to");
+					}
+			
+					$(this).html(buttonLabel);
+			
+				});
 		
-		button.html(buttonLabel);
-		
-		var subscribeTypeInput = button.attr("subscribe");
-		var subscribeToInput = button.attr("subscribeId");
 		
 		var formData = {"subscribeType": subscribeTypeInput, "subscribeTo": subscribeToInput, "subscribe": isSubscribe};
 		$.post("SubscriptionHandler", formData);

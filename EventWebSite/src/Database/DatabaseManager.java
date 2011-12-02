@@ -1253,15 +1253,15 @@ public class DatabaseManager
 	 * @throws SQLException - most likely various problems with syntax and/or some problems
 	 *                        with the database (tables changed, etc.)
 	 */
-	public int newEvent(String title, int creatorID, int locationID, String address, 
+	public int newEvent(String title, int creatorID, int locationID, float latitude, float longitude, String address, 
 			 String venue, Date startDate, String startTime, String endTime,
 			 String[] types) throws SQLException
 	{				
         PreparedStatement statement = connection.prepareStatement
-			("INSERT INTO events (title,creatorID,locationID,address,venue,eventDate," +
+			("INSERT INTO events (title,creatorID,locationID,latitude,longitude,address,venue,eventDate," +
 								"startTime, endTime, lastMod, creationDate) " +
 					
-						"VALUES (?, "+creatorID+", "+locationID+", ?, ?, '"+startDate+"', " +
+						"VALUES (?, " + creatorID + ", " + locationID + ", " + latitude + ", " + longitude + ", ?, ?, '" + startDate + "', " +
 							
 							     "'"+startTime+"', '"+endTime+"', NOW(), NOW())");	
 		

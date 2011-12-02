@@ -69,7 +69,7 @@
 							}
 						%>
 						</button>
-					<% } %>
+						<% } %>
 <br>
 						<i><b>Category: <font class="sports">Sports</font></b></i>
 						<br>
@@ -236,13 +236,24 @@
 									<br/>
 									
 									<b>Creator: </b> <%=topEvents.get(i).get(5) %>
-									<a class="button1" href="http://localhost/EventWebSite/subscribeToUser.jsp?sub=<%=topEvents.get(i).get(5) %>&usid=<%=topEvents.get(i).get(6)%>">Subscribe</a>
-									<br/>
 									
-									<b>City: </b> <%=topEvents.get(i).get(7) %>
-									<a class="button1" href="http://localhost/EventWebSite/subscribeToUser.jsp?id=<%=request.getAttribute("locationID")%>">Subscribe</a>
-									<br/>
+									<% if(session.getAttribute(Servlets.SessionVariables.LOGGED_IN) != null && (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN)){ %>					
+									<button type="button" name="subs_event_button" class="button1" value="subscribe_event" subscribe="user" subscribeId="<%=topEvents.get(i).get(6)%>">
+									<%
+										if(Models.User.isSubscribed((Integer) session.getAttribute(Servlets.SessionVariables.USER_ID), Integer.parseInt(topEvents.get(i).get(6))))
+										{
+											out.println("Unsubscribe from User");
+										}
+										else
+										{
+											out.println("Subscribe to User");
+										}
+									%>
+									</button>
+									<% } %>
 									
+									<br/>
+																		
 									<a href="EventPage?eventID=<%=topEvents.get(i).get(8) %>" style="float: right">More...</a>
 									<br/>
 								</div>
