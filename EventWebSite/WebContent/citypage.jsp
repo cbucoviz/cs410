@@ -185,6 +185,25 @@ $(document).ready(function()
 							
 							<div class="event_list">
 								<ul id="cul_event_list">
+								<%String [] eventTypeParameter = new String [1];
+								Date defaultDate = new Date();%>
+								<%eventTypeParameter[0] = "Cultural";
+                                    List<Map<Models.Search.EventInfoSearch,String>> events = Models.Search.filterEvents(Integer.parseInt(request.getParameter("city")), "", eventTypeParameter, defaultDate);
+                                    for(int i = 0; i < events.size(); ++i)
+                                    {
+                                        Map<Models.Search.EventInfoSearch, String> event = events.get(i);
+                                        int eventId = Integer.parseInt(event.get(Models.Search.EventInfoSearch.EVENT_ID));
+                                        String title = event.get(Models.Search.EventInfoSearch.TITLE);
+                                       
+                                        if(title.length() > ITEM_TEXT_SIZE)
+                                        {
+                                            title = title.substring(0, ITEM_TEXT_SIZE);
+                                            title = title.concat("...");
+                                        }
+                                       
+                                        out.println("<li class='event_item' popup='" + eventId + "'><a href='EventPage?eventID=" + eventId + "'>" + title + "</a></li>");
+                                    }
+                                    %>
 								</ul>
 							</div>
 							
@@ -196,6 +215,23 @@ $(document).ready(function()
 							
 							<div class="event_list">
 								<ul id="ed_event_list">
+									<%eventTypeParameter[0] = "Educational";
+                                    events = Models.Search.filterEvents(Integer.parseInt(request.getParameter("city")), "", eventTypeParameter, defaultDate);
+                                    for(int i = 0; i < events.size(); ++i)
+                                    {
+                                        Map<Models.Search.EventInfoSearch, String> event = events.get(i);
+                                        int eventId = Integer.parseInt(event.get(Models.Search.EventInfoSearch.EVENT_ID));
+                                        String title = event.get(Models.Search.EventInfoSearch.TITLE);
+                                       
+                                        if(title.length() > ITEM_TEXT_SIZE)
+                                        {
+                                            title = title.substring(0, ITEM_TEXT_SIZE);
+                                            title = title.concat("...");
+                                        }
+                                       
+                                        out.println("<li class='event_item' popup='" + eventId + "'><a href='EventPage?eventID=" + eventId + "'>" + title + "</a></li>");
+                                    }
+                                    %>
 								</ul>
 							</div>
 						</div>
@@ -206,6 +242,23 @@ $(document).ready(function()
 							
 							<div class="event_list">
 								<ul id="music_event_list">
+									<%eventTypeParameter[0] = "Music";
+                                    events = Models.Search.filterEvents(Integer.parseInt(request.getParameter("city")), "", eventTypeParameter, defaultDate);
+                                    for(int i = 0; i < events.size(); ++i)
+                                    {
+                                        Map<Models.Search.EventInfoSearch, String> event = events.get(i);
+                                        int eventId = Integer.parseInt(event.get(Models.Search.EventInfoSearch.EVENT_ID));
+                                        String title = event.get(Models.Search.EventInfoSearch.TITLE);
+                                       
+                                        if(title.length() > ITEM_TEXT_SIZE)
+                                        {
+                                            title = title.substring(0, ITEM_TEXT_SIZE);
+                                            title = title.concat("...");
+                                        }
+                                       
+                                        out.println("<li class='event_item' popup='" + eventId + "'><a href='EventPage?eventID=" + eventId + "'>" + title + "</a></li>");
+                                    }
+                                    %>
 								</ul>
 							</div>
 						</div>
@@ -216,6 +269,23 @@ $(document).ready(function()
 							
 							<div class="event_list">
 								<ul id="sports_event_list">
+									<%eventTypeParameter[0] = "Sports";
+                                    events = Models.Search.filterEvents(Integer.parseInt(request.getParameter("city")), "", eventTypeParameter, defaultDate);
+                                    for(int i = 0; i < events.size(); ++i)
+                                    {
+                                        Map<Models.Search.EventInfoSearch, String> event = events.get(i);
+                                        int eventId = Integer.parseInt(event.get(Models.Search.EventInfoSearch.EVENT_ID));
+                                        String title = event.get(Models.Search.EventInfoSearch.TITLE);
+                                       
+                                        if(title.length() > ITEM_TEXT_SIZE)
+                                        {
+                                            title = title.substring(0, ITEM_TEXT_SIZE);
+                                            title = title.concat("...");
+                                        }
+                                       
+                                        out.println("<li class='event_item' popup='" + eventId + "'><a href='EventPage?eventID=" + eventId + "'>" + title + "</a></li>");
+                                    }
+                                    %>
 								</ul>
 							</div>
 						</div>
@@ -226,6 +296,23 @@ $(document).ready(function()
 							
 							<div class="event_list">
 								<ul id="others_event_list">
+									<%eventTypeParameter[0] = "Others";
+                                    events = Models.Search.filterEvents(Integer.parseInt(request.getParameter("city")), "", eventTypeParameter, defaultDate);
+                                    for(int i = 0; i < events.size(); ++i)
+                                    {
+                                        Map<Models.Search.EventInfoSearch, String> event = events.get(i);
+                                        int eventId = Integer.parseInt(event.get(Models.Search.EventInfoSearch.EVENT_ID));
+                                        String title = event.get(Models.Search.EventInfoSearch.TITLE);
+                                       
+                                        if(title.length() > ITEM_TEXT_SIZE)
+                                        {
+                                            title = title.substring(0, ITEM_TEXT_SIZE);
+                                            title = title.concat("...");
+                                        }
+                                       
+                                        out.println("<li class='event_item' popup='" + eventId + "'><a href='EventPage?eventID=" + eventId + "'>" + title + "</a></li>");
+                                    }
+                                    %>
 								</ul>
 							</div>
 						</div>

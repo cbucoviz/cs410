@@ -130,7 +130,7 @@ $(document).ready(function()
 												title = title.substring(0, ITEM_TEXT_SIZE);
 											}
 											
-											out.println("<div class='scroll_item' class='event_item' popup='" + eventId + "'>");
+											out.println("<div class='scroll_item' class='event_item'>");
 											
 											if (isEdited.equals("Is Edited"))
 											{
@@ -187,7 +187,7 @@ $(document).ready(function()
 											title = title.substring(0, ITEM_TEXT_SIZE);
 										}
 										
-										out.println("<div class='scroll_item' class='event_item' popup='" + eventId + "'>");
+										out.println("<div class='scroll_item' class='event_item'>");
 										
 										if (isEdited != null && isEdited.equals("Is Edited"))
 										{
