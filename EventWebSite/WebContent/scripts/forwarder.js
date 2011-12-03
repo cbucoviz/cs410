@@ -156,7 +156,10 @@ function registerForwarderListeners()
 		  			{
 		  				$("#others_event_list").append("<li class='event_item' popup='" + val.EVENT_ID + "'><a href='EventPage?eventID=" + val.EVENT_ID + "'>" + val.TITLE + "</a></li>");
 		  			}
-				})
+				});
+				
+	  			expandcontent('city_event_tab', $("#filterSearchRedirectTab"));
+	  			registerForwarderListeners();
 				});
 		}
 		else

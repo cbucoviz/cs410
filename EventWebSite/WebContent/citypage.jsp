@@ -168,7 +168,7 @@ $(document).ready(function()
 					
 				<div id="ddimagetabs" class="halfmoon">
 					<ul>
-						<li class="selected"><a onmousedown="expandcontent('city_event_tab', this)">Event</a></li>
+						<li class="selected"><a id="filterSearchRedirectTab" onmousedown="expandcontent('city_event_tab', this)">Event</a></li>
 						<li><a onmousedown="expandcontent('city_filter_tab', this)">Filter</a></li>
 						<li><a onmousedown="expandcontent('city_top_events_tab', this)">Top Events</a></li>
 						<li><a onmousedown="expandcontent('city_top_users_tab', this)">Top Users</a></li>
@@ -361,7 +361,7 @@ $(document).ready(function()
 								</tr>
 								<tr>
 									<td>
-										<input type="submit" class="button1" value="Search" />
+										<input id="filterSearchButton" type="submit" class="button1" value="Search" />
 									</td>
 								</tr>
 							</table>
