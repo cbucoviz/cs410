@@ -306,7 +306,6 @@ public class UserUpdates
 			
 			String prev ="";
 			
-			HashMap<Integer,ArrayList<String>> eventMap = new HashMap<Integer,ArrayList<String>>();
 			
 			while(relevantUsers.next())
 			{
@@ -333,7 +332,7 @@ public class UserUpdates
 					user.add(email);
 					userInfo.put(userID, user);
 					
-					eventMap.clear();
+					HashMap<Integer,ArrayList<String>> eventMap = new HashMap<Integer,ArrayList<String>>();
 					eventMap.put(eventID, eventInfo);
 					attendeeMap.put(userID, eventMap);
 					prev = userName;
@@ -371,11 +370,11 @@ public class UserUpdates
     			"happening soon:\n\n";
     	synchronized(eventInfo)
 		{
-			Iterator<Entry<Integer, ArrayList<String>>> iter = 
-									eventInfo.entrySet().iterator();
-		    while (iter.hasNext()) {			    	
+			Iterator<Entry<Integer, ArrayList<String>>> iter = eventInfo.entrySet().iterator();
+		    while (iter.hasNext()) 
+		    {			    	
 		        Entry<Integer, ArrayList<String>> pairs = iter.next();			        
-		        String eventPage = "http://localhost/EventWebSite/EventPage?eventID="+pairs.getKey()+"";	       
+		        String eventPage = "http://localhost:8080/EventWebSite/EventPage?eventID="+pairs.getKey()+"";	       
 		        String title = pairs.getValue().get(0);
 		        Date eventDate = new SimpleDateFormat("yyyy-MM-dd").parse(pairs.getValue().get(1));
 		        int numOfDays = Integer.parseInt(pairs.getValue().get(2));
