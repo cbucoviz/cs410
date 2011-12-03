@@ -17,10 +17,17 @@ var gmap;
 	      gmap.disableDoubleClickZoom = true;
 	      markerBounds = new google.maps.LatLngBounds();
 	      
+	      $.ajax({
+			  url: 'GMEventLoc',
+			  async: false,
+			  data: {loc:locationId},
+			  dataType: 'json',
+			  success: function (json) 
+			  {
+				  setEventLocations(json);
+			  }
+			});
 	      
-		  //TODO: Need to put city as parameter to request
-	      $.getJSON('/EventWebSite/GMEventLoc',{loc:locationId}, setEventLocations);
-	    
 	      gmap.fitBounds(markerBounds);
 
 	   
@@ -44,7 +51,6 @@ var gmap;
 			//add location to Google Maps
 			addPlaces(name, lat, lng, id);
 		}
-		
 	}
    
    //Adds event locations to the map by creating markers.
