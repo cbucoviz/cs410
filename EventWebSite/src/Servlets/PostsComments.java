@@ -95,7 +95,7 @@ public class PostsComments extends HttpServlet {
 				
 					
 			String finalPost = 
-					"<div class='event_discs_post'>	"+	
+			"<div class='event_discs_post'>	"+	
 			"<hr style='width: 100%; background-color: purple; size: 10px;'/>"+
 			"<div class='discs_post_header'>"+
 				"<table>"+
@@ -113,9 +113,9 @@ public class PostsComments extends HttpServlet {
 							}
 							finalPost=finalPost+
 							"<td>" +
-							"<button type='button' name='subs_event_button' class='button1' value='subscribe_event' subscribe='user' subscribeId='" + posts.get(i).get(PostInfo.USER_ID) + "'>" +
-							subscribedString +
-							"</button>" + 						
+								"<button type='button' name='subs_event_button' class='button1' value='subscribe_event' subscribe='user' subscribeId='" + posts.get(i).get(PostInfo.USER_ID) + "'>" +
+								subscribedString +
+								"</button>" + 						
 							"</td>";
 						}
 						

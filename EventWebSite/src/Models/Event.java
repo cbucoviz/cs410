@@ -345,7 +345,9 @@ public class Event
 		return false;		
 	}	*/
 	
-	public static boolean editEventInfo(int updatorID, int eventID, String nTitle, String nVenue, Date startDateTime, Date nEndTime, String nAddress/*, String[] content*/)
+	public static boolean editEventInfo(int updatorID, int eventID, String nTitle, String nVenue, Date startDateTime, Date nEndTime, String nAddress,
+			String genDesc, String venueDesc, String priceInfo,
+					String transport, String awareness, String videos, String links, String otherInfo)
 	{
 		java.sql.Date startDateForSQL = new java.sql.Date(startDateTime.getTime());
 		
@@ -357,8 +359,18 @@ public class Event
         	DatabaseManager dbMan = DatabaseManager.getInstance();
         	ResultSet editEventInfo = dbMan.editEventInfo(updatorID, eventID, nTitle, nAddress, nVenue, 
 					startDateForSQL, startTimeForSQL, endTimeForSQL);
+        	
+        	String[] content = new String[8];
+    		content[0] = genDesc;
+    		content[1] = venueDesc;
+    		content[2] = priceInfo;
+    		content[3] = transport;
+    		content[4] = awareness;
+    		content[5] = videos;
+    		content[6] = links;
+    		content[7] = otherInfo;
         	//ktam: this seems deprecated, commenting it out
-        	//dbMan.editEventContent(updatorID, eventID, content);
+        	dbMan.editEventContent(updatorID, eventID, content);
         	
         	editEventInfo.next();
 			String updator = editEventInfo.getString("U.name");

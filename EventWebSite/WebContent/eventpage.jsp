@@ -7,7 +7,7 @@
 
 <!-- BEGINNING OF INCLUDES  -->
 <%@ include file="config/constants.jsp" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.ArrayList, Models.Security" %>
 <link href="config/default.css" rel="stylesheet" type="text/css"/>
 <link href="config/revComPostStyle.css" rel="stylesheet" type="text/css"/>
 <link href="config/statistics.css" rel="stylesheet" type="text/css"/>
@@ -118,22 +118,28 @@
 							<a href="editevent.jsp?eventId=<%= request.getAttribute("eventID") %>" class="button1" style="float: right">Edit Event</a> 
 						<% } %>
 						
-						<!-- Only display "Attend Button" before event occur -->
-						<b><div style="display: inline" id="attendeesLabel" numAttendees="<%= request.getAttribute("numAttendees") %>"><%= request.getAttribute("numAttendees") %> people are attending this event!</div></b>
+						<% if(!Security.isPastEvent( (Integer) request.getAttribute("eventID"))) {%>
+							<!-- Only display "Attend Button" before event occur -->
+							<b><div style="display: inline" id="attendeesLabel" numAttendees="<%= request.getAttribute("numAttendees") %>"><%= request.getAttribute("numAttendees") %> people are attending this event!</div></b>
+						<%} else {%>							
+							<b><div style="display: inline" id="attendeesLabel" numAttendees="<%= request.getAttribute("numAttendees") %>"><%= request.getAttribute("numAttendees") %> people have attended this event!</div></b>
+						<%}%>
 						
-						<% if(session.getAttribute(Servlets.SessionVariables.LOGGED_IN) != null && (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN)){ %>					
-						<button type="button" name="attend_button" class="button1" value="attend_event" attend="<%= request.getAttribute("eventID") %>">
-						<%
-							if(Models.Event.isAttending((Integer) request.getAttribute("eventID"), (Integer) session.getAttribute(Servlets.SessionVariables.USER_ID)))
-							{
-								out.println("Unattend this Event");
-							}
-							else
-							{
-								out.println("Attend this Event");
-							}
-						%>
-						</button>
+						<% if(	!Security.isPastEvent( (Integer) request.getAttribute("eventID"))
+								&& session.getAttribute(Servlets.SessionVariables.LOGGED_IN) != null 
+								&& (Boolean) session.getAttribute(Servlets.SessionVariables.LOGGED_IN)){ %>					
+							<button type="button" name="attend_button" class="button1" value="attend_event" attend="<%= request.getAttribute("eventID") %>">
+							<%
+								if(Models.Event.isAttending((Integer) request.getAttribute("eventID"), (Integer) session.getAttribute(Servlets.SessionVariables.USER_ID)))
+								{
+									out.println("Unattend this Event");
+								}
+								else
+								{
+									out.println("Attend this Event");
+								}
+							%>
+							</button>
 						<% } %>
 						<br>
 						<br>
@@ -260,10 +266,14 @@
 						<div id="ddimagetabs" class="halfmoon" style="width: 700px">
 							<ul>
 								<li class="selected"><a onmousedown="expandcontent('event_info_tab', this)">Event Information</a></li>
-								<li><a onmousedown="revealPosts(<%=request.getAttribute("eventID")%>, 'rating'); expandcontent('event_discs_tab', this)">Discussions</a></li> <!-- user 'style="display:none"' to hide tab -->
-								<li><a onmousedown="revealReviews(<%=request.getAttribute("eventID")%>, 'event_rating'); expandcontent('event_reviews_tab', this)">Reviews</a></li>
 								<li><a ondblclick="initializeEMap(); expandcontent('event_map_tab', this)">Map</a></li>
-								<li><a onmousedown="revealStats(<%=request.getAttribute("eventID")%>); expandcontent('event_stat_tab', this)">Statistics</a></li>
+								
+								<% if (!Security.isPastEvent( (Integer) request.getAttribute("eventID"))) { %>
+									<li><a onmousedown="revealPosts(<%=request.getAttribute("eventID")%>, 'rating'); expandcontent('event_discs_tab', this)">Discussions</a></li> <!-- user 'style="display:none"' to hide tab -->
+								<% } else { %>
+									<li><a onmousedown="revealReviews(<%=request.getAttribute("eventID")%>, 'event_rating'); expandcontent('event_reviews_tab', this)">Reviews</a></li>
+									<li><a onmousedown="revealStats(<%=request.getAttribute("eventID")%>); expandcontent('event_stat_tab', this)">Statistics</a></li>
+								<% } %>
 							</ul>
 						</div>
 						
@@ -356,26 +366,16 @@
 								
 							</div>
 							
-							<div id="event_discs_tab" class="event_tab_page">
+							<% if (!Security.isPastEvent( (Integer) request.getAttribute("eventID"))) { %>
+								<div id="event_discs_tab" class="event_tab_page">
+											
+								</div>
 							
-							
-							
-								<!-- "One" event_discs_post div for each discussion post.-->
-								
-								
+							<% } else { %>
+								<div id="event_reviews_tab" class="event_tab_page">
 									
-										
-							</div>
-							
-							
-							<div id="event_reviews_tab" class="event_tab_page">
-								
-								<!-- One event_review_post div per 1 review -->
-																
-								<!-- Area for writing and posting reviews. -->
-								
-								
-							</div>
+								</div>
+							<% } %>
 							
 							<div id="event_map_tab" class="event_tab_page">
 								<div  locid='<%=request.getAttribute("locationID") %>' title='<%=request.getAttribute("title") %>'id="event_map">
@@ -388,10 +388,11 @@
 									</p>
 								</div>
 							</div>
-							
-							<div id="event_stat_tab" class="event_tab_page">
-								
-							</div>
+							<% if (Security.isPastEvent( (Integer) request.getAttribute("eventID"))) { %>
+								<div id="event_stat_tab" class="event_tab_page">
+									
+								</div>
+							<%} %>
 						</div>
 					</td>
 				</tr>

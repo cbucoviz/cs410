@@ -99,7 +99,8 @@ public class EditEvent extends HttpServlet {
 		else
 		{
 			// VITALI TODO
-			Event.editEventInfo(userID, eventId, title, venue, startTime, endTime, address);	
+			Event.editEventInfo(userID, eventId, title, venue, startTime, endTime, address,
+					eventDesc, venueDesc, costDesc, directions, awareness, videos, links, otherDesc);	
 		}
 		
 
