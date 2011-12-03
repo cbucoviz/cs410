@@ -3,7 +3,9 @@ package Servlets;
 import java.io.IOException;
 import java.sql.ResultSet;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +29,7 @@ public class Activation extends HttpServlet {
 		//Get the encoded parameter from the link.
 		String encoding = request.getParameter("Id");
 		//Try to activate the account.
-		int  activated = Registration.activateUser(encoding);
+		int activated = Registration.activateUser(encoding);
 		//if activation was successful.
 		if(activated >= 0)
 		{
@@ -37,18 +39,17 @@ public class Activation extends HttpServlet {
 				ResultSet user = dbManager.getUser(activated);
 				if(user.next())
 				{
-					//Set Session variables
-					HttpSession session = request.getSession();
-					session.setAttribute(SessionVariables.LOGGED_IN, true);
-					session.setAttribute(SessionVariables.USERNAME, user.getString("name"));
-					session.setAttribute(SessionVariables.EMAIL, user.getString("email"));
+					request.setAttribute(SessionVariables.EMAIL, user.getString("email"));
+					request.setAttribute(SessionVariables.PASSWORD, user.getString("password"));
+					request.setAttribute("isActivation", "true");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("Login");
+					dispatcher.forward(request, response);
 				}
-			} catch (Exception e) {
-				// Need to create error page and redirect to it.
+			}
+			catch (Exception e) 
+			{
 				e.printStackTrace();
 			} 
-			//redirect user
-			response.sendRedirect("home.jsp");
 		}
 	}
 	

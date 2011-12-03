@@ -30,16 +30,30 @@ public class Login extends HttpServlet
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		Boolean isLogin = new Boolean(request.getParameter("isLogin"));
+		Boolean isActivation = new Boolean((String) request.getAttribute("isActivation"));
+		isLogin = (isActivation == true) ? true : isLogin;
 		
 		if(isLogin)
 		{
-			String email = request.getParameter(SessionVariables.EMAIL);
-			String password = request.getParameter(SessionVariables.PASSWORD);
+			String email = "";
+			String password = "";
+			
+			if(isActivation)
+			{
+				email = (String) request.getAttribute(SessionVariables.EMAIL);
+				password = (String) request.getAttribute(SessionVariables.PASSWORD);
+			}
+			else
+			{
+				email = request.getParameter(SessionVariables.EMAIL);
+				password = request.getParameter(SessionVariables.PASSWORD);	
+			}
 			
 			try
 			{
@@ -74,6 +88,11 @@ public class Login extends HttpServlet
 						session.getAttribute(SessionVariables.USERNAME).toString(),         	
 			        	session);			
 				
+				
+				if(isActivation)
+				{
+					response.sendRedirect("index.jsp");
+				}
 			}
 			catch(Exception e)
 			{
