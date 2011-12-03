@@ -229,6 +229,7 @@ public class UserUpdates
     private static ArrayList<String> filterUsers(ResultSet users) throws SQLException
     {
     	ArrayList<String> listOfUsers = new ArrayList<String>();
+    	users.first();
     	while(users.next())
     	{
     		String username = users.getString("U.name");
@@ -243,6 +244,7 @@ public class UserUpdates
     private static ArrayList<Integer> getUsersIDs(ResultSet users) throws SQLException
     {
     	ArrayList<Integer> listOfUsers = new ArrayList<Integer>();
+    	users.first();
     	while(users.next())
     	{
     		int userID = Integer.parseInt(users.getString("U.userID"));
