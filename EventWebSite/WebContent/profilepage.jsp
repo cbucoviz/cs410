@@ -17,10 +17,11 @@ $("button[name=account_change_button]").click(function()
 
 
 
-var requestData = ["<%=SessionVariables.LOGGED_IN%>", "<%=SessionVariables.USERNAME%>"];
+var requestData = ["<%=SessionVariables.LOGGED_IN%>", "<%=SessionVariables.USERNAME%>", "<%=SessionVariables.EMAIL%>"];
 var sessionData = getSessionData(requestData);
 	
-$('#username_header').text(sessionData["<%=SessionVariables.USERNAME%>"]);
+$('#profile_username').text(sessionData["<%=SessionVariables.USERNAME%>"]);
+$('#profile_email').text(sessionData["<%=SessionVariables.EMAIL%>"]);
 
 
 </script>	
@@ -56,6 +57,10 @@ $('#username_header').text(sessionData["<%=SessionVariables.USERNAME%>"]);
 		<b><font color="red">You need to type in your new password again in the 'Confirm New Password' field.</font></b><br/>
 		<% } %>
 		
+		<% if(request.getAttribute("updateError") == Boolean.TRUE) { %>
+		<b><font color="red">Problem updateing new password. Please try again.</font></b><br/>
+		<% } %>
+		
 		<br/>
 		
 		<div id="account_info_div" align="center">
@@ -70,15 +75,7 @@ $('#username_header').text(sessionData["<%=SessionVariables.USERNAME%>"]);
 						<b>Name:</b>
 					</td>
 					<td>
-						Blah
-					</td>
-				</tr>
-				<tr>
-					<td style="text-align: right">
-						<b>Age:</b>
-					</td>
-					<td>
-						100
+						<h3 id="profile_username"></h3>
 					</td>
 				</tr>
 				<tr>
@@ -86,15 +83,7 @@ $('#username_header').text(sessionData["<%=SessionVariables.USERNAME%>"]);
 						<b>Email:</b>
 					</td>
 					<td>
-						blah@blah.com
-					</td>
-				</tr>
-				<tr>
-					<td style="text-align: right">
-						<b>Location:</b>
-					</td>
-					<td>
-						Hell
+						<h3 id="profile_email"></h3>
 					</td>
 				</tr>
 				<tr>

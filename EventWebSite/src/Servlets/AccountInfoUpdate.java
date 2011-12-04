@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Database.DatabaseManager.UserType;
+import Models.User;
 
 /**
  * Servlet implementation class ReportAbuse
@@ -38,7 +39,6 @@ public class AccountInfoUpdate extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Attempt to update password 1");
 		
 		String oldPassword = request.getParameter("oldpassword");
 		String newPassword1 = request.getParameter("newpassword1");
@@ -64,9 +64,6 @@ public class AccountInfoUpdate extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		String currentPassword = (String) session.getAttribute(SessionVariables.PASSWORD);
-		System.out.println(currentPassword);
-		
-		System.out.println("Attempt to update password 2");
 		
 		if (!oldPasswordEmpty)
 		{
@@ -76,7 +73,6 @@ public class AccountInfoUpdate extends HttpServlet {
 				//If input old password is incorrect
 				request.setAttribute("oldPasswordMatch", false);
 				updateError = true;
-				System.out.println("Fail to update password 1");
 			}
 		}
 		
@@ -85,19 +81,18 @@ public class AccountInfoUpdate extends HttpServlet {
 			//new passwords don't match
 			request.setAttribute("newPasswordMatch", false);
 			updateError = true;
-			System.out.println("Fail to update password 2");
 		}
 		
 		if(!updateError)
 		{
-			//Call backend update user info function(s) here
-			/*UserType type = UserType.GENERAL;
-			registrationError = !Registration.registerUser(username, password1, type, city, state, country, email, age);
+			int userId = (Integer) session.getAttribute(SessionVariables.USER_ID);
+			boolean result = User.changePassword(userId, newPassword1);
 			
-			if(registrationError)
+			if(!result)
 			{
-				request.setAttribute("emailUsed", true);
-			}*/
+				updateError = true;
+				request.setAttribute("updateError", true);
+			}
 		}
 		
 		if(updateError)
