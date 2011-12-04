@@ -5,8 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({DatabaseManagerTest.class, SearchTest.class,CalendarEventTest.class,EventTest.class,UserTest.class,UserUpdatesTest.class,SecurityTest.class,
-				LocationTest.class,CommentTest.class})
+@SuiteClasses({ SearchTest.class,CalendarEventTest.class,EventTest.class,UserTest.class,SecurityTest.class,
+				LocationTest.class,CommentTest.class,ReviewTest.class, DatabaseManagerTest.class})
 public class AllTests {
 
 }

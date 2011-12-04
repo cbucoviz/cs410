@@ -26,18 +26,6 @@ public class CalendarEventTest {
 		}
 	}
 	
-	@Test
-	public void testHashCode() {
-		ev = new CalendarEvent(1,"Test", new Date(), new Date());
-		if(ev != null)
-		{
-			assertEquals(ev.hashCode() , 1);
-		}
-		else
-		{
-			fail();
-		}
-	}
 
 	@Test
 	public void testGetEventId() {

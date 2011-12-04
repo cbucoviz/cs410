@@ -53,5 +53,11 @@ public class UserTest {
 		Boolean test = User.changePassword(39, "testing");
 		assertEquals(true, test);
 	}
+	
+	@Test
+	public void testdoesUserNameExist() {
+		Boolean test = User.doesUserNameExist("Vitali");
+		assertEquals(true, test);
+	}
 
 }

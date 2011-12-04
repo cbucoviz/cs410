@@ -724,6 +724,13 @@ public class DatabaseManagerTest {
 	}*/
 
 	@Test
+	public void testlogoff() throws SQLException
+	{
+		test.logoff(4);
+		assertEquals(1,1);
+	}
+	
+	@Test
 	public void testSetEventContent() {
 		fail("Not yet implemented");
 	}
@@ -889,8 +896,16 @@ public class DatabaseManagerTest {
 	}
 
 	@Test
-	public void testFindAttendeesToMailTo() {
-		fail("Not yet implemented");
+	public void testFindAttendeesToMailTo() throws SQLException {
+		ResultSet testSet = test.findAttendeesToMailTo();
+		if(testSet.next())
+		{
+			assertTrue(testSet != null);
+		}
+		else
+		{
+			fail();
+		}
 	}
 
 	@Test
