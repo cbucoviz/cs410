@@ -17,6 +17,8 @@
 <script src="plugins/jquery-qtip.js"></script>
 <script src="plugins/marquee.js" type="text/javascript"></script>
 <script src="scripts/forwarder.js" type="text/javascript"></script>
+<script src="scripts/dashboardUpdater.js" type="text/javascript"></script>
+
 <!-- END OF INCLUDES -->
 
 <script type="text/javascript">
@@ -85,6 +87,11 @@ function update()
 		{
 			firstLogin = false;
 			$("#slidemenubar2").load("dashboard_postlogin.jsp");	
+		}
+		else
+		{
+			// update the dashboard
+			updateDashboard();
 		}
 			
 		

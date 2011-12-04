@@ -130,7 +130,7 @@ $(document).ready(function()
 												title = title.substring(0, ITEM_TEXT_SIZE);
 											}
 											
-											out.println("<div class='scroll_item' class='event_item'>");
+											out.println("<div class='scroll_item' class='event_item' objId='" + currEvent.get(Models.Search.EventInfoSearch.EVENT_ID) + "'>");
 											
 											if (isEdited.equals("Is Edited"))
 											{
@@ -187,7 +187,7 @@ $(document).ready(function()
 											title = title.substring(0, ITEM_TEXT_SIZE);
 										}
 										
-										out.println("<div class='scroll_item' class='event_item'>");
+										out.println("<div class='scroll_item' class='event_item' objId='" + currEvent.get(Search.EventInfoSearch.EVENT_ID) + "'>");
 										
 										if (isEdited != null && isEdited.equals("Is Edited"))
 										{
@@ -253,7 +253,7 @@ $(document).ready(function()
 											name = name.substring(0, ITEM_TEXT_SIZE);
 										}
 										
-										out.println("<div class='scroll_item'>");
+										out.println("<div class='scroll_item' objId='" + creatorId + "'>");
 										
 										if (numNewEvents > 0)
 										{
@@ -314,7 +314,7 @@ $(document).ready(function()
 											city = city.substring(0, ITEM_TEXT_SIZE);
 										}
 										
-										out.println("<div class='scroll_item'>");
+										out.println("<div class='scroll_item' objId='" + locId + "'>");
 										
 										if (numNewEvents > 0)
 										{
