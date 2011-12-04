@@ -80,19 +80,27 @@
 		  
 		  if(name != "")
 			{
-			  $.post("moderators?addname="+name);
-			  
-			  var tbody = document.getElementById("tblMods").getElementsByTagName("TBODY")[0];
-			  var row = document.createElement("TR");
-			  var td1 = document.createElement("TD");
-			  td1.setAttribute("align", "center");
-			  td1.innerHTML = name;
-			  var td2 = document.createElement("TD");
-			  td2.setAttribute("align", "center");
-			  td2.innerHTML = "<INPUT TYPE=\"Button\" CLASS=\"button1\" onClick=\"remove(this)\" VALUE=\"Remove\">";
-			  row.appendChild(td1);
-			  row.appendChild(td2);
-			  tbody.appendChild(row);
+			  $.post("moderators?addname="+name,function(data) {	    	
+				    
+			    	 if(data=="User")
+			    	 {
+				    	  var tbody = document.getElementById("tblMods").getElementsByTagName("TBODY")[0];
+						  var row = document.createElement("TR");
+						  var td1 = document.createElement("TD");
+						  td1.setAttribute("align", "center");
+						  td1.innerHTML = name;
+						  var td2 = document.createElement("TD");
+						  td2.setAttribute("align", "center");
+						  td2.innerHTML = "<INPUT TYPE=\"Button\" CLASS=\"button1\" onClick=\"remove(this)\" VALUE=\"Remove\">";
+						  row.appendChild(td1);
+						  row.appendChild(td2);
+						  tbody.appendChild(row);
+			    	 }
+			    	 else
+			    	 {
+			    		 	alert ("No such user exists");
+			    	 }
+				});	
 			}
 	  }
 </SCRIPT>

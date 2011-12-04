@@ -53,11 +53,26 @@ public class Moderators extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		response.setContentType("text/plain");
 		if(request.getParameter("addname") != null)
 		{
 			String encoding = request.getParameter("addname");
-			User.makeModerator(encoding);
 			
+			if(User.doesUserNameExist(encoding))
+			{				
+				User.makeModerator(encoding);			
+				PrintWriter out = response.getWriter();
+				out.print("User");
+				out.flush();
+			    out.close();
+			}
+			else
+			{				
+				PrintWriter out = response.getWriter();
+				out.print("No User");
+				out.flush();
+			    out.close();
+			}
 		}
 		if(request.getParameter("removename") != null)
 		{
