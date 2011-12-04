@@ -74,10 +74,15 @@ function handleDashboardCase(type)
 	for(x in newEvents)
 	{
 		var newChild = "<div class='scroll_item' objId='" + newEvents[x] + "'>";
-		newChild += "<a href='" + linkAddress + newEvents[x] + "'>" + currentEvents[newEvents[x]] + "</a></div>";
+		linkTarget = newEvents[x];
+		if(type == "subUsers")
+		{
+			linkTarget="";
+		}
+		newChild += "<a href='" + linkAddress + linkTarget + "'>" + currentEvents[newEvents[x]] + "</a></div>";
 		displayList.append(newChild);
 		var domChild = displayList.find("div[objId=" + newEvents[x] + "]").children("a");
-		domChild.live('click.ForwarderEvents', linkHandler);
+		domChild.on('click', handleChildClick);
 		addedElement = true;
 	}
 	
@@ -101,4 +106,17 @@ function setSubtract(arr1, arr2)
 	}
 	
 	return returnArray;
+}
+
+function handleChildClick(event)
+{
+	var originalTarget = $(this).attr("href");
+
+	if(originalTarget != "#")
+	{
+		var mainContent = $("#mainContent"); 
+		mainContent.load(originalTarget);	
+	}
+	
+	event.preventDefault();
 }
