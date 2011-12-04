@@ -56,8 +56,11 @@ public class LocationTest {
 	@Test
 	public void testAddLocation() {
 		LocationAddress addr = new LocationAddress("Delta","British Columbia","Canada");
+		String check = addr.toString();
+		assertNotNull(check);
 		JsonObject obj = Location.addLocation(addr, 49.1519849, -123.51495161);
 		assertNotNull(obj);
 	}
+	
 
 }
