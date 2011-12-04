@@ -23,11 +23,19 @@ var markerBoundsEvent;
 	      
 	      
 		  //TODO: Need to put city as parameter to request
-	      $.getJSON('/EventWebSite/GMEventLoc',{loc:locationId,keyword:keyword}, setEventMapLocations);
-	    
+	      
+		  $.ajax({
+			  url: 'GMEventLoc',
+			  async: false,
+			  data: {loc:locationId,keyword:keyword},
+			  dataType: 'json',
+			  success: function (json) 
+			  {
+				  setEventMapLocations(json);
+			  }
+			});
+		  
 	      gEMap.fitBounds(markerBoundsEvent);
-
-	   
    }
    
    //Callback for event location search, iterates through locations to produce markers.

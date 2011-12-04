@@ -266,7 +266,7 @@
 						<div id="ddimagetabs" class="halfmoon" style="width: 700px">
 							<ul>
 								<li class="selected"><a onmousedown="expandcontent('event_info_tab', this)">Event Information</a></li>
-								<li><a ondblclick="initializeEMap(); expandcontent('event_map_tab', this)">Map</a></li>
+								<li><a onclick="initializeEMap(); expandcontent('event_map_tab', this)">Map</a></li>
 								
 								<% if (!Security.isPastEvent( (Integer) request.getAttribute("eventID"))) { %>
 									<li><a onmousedown="revealPosts(<%=request.getAttribute("eventID")%>, 'rating'); expandcontent('event_discs_tab', this)">Discussions</a></li> <!-- user 'style="display:none"' to hide tab -->
