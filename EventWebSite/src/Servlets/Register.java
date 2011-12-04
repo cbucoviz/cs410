@@ -29,6 +29,7 @@ import com.sun.mail.smtp.SMTPSSLTransport;
 
 import Database.DatabaseManager.UserType;
 import Models.Registration;
+import Models.User;
 
 
 @WebServlet(description = "Registration Servlet", urlPatterns = { "/Register" })
@@ -106,6 +107,15 @@ public class Register extends HttpServlet
 			request.setAttribute("badAge", true);
 			registrationError = true;
 		}
+		
+		boolean userNameExists = User.doesUserNameExist(username);		
+		
+		if(userNameExists)
+		{
+			request.setAttribute("userNameExists", userNameExists);
+			registrationError = userNameExists;
+		}
+		
 		
 		// insert the user into the database; if fails then user already exists
 		//TODO ktam: fix the registration type when back end opens enum

@@ -520,5 +520,10 @@
 		</div>
 	</div>
 </div>
+
+<%if (request.getAttribute("dateErrorEdit")==Boolean.TRUE){ %>
+
+<script>alert('Your date format is incorrect. Please follow the format given next to the date field.');</script><%} %>
+
 </body>
 </html>

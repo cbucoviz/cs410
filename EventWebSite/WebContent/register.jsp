@@ -58,6 +58,9 @@
 			<% if(request.getAttribute("missingCountry") == Boolean.TRUE) { %>
 					<b><font color="red">You need to fill in the country field.</font></b><br/>
 			<% } %>
+			<% if(request.getAttribute("userNameExists") == Boolean.TRUE) { %>
+					<b><font color="red">A user with such a name already exists.</font></b><br/>
+			<% } %>	
 			
 			<div id="register_content_div" align="center">
 				<table id="signup_form_table">

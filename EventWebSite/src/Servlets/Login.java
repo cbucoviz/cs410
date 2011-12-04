@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -54,7 +55,7 @@ public class Login extends HttpServlet
 				email = request.getParameter(SessionVariables.EMAIL);
 				password = request.getParameter(SessionVariables.PASSWORD);	
 			}
-			
+			RequestDispatcher dispatcher = null;
 			try
 			{
 				// is the requested password valid for this user?
@@ -62,18 +63,25 @@ public class Login extends HttpServlet
 				ResultSet user = dbManager.getUser(email);
 				
 				if(user.next())
-				{
+				{					
 					if(!password.equals(user.getString("password")))
-					{
-						// passwords don't match
+					{	
+						request.setAttribute("passWrong", true);
+						dispatcher = request.getRequestDispatcher("index.jsp");
+						dispatcher.forward(request, response);
 						return;
-					}
+					}					
+					request.setAttribute("passWrong", false);
 				}
 				else
-				{
-					// no such user
+				{						
+					request.setAttribute("noUser", true);					
+					dispatcher = request.getRequestDispatcher("index.jsp");
+					dispatcher.forward(request, response);	
 					return;
 				}
+				
+				request.setAttribute("noUser", false);
 				
 				// if you reach this point the user has authenticated correctly
 				HttpSession session = request.getSession();

@@ -2106,6 +2106,28 @@ public class DatabaseManager
 			ResultSet result = statement.executeQuery();
 			return result;
 	}
+	
+	public boolean getUserByName(String name) throws SQLException
+	{
+		PreparedStatement statement = connection.prepareStatement
+			("SELECT U.userID " +
+			"FROM users AS U " +
+			"WHERE U.name = ? "); 
+		statement.setString(1, name);		
+		ResultSet result = statement.executeQuery();
+		
+		if(result.next())
+		{
+			return true;
+		}
+		return false;
+		
+	}
+	
+	
+	
+	
+	
 	public void testQuery2(String user) throws SQLException
 	{
 		

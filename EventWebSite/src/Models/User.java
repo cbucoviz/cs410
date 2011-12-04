@@ -135,4 +135,20 @@ public class User
 		}
 		return true;
 	}
+	
+	
+	public static boolean doesUserNameExist(String name)
+	{
+		DatabaseManager dbManager;
+		try {
+			dbManager = DatabaseManager.getInstance();
+			return dbManager.getUserByName(name);
+		} catch (ClassNotFoundException e1) {			
+			e1.printStackTrace();
+		} catch (SQLException e1) {			
+			e1.printStackTrace();
+		}
+		return false;
+	}
+	
 }

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -61,7 +62,11 @@ public class EditEvent extends HttpServlet {
 		}
 		catch (Exception e)
 		{
-			System.err.println(e.getMessage());
+			RequestDispatcher dispatcher = null;
+			request.setAttribute("dateErrorEdit", true);
+			dispatcher = request.getRequestDispatcher("editevent.jsp");
+			dispatcher.forward(request, response);
+			return;
 		}
 		
 		String eventDesc = request.getParameter("event_description");
