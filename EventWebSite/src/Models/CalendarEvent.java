@@ -23,15 +23,7 @@ public class CalendarEvent
 		this.endDate = endDate;
 	}
 	
-	public boolean isEquals(CalendarEvent otherEvent)
-	{
-		return eventId == otherEvent.eventId;
-	}
 	
-	public int hashCode()
-	{
-		return eventId;
-	}
 	
 	public String getJQueryCalendarString()
 	{

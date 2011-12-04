@@ -2124,31 +2124,4 @@ public class DatabaseManager
 		
 	}
 	
-	
-	
-	
-	
-	public void testQuery2(String user) throws SQLException
-	{
-		
-		PreparedStatement statement = connection.prepareStatement
-				("SELECT E.eventID FROM events AS E, users AS U WHERE E.creatorID = U.userID " + 
-						"AND U.name = ?");
-		statement.setString(1, user);
-		ResultSet result = statement.executeQuery();
-	}
-	
-	
-	public void testQuery() throws SQLException
-	{
-		/*
-			PreparedStatement statement = connection.prepareStatement("SELECT E.title, E.venue " +
-					                                                  "FROM events AS E");	
-			ResultSet result = statement.executeQuery();		 
-		    
-			while(result.next())
-			{
-				System.out.println(result.getString(1) + " " + result.getString(2));
-			}*/
-	}
 }

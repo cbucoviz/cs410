@@ -170,14 +170,4 @@ public class DiscussionPost
 		return null;		
 	}
 
-	public static boolean edit(int postID, String content) {
-		try {			
-			DatabaseManager dbMan = DatabaseManager.getInstance();			
-			dbMan.editPost(postID, content);					
-			return true;
-		} catch (Exception e) {			
-			e.printStackTrace();			
-		}
-		return false;
-	}
 }
