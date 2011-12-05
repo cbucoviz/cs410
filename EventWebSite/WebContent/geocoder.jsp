@@ -54,4 +54,50 @@
     });
     
   }
+  
+  function codeAddressForUserCreation(form) 
+  {
+		var city = form.find("input[name='city']").val();
+		var state = form.find("input[name='state']").val();
+		var country = form.find("input[name='country']").val();
+
+		geocoder = new google.maps.Geocoder();
+    	var address = city + ", "+ state+", " + country;
+    
+    
+    	geocoder.geocode( { 'address': address}, 
+    		function(results, status) 
+    		{
+      			if (status == google.maps.GeocoderStatus.OK) 
+      			{
+      				var lat = results[0].geometry.location.lat();
+      				var lng = results[0].geometry.location.lng();
+      				var params = {newLat: lat, newLong:lng, city:city, state:state, country:country};
+      				var dataMap = {};
+      				
+      				$.ajax({
+      				  url: 'Locations',
+      				  async: false,
+      				  data: params,
+      				  dataType: 'json',
+      				  type: 'POST',
+      				  success: function (json) 
+      				  {
+      					  $.each(json, function(key, val) {
+      						  	dataMap[key] = val;
+      						  });
+      				  }
+      				});
+
+				// we now have the information for our location
+				var formParam = form.serialize();
+				$.post(form.attr("action"), formParam, function(data){$("#mainContent").html(data);});					
+      		} 
+      		else 
+      		{
+        		alert("We were unable to determine your address, please check your spelling.");
+      		}
+    });
+    
+  }
 </script>

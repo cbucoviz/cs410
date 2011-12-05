@@ -16,7 +16,7 @@
 <body>
 
 
-<form action="Register" method="POST">
+<form action="Register" id="RegisterForm" method="POST">
 	<div class="page_container">
 	
 		<div class="page_header">
@@ -104,7 +104,7 @@
 						<td><input type="text" name='city' size="25"/></td>
 					</tr>
 					<tr>
-						<td align="right">State: </td>
+						<td align="right"><font color="red">*</font>State: </td>
 						<td><input type="text" name='state' size="25"/></td>
 					</tr>
 					<tr>

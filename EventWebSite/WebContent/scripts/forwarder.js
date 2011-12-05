@@ -74,6 +74,11 @@ function registerForwarderListeners()
 			// this function will do the posting to the form
 			codeAddressForEventCreation(form);	
 		}
+		else if(form.attr("id") == "RegisterForm")
+		{
+			// this function will do the posting to the form
+			codeAddressForUserCreation(form);	
+		}
 		else if(form.attr("id") == "filter_search_form")
 		{
 		   // get the values they used in the filter page, look up a couple lines in the forwarder.js, I have example of me doing it
