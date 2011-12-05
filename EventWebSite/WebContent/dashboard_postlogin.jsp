@@ -257,12 +257,12 @@ $(document).ready(function()
 										
 										if (numNewEvents > 0)
 										{
-											out.println("<a href='#'><font class='blink'>* </font><font color='yellow'>(" + numNewEvents + ") </font>" + name + "<button type='button' class='button1' style='float: right;' subscribe='user' subscribeId='" + creatorId + "'>Unsubscribe</button></a>");
+											out.println("<a href='#'><font class='blink'>* </font><font color='yellow'>(" + numNewEvents + ") </font>" + name + "</a>");
 										
 										}
 										else
 										{
-											out.println("<a href='#'>" + name + "<button type='button' class='button1' style='float: right;' subscribe='user' subscribeId='" + creatorId + "'>Unsubscribe</button></a>");
+											out.println("<a href='#'>" + name + "</a>");
 										}
 										
 										
@@ -318,11 +318,11 @@ $(document).ready(function()
 										
 										if (numNewEvents > 0)
 										{
-											out.println("<a href='citypage.jsp?city=" + locId + "'><font class='blink'>*</font><font color='yellow'>(" + numNewEvents +")</font> "+ city + "<button type='button' class='button1' style='float: right;' subscribe='locale' subscribeId='" + locId + "'>Unsubscribe</button></a>");
+											out.println("<a href='citypage.jsp?city=" + locId + "'><font class='blink'>*</font><font color='yellow'>(" + numNewEvents +")</font> "+ city + "</a>");
 										}
 										else
 										{
-											out.println("<a href='citypage.jsp?city=" + locId + "'>" + city + "<button type='button' class='button1' style='float: right;' subscribe='locale' subscribeId='" + locId + "'>Unsubscribe</button></a>");
+											out.println("<a href='citypage.jsp?city=" + locId + "'>" + city + "</a>");
 										}
 										
 										out.println("</div>");

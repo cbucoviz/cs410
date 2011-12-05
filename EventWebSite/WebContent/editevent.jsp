@@ -507,7 +507,11 @@
 						<td colspan="2" align="center">
 							<% if (request.getParameter("eventId") == null) {%>
 								<input class="button1" type="submit" value="Create Event"/>
-								<a class="button1" href="citypage.jsp?city=<%= request.getParameter("locationId") %>">Cancel</button>
+								<%if(request.getParameter("locationId") != null) { %>
+									<a class="button1" href="citypage.jsp?city=<%= request.getParameter("locationId") %>">Cancel</button>
+								<%} else { %>
+									<a class="button1" href="home.jsp">Cancel</button>
+								<% } %>
 							<% } else {
 								out.println("<input class='button1' type='submit' value='Update Event'/>");
 								int eventId = Integer.parseInt(request.getParameter("eventId"));

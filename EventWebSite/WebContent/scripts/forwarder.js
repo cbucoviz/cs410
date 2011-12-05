@@ -7,6 +7,11 @@ function registerForwarderListeners()
 	{
 		// get the original target and redirect them via the main content window
 		var originalTarget = $(this).attr("href");
+		if(originalTarget == "#")
+		{
+			event.preventDefault();
+			return;
+		}
 		var mainContent = $("#mainContent"); 
 		mainContent.load(originalTarget);
 		
