@@ -559,7 +559,7 @@ public class Event
 			String modName = "";
 			String modEmail = "";
 			
-			String link = "http://localhost/EventWebSite/EventPage?eventID=" + eventID;
+			String link = "http://localhost:8080/EventWebSite/EventPage?eventID=" + eventID;
 			
 			while(sqlInfo.next())
 			{
@@ -611,7 +611,7 @@ public class Event
 				eventID = Integer.parseInt(sqlInfo.getString("P.eventID"));
 			
 			
-				String link = "http://localhost/EventWebSite/EventPage?eventID="+eventID+"";
+				String link = "http://localhost:8080/EventWebSite/EventPage?eventID="+eventID+"";
 				String completeMessage = "Dear "+modName+"\n\n" +
 						"  Please see below a message sent by a user about a violation he/she has "+
 						"noticed on one of the posts of the "+title+" event: "+link+"\n\n"+
@@ -657,7 +657,7 @@ public class Event
 				eventID = Integer.parseInt(sqlInfo.getString("R.eventID"));
 		
 			
-				String link = "http://localhost/EventWebSite/EventPage?eventID="+eventID+"";
+				String link = "http://localhost:8080/EventWebSite/EventPage?eventID="+eventID+"";
 				String completeMessage = "Dear "+modName+"\n\n" +
 						"  Please note that one of the reviews of the "+title+" event has just "+
 						"received an unusually bad disapproval of users. Please investigate as " +

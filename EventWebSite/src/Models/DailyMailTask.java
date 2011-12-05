@@ -18,7 +18,7 @@ public class DailyMailTask {
 	                sendMail();	                
 	            }
 	            private void sendMail() {	                
-	            //	UserUpdates.mailAttendeesOfUpcomingEvents();
+	            	UserUpdates.mailAttendeesOfUpcomingEvents();
 	            }
 	        }, 60000, hours*60*60*1000);
 	    }
